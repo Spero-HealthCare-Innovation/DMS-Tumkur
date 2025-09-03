@@ -1,0 +1,148 @@
+pipeline {
+    agent any
+    
+    options {
+        skipDefaultCheckout(true)
+    }
+
+    // Add permissions to project
+    // sudo groupadd dmsgroup
+    // sudo usermod -aG dmsgroup spero_cad25
+    // sudo usermod -aG dmsgroup jenkins
+    // sudo chown -R :dmsgroup /var/www/html/DMS_goa
+    // sudo chmod -R 775 /var/www/html/DMS_goa/
+    // restart server
+
+    environment {
+        GIT_REPO_URL = 'https://github.com/Spero-HealthCare-Innovation/DMS-GOA.git'
+        GIT_BRANCH = 'main'
+        TARGET_DIR = '/var/www/html/DMS_goa'
+    } 
+
+    stages {
+        stage('Prepare Workspace') {
+            steps {
+                script {
+                    sh '''
+                        if [ ! -d "${TARGET_DIR}" ]; then
+                            echo "Directory does not exist. Creating ${TARGET_DIR}..."
+                            sudo -S mkdir -p "${TARGET_DIR}" < /dev/null
+                            sudo -S chown -R jenkins:jenkins "${TARGET_DIR}" < /dev/null
+                            sudo -S chmod -R 775 "${TARGET_DIR}" < /dev/null
+                        else
+                            echo "Directory already exists. Skipping creation."
+                        fi
+                    '''
+                }
+            }
+        }
+
+        stage('Clone or Reset Repository') {
+            steps {
+                dir("${TARGET_DIR}") {
+                    script {
+                        if (!fileExists('.git')) {
+                            echo "Cloning repository into ${TARGET_DIR}..."
+                            sh """
+                                git clone -b ${GIT_BRANCH} ${GIT_REPO_URL} .
+                            """
+                        } else {
+                            echo "Repository already exists. Pulling latest changes..."
+                            sh """
+                                git config --global --add safe.directory \$(pwd)
+                                git fetch origin ${GIT_BRANCH}
+                                git reset --hard origin/${GIT_BRANCH}
+                                git clean -fd -e vvenv/
+                            """
+                        }
+                    }
+                }
+            }
+        }
+
+        stage('Fix Permissions') {
+            steps {
+                dir("${TARGET_DIR}") {
+                    sh '''
+                        sudo chown -R jenkins:dmsgroup .
+                        sudo chmod -R 775 .
+                        sudo find . -type d -exec chmod g+s {} \\;
+                    '''
+                }
+            }
+        }
+
+
+        stage('Check Files') {
+            steps {
+                dir("${TARGET_DIR}") {
+                    sh "ls -al"
+                }
+            }
+        }
+
+        stage('Setup Python Virtual ENV for dependencies') {
+            steps {
+                dir("${TARGET_DIR}") {
+                    sh '''
+                        chmod +x Deployment/envsetup.sh
+                        Deployment/envsetup.sh
+                    '''
+                }
+            }
+        }
+
+        stage('Creating React Production Build') {
+            steps {
+                dir("${TARGET_DIR}") {
+                    sh '''
+                        chmod +x Deployment/react_vite.sh
+                        Deployment/react_vite.sh
+                    '''
+                }
+            }
+        }
+ 
+        stage('Setup Gunicorn') {
+            steps {
+                dir("${TARGET_DIR}") {
+                    sh '''
+                        chmod +x Deployment/gunicorn.sh
+                        Deployment/gunicorn.sh
+                    '''
+                }
+            }
+        }
+
+        stage('Setup Fastapi') {
+            steps {
+                dir("${TARGET_DIR}") {
+                    sh '''
+                        chmod +x Deployment/fastapi.sh
+                        Deployment/fastapi.sh
+                    '''
+                }
+            }
+        }
+ 
+        stage('Setup NGINX') {
+            steps {
+                dir("${TARGET_DIR}") {
+                    sh '''
+                        chmod +x Deployment/nginx.sh
+                        Deployment/nginx.sh
+                    '''
+                }
+            }
+        }
+    } 
+
+    post {
+        success {
+            echo 'Build was successful!'
+        }
+        failure {
+            echo 'Build failed. Please check the logs.'
+        }
+    }
+}
