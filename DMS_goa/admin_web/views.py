@@ -1526,12 +1526,21 @@ class DMS_comment_Get_API(APIView):
 
 
 class dispatch_sop_Get_API(APIView):
+    renderer_classes = [UserRenderer]
+    permission_classes = [IsAuthenticated]
     def get(self,request):
-        snippet = DMS_Incident.objects.filter(clouser_status=False, forcefully_closed=2).order_by('-inc_added_date')
+        user = request.user
+        print("user--", user.grp_id)
+        if user.grp_id == 6:  # Assuming grp_id 6 is for dispatcher users
+            snippet = DMS_Incident.objects.filter(clouser_status=False, forcefully_closed=1).order_by('-inc_added_date')
+        else:
+            snippet = DMS_Incident.objects.filter(clouser_status=False, forcefully_closed=2).order_by('-inc_added_date')
         serializers = dispatchsopserializer(snippet,many=True)
         return Response(serializers.data,status=status.HTTP_200_OK)
 
 class dispatch_sop_Idwise_Get_API(APIView):
+    renderer_classes = [UserRenderer]
+    permission_classes = [IsAuthenticated]
     def get(self,request, inc_id):
         snippet = DMS_Incident.objects.filter(inc_is_deleted=False,inc_id=inc_id)
         serializers = dispatchsopserializer(snippet,many=True)
