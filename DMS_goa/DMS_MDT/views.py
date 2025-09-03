@@ -230,7 +230,7 @@ class VehicleLogout(APIView):
                     "code": 1,
                     "message": "Not Logout"
                 },
-                "error": None
+                "error": str(e)
             }, status=status.HTTP_200_OK)
         
 class employee_list(APIView):
