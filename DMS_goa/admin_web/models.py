@@ -43,6 +43,10 @@ class media_enum(enum.Enum):
     News=2
     RSS=3 
     Reddit=4
+    
+class forcefully_close(enum.Enum):
+    Yes=1
+    No=2
 
 class DMS_State(models.Model):
     state_id = models.AutoField(primary_key=True)
@@ -565,6 +569,12 @@ class DMS_Incident(models.Model):
     call_recieved_from = enum.EnumField(call_recieved_enum,null=True,blank=True)
     call_type = models.ForeignKey('CallType',on_delete=models.CASCADE,null=True,blank=True)
     parent_complaint = models.ForeignKey('ParentComplaint',on_delete=models.CASCADE,null=True,blank=True)
+    forcefully_closed = enum.EnumField(forcefully_close,null=True,blank=True)
+    inc_merge = models.BooleanField(default=False,null=True,blank=True)
+    inc_duplicate = models.BooleanField(default=False,null=True,blank=True)
+    inc_reopened = models.BooleanField(default=False,null=True,blank=True)
+    inc_reopen_count = models.IntegerField(null=True,blank=True)
+    inc_merge_count = models.IntegerField(null=True,blank=True)
  
  
     

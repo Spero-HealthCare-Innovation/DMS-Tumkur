@@ -29,7 +29,11 @@ from geopy.geocoders import Nominatim
 from django.http import JsonResponse
 from django.db.models import Count, Q
 from django.db.models.functions import TruncDate
-
+   
+from rest_framework.decorators import api_view
+import urllib.parse
+from rest_framework import status
+from rest_framework.response import Response
 import ast
 import tweepy
 import json
@@ -2586,3 +2590,88 @@ class GisAnaIncidentFilterAPIView(APIView):
             })
 
         return Response(data, status=200)
+    
+
+ 
+
+    
+VALUEFIRST_API_URL = "https://http.myvfirst.com/smpp/sendsms"
+USERNAME = "Efkonhtptrans"
+PASSWORD = "QOMKL@32"
+SENDER_ID = "EFITMS"
+
+
+@api_view(["POST"])
+def send_sms(request):
+    try:
+        mobile = request.data.get("mobile")
+        test = request.data.get("test", "12345")
+
+        if not mobile:
+            return Response({"error": "Mobile number is required"}, status=status.HTTP_400_BAD_REQUEST)
+
+        # SMS text
+        message = f"ಮಾನ್ಯರೆ, ನಿಮ್ಮ  ದೂರಿನ ಸಂಖ್ಯೆ {test} ನೋಂದಾಯಿಸಲಾಗಿದೆ . ಹೆಚ್ಚಿನ ಮಾಹಿತಿಗಾಗಿ 0816-2213400/155304 ಕರೆಮಾಡಿ - ತುಮಕೂರು ಮಹಾನಗರ ಪಾಲಿಕೆ.-<EFITMS>"
+
+        # URL encode message
+        encoded_message = urllib.parse.quote(message)
+
+        # Final URL banani padegi (jaise PHP me tha)
+        url = (
+            f"{VALUEFIRST_API_URL}?username={USERNAME}"
+            f"&password={PASSWORD}"
+            f"&to={mobile}"
+            f"&from={SENDER_ID}"
+            f"&text={encoded_message}"
+            f"&category=bulk"
+        )
+
+        response = requests.get(url)
+
+        if response.status_code == 200:
+            return Response({"status": "success", "details": response.text}, status=status.HTTP_200_OK)
+        else:
+            return Response({"status": "failed", "details": response.text}, status=status.HTTP_400_BAD_REQUEST)
+
+    except Exception as e:
+        return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    
+    
+def send_valuefirst_sms(mobile: str, test_id: str = "12345"):
+    """
+    Helper function to send SMS using ValueFirst API.
+    :param mobile: Receiver mobile number with country code (e.g. 9198xxxxxx12)
+    :param test_id: Complaint/Test ID to include in SMS text
+    :return: dict with status and details
+    """
+
+    try:
+        if not mobile:
+            return {"status": "failed", "details": "Mobile number is required"}
+
+        # SMS text
+        message = f"ಮಾನ್ಯರೆ, ನಿಮ್ಮ  ದೂರಿನ ಸಂಖ್ಯೆ {test_id} ನೋಂದಾಯಿಸಲಾಗಿದೆ . ಹೆಚ್ಚಿನ ಮಾಹಿತಿಗಾಗಿ 0816-2213400/155304 ಕರೆಮಾಡಿ - ತುಮಕೂರು ಮಹಾನಗರ ಪಾಲಿಕೆ.-<EFITMS>"
+
+        # URL encode
+        encoded_message = urllib.parse.quote(message)
+
+        # Build URL
+        url = (
+            f"{VALUEFIRST_API_URL}?username={USERNAME}"
+            f"&password={PASSWORD}"
+            f"&to={mobile}"
+            f"&from={SENDER_ID}"
+            f"&text={encoded_message}"
+            f"&category=bulk"
+        )
+
+        # API call
+        response = requests.get(url)
+
+        if response.status_code == 200:
+            return {"status": "success", "details": response.text}
+        else:
+            return {"status": "failed", "details": response.text}
+
+    except Exception as e:
+        return {"status": "error", "details": str(e)}
