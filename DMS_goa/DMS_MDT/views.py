@@ -133,10 +133,10 @@ class VehicleLogout(APIView):
         try:
             refresh_token = request.data.get('refresh_token')
             veh_number = request.data.get('veh_number')
-            logout_odometer = request.data.get('logoutOdometer')
-            logout_question = request.data.get('logoutquestion')
-            uploaded_image = request.FILES.get('uploadedimage')
-            type_val = request.data.get('type')
+            # logout_odometer = request.data.get('logoutOdometer')
+            # logout_question = request.data.get('logoutquestion')
+            # uploaded_image = request.FILES.get('uploadedimage')
+            # type_val = request.data.get('type')
 
             if not all([refresh_token, veh_number]):
                 return Response({
@@ -194,12 +194,12 @@ class VehicleLogout(APIView):
             for session in active_vehicle_sessions:
                 session.clock_out_in_status = 2
                 session.veh_logout_time = timezone.now()
-                if logout_odometer:
-                    session.logout_odometer = logout_odometer
-                if logout_question:
-                    session.logout_question = 1 if logout_question =='Yes' else 2
-                if uploaded_image:
-                    session.logout_image = uploaded_image
+                # if logout_odometer:
+                #     session.logout_odometer = logout_odometer
+                # if logout_question:
+                #     session.logout_question = 1 if logout_question =='Yes' else 2
+                # if uploaded_image:
+                #     session.logout_image = uploaded_image
                 session.save()
 
             # Update employee sessions
