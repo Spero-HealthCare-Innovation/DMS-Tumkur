@@ -47,6 +47,7 @@ class media_enum(enum.Enum):
 class forcefully_close(enum.Enum):
     Yes=1
     No=2
+    __default__ = No 
 
 class DMS_State(models.Model):
     state_id = models.AutoField(primary_key=True)
