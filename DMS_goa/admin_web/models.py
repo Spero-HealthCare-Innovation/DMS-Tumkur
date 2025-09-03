@@ -43,6 +43,10 @@ class media_enum(enum.Enum):
     News=2
     RSS=3 
     Reddit=4
+    
+class forcefully_close(enum.Enum):
+    Yes=1
+    No=2
 
 class DMS_State(models.Model):
     state_id = models.AutoField(primary_key=True)
@@ -565,6 +569,12 @@ class DMS_Incident(models.Model):
     call_recieved_from = enum.EnumField(call_recieved_enum,null=True,blank=True)
     call_type = models.ForeignKey('CallType',on_delete=models.CASCADE,null=True,blank=True)
     parent_complaint = models.ForeignKey('ParentComplaint',on_delete=models.CASCADE,null=True,blank=True)
+    forcefully_closed = enum.EnumField(forcefully_close,null=True,blank=True)
+    inc_merge = models.BooleanField(default=False,null=True,blank=True)
+    inc_duplicate = models.BooleanField(default=False,null=True,blank=True)
+    inc_reopened = models.BooleanField(default=False,null=True,blank=True)
+    inc_reopen_count = models.IntegerField(null=True,blank=True)
+    inc_merge_count = models.IntegerField(null=True,blank=True)
  
  
     
@@ -985,6 +995,90 @@ class ParentComplaint(models.Model):
     added_by = models.CharField(max_length=255, null=True, blank=True)
     modified_by = models.CharField(max_length=255, null=True, blank=True)
     modified_date = models.DateTimeField(null=True, blank=True)
+    
+    
+class Merge_Call_Incident(models.Model):
+    pk_id = models.AutoField(primary_key=True)
+    incident_id = models.ForeignKey(DMS_Incident,on_delete=models.CASCADE,null=True,blank=True)
+    merge_call_incident_id = models.ForeignKey(DMS_Caller,on_delete=models.CASCADE,null=True,blank=True,related_name="merge_call_incident")
+    merge_inc_added_date = models.DateTimeField(auto_now=True, null=True, blank=True)
+    merge_inc_added_by = models.CharField(max_length=255, null=True, blank=True)
+    merge_inc_modified_by = models.CharField(max_length=255, null=True, blank=True)
+    merge_inc_modified_date = models.DateTimeField(null=True, blank=True)
+    
+    responder_scope = models.ManyToManyField('DMS_Responder',blank=True)
+    alert_id = models.ForeignKey(Weather_alerts,on_delete=models.CASCADE,null=True,blank=True)
+    caller_id = models.ForeignKey(DMS_Caller,on_delete=models.CASCADE,null=True,blank=True,related_name="incident_caller")
+    notify_id = models.ForeignKey('DMS_Notify',on_delete=models.CASCADE,null=True,blank=True)
+    alert_type = models.IntegerField(null=True,blank=True)
+    location = models.TextField(null=True,blank=True)  
+    summary = models.ForeignKey('DMS_Summary',on_delete=models.CASCADE,null=True,blank=True)
+    latitude = models.FloatField(null=True,blank=True)
+    longitude = models.FloatField(null=True,blank=True)
+    inc_type =  models.IntegerField(null=True,blank=True,default=1)#emergency=1 2=nonemergency
+    disaster_type = models.ForeignKey(DMS_Disaster_Type,on_delete=models.CASCADE,null=True,blank=True)
+    comment_id = models.ForeignKey('DMS_Comments',on_delete=models.CASCADE,null=True,blank=True)
+    alert_code = models.CharField(max_length=255,null=True,blank=True)
+    alert_division=enum.EnumField(division_enum,null=True,blank=True)
+    mode = models.IntegerField(null=True,blank=True)
+    time = models.TimeField(null=True,blank=True)
+    ward = models.ForeignKey('DMS_Ward',on_delete=models.CASCADE,null=True,blank=True)
+    tahsil = models.ForeignKey(DMS_Tahsil,on_delete=models.CASCADE,null=True,blank=True)
+    district = models.ForeignKey(DMS_District,on_delete=models.CASCADE,null=True,blank=True)
+    ward_officer = models.JSONField(null=True,blank=True)
+    inc_is_deleted = models.BooleanField(default=False)
+    clouser_status = models.BooleanField(default=False,null=True,blank=True)
+    inc_added_by=models.CharField(max_length=255,null=True,blank=True)
+    inc_added_date = models.DateTimeField(auto_now=True)
+    inc_modified_by = models.CharField(max_length=255, null=True, blank=True)
+    inc_modified_date = models.DateTimeField(auto_now=True,null=True, blank=True)
+    call_recieved_from = enum.EnumField(call_recieved_enum,null=True,blank=True)
+    call_type = models.ForeignKey('CallType',on_delete=models.CASCADE,null=True,blank=True)
+    parent_complaint = models.ForeignKey('ParentComplaint',on_delete=models.CASCADE,null=True,blank=True)
+    forcefully_closed = enum.EnumField(forcefully_close,null=True,blank=True)
+    
+    
+
+
+class Reopened_Incident(models.Model):
+    pk_id = models.AutoField(primary_key=True)
+    incident_id = models.ForeignKey(DMS_Incident,on_delete=models.CASCADE,null=True,blank=True)
+    reopend_inc_added_date = models.DateTimeField(auto_now=True, null=True, blank=True)
+    reopend_inc_added_by = models.CharField(max_length=255, null=True, blank=True)
+    reopned_inc_modified_by = models.CharField(max_length=255, null=True, blank=True)
+    reopned_inc_modified_date = models.DateTimeField(null=True, blank=True)
+    
+    responder_scope = models.ManyToManyField('DMS_Responder',blank=True)
+    # responder_scope = models.JSONField(null=True,blank=True)
+    alert_id = models.ForeignKey(Weather_alerts,on_delete=models.CASCADE,null=True,blank=True)
+    caller_id = models.ForeignKey(DMS_Caller,on_delete=models.CASCADE,null=True,blank=True)
+    notify_id = models.ForeignKey('DMS_Notify',on_delete=models.CASCADE,null=True,blank=True)
+    alert_type = models.IntegerField(null=True,blank=True)
+    location = models.TextField(null=True,blank=True)  
+    summary = models.ForeignKey('DMS_Summary',on_delete=models.CASCADE,null=True,blank=True)
+    latitude = models.FloatField(null=True,blank=True)
+    longitude = models.FloatField(null=True,blank=True)
+    inc_type =  models.IntegerField(null=True,blank=True,default=1)#emergency=1 2=nonemergency
+    disaster_type = models.ForeignKey(DMS_Disaster_Type,on_delete=models.CASCADE,null=True,blank=True)
+    comment_id = models.ForeignKey('DMS_Comments',on_delete=models.CASCADE,null=True,blank=True)
+    alert_code = models.CharField(max_length=255,null=True,blank=True)
+    alert_division=enum.EnumField(division_enum,null=True,blank=True)
+    mode = models.IntegerField(null=True,blank=True)
+    time = models.TimeField(null=True,blank=True)
+    ward = models.ForeignKey('DMS_Ward',on_delete=models.CASCADE,null=True,blank=True)
+    tahsil = models.ForeignKey(DMS_Tahsil,on_delete=models.CASCADE,null=True,blank=True)
+    district = models.ForeignKey(DMS_District,on_delete=models.CASCADE,null=True,blank=True)
+    ward_officer = models.JSONField(null=True,blank=True)
+    inc_is_deleted = models.BooleanField(default=False)
+    clouser_status = models.BooleanField(default=False,null=True,blank=True)
+    inc_added_by=models.CharField(max_length=255,null=True,blank=True)
+    inc_added_date = models.DateTimeField(auto_now=True)
+    inc_modified_by = models.CharField(max_length=255, null=True, blank=True)
+    inc_modified_date = models.DateTimeField(auto_now=True,null=True, blank=True)
+    call_recieved_from = enum.EnumField(call_recieved_enum,null=True,blank=True)
+    call_type = models.ForeignKey('CallType',on_delete=models.CASCADE,null=True,blank=True)
+    parent_complaint = models.ForeignKey('ParentComplaint',on_delete=models.CASCADE,null=True,blank=True)
+    forcefully_closed = enum.EnumField(forcefully_close,null=True,blank=True)
 
 class Gender_enum(enum.Enum):
     male = 1
