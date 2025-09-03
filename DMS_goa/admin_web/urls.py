@@ -132,6 +132,8 @@ urlpatterns = [
     path("chief_complaints/<int:call_type_id>/", ChiefComplaintWiseCount.as_view(), name="chief-complaints-count"), 
     path("sub_chief_complaints/<int:pc_id>/", SubChiefComplaintWiseCount.as_view(), name="sub-chief-complaints-count"),
     path("gis_map/", GisAnaIncidentFilterAPIView.as_view(), name="chief-complaints-count"), 
+    path("send_sms_tumkur/", send_sms, name="send_sms"),
+
 
     #=============================== Mayank =========================================================
 
