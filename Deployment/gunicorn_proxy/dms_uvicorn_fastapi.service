@@ -1,0 +1,21 @@
+[Unit]
+Description=Uvicorn FastAPI app for DMS Goa (WebSocket + HTTP)
+After=network.target
+
+[Service]
+User=www-data
+Group=www-data
+WorkingDirectory=/var/www/html/DMS_goa/DMS_goa/DMS_fastapi_service
+
+ExecStart=/var/www/html/DMS_goa/vvenv/bin/uvicorn main:app \
+    --host 127.0.0.1 \
+    --port 9000 \
+    --proxy-headers \
+    --forwarded-allow-ips '*'
+
+Environment="PYTHONPATH=/var/www/html/DMS_goa/DMS_goa/DMS_fastapi_service"
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
