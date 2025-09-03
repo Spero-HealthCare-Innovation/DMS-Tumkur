@@ -197,7 +197,7 @@ class VehicleLogout(APIView):
                 if logout_odometer:
                     session.logout_odometer = logout_odometer
                 if logout_question:
-                    session.logout_question = logout_question
+                    session.logout_question = 1 if logout_question =='Yes' else 2
                 if uploaded_image:
                     session.logout_image = uploaded_image
                 session.save()
