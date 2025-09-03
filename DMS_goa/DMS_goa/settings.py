@@ -115,7 +115,7 @@ DATABASES = {
 
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'DMS_GOA_DB_NEW_2025',
+        'NAME': 'DMS_TUMKUR_2025',
         'USER': 'postgres',
         'PASSWORD': 'spero@123#2025$', 
         'HOST': '192.168.1.133',

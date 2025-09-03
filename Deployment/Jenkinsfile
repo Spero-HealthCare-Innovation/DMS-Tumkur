@@ -14,7 +14,7 @@ pipeline {
     // restart server
 
     environment {
-        GIT_REPO_URL = 'https://github.com/Spero-HealthCare-Innovation/DMS-GOA.git'
+        GIT_REPO_URL = 'https://github.com/Spero-HealthCare-Innovation/DMS-Tumkur.git'
         GIT_BRANCH = 'main'
         TARGET_DIR = '/var/www/html/DMS_goa'
     } 
