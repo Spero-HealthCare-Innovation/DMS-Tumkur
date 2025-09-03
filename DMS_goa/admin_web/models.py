@@ -985,3 +985,77 @@ class ParentComplaint(models.Model):
     added_by = models.CharField(max_length=255, null=True, blank=True)
     modified_by = models.CharField(max_length=255, null=True, blank=True)
     modified_date = models.DateTimeField(null=True, blank=True)
+
+class Gender_enum(enum.Enum):
+    male = 1
+    female = 2 
+
+class Missing_Person(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=100)
+    age = models.IntegerField(null=True, blank=True)
+    gender = enum.EnumField(Gender_enum,null=True,blank=True)
+    vitals = models.CharField(max_length=255, null=True, blank=True)
+    identification_marks = models.CharField(max_length=255, null=True, blank=True)
+    file_upload = models.FileField(upload_to='media_files/Missing_Person/', null=True, blank=True)
+    contact_no = models.CharField(max_length=20, null=True, blank=True)
+    address = models.TextField(null=True, blank=True)
+    latitude = models.FloatField(null=True,blank=True)
+    longitude = models.FloatField(null=True,blank=True)
+    scheduled_datetime = models.DateTimeField(null=True, blank=True)
+    is_deleted = models.BooleanField(default=False)
+    added_by = models.CharField(max_length=255, null=True, blank=True)
+    modified_by = models.CharField(max_length=255, null=True, blank=True)
+    modified_date = models.DateTimeField(auto_now=True,null=True, blank=True)
+
+
+class Unclaimed_Bodies(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=100)
+    age = models.IntegerField(null=True, blank=True)
+    gender = enum.EnumField(Gender_enum,null=True,blank=True)
+    vitals = models.CharField(max_length=255, null=True, blank=True)
+    identification_marks = models.CharField(max_length=255, null=True, blank=True)
+    file_upload = models.FileField(upload_to='media_files/Unclaimed_Bodies/', null=True, blank=True)
+    address = models.TextField(null=True, blank=True)
+    latitude = models.FloatField(null=True,blank=True)
+    longitude = models.FloatField(null=True,blank=True)
+    scheduled_datetime = models.DateTimeField(null=True, blank=True)
+    is_deleted = models.BooleanField(default=False)
+    added_by = models.CharField(max_length=255, null=True, blank=True)
+    modified_by = models.CharField(max_length=255, null=True, blank=True)
+    modified_date = models.DateTimeField(auto_now=True,null=True, blank=True)
+
+
+class Unclaimed_Vehicles(models.Model):
+    id = models.AutoField(primary_key=True)
+    rto_no = models.CharField(max_length=50,null=True, blank=True)          
+    chassi_no = models.CharField(max_length=100,null=True, blank=True)      
+    vehicle_color = models.CharField(max_length=50,null=True, blank=True)           
+    vehicle_model = models.CharField(max_length=100,null=True, blank=True)          
+    file_upload = models.FileField(upload_to='media_files/Unclaimed_Vehicles', null=True, blank=True)  
+    scheduled_datetime = models.DateTimeField(null=True, blank=True)
+    address = models.TextField(null=True, blank=True)
+    latitude = models.FloatField(null=True,blank=True)
+    longitude = models.FloatField(null=True,blank=True) 
+    is_deleted = models.BooleanField(default=False)
+    added_by = models.CharField(max_length=255, null=True, blank=True)
+    modified_by = models.CharField(max_length=255, null=True, blank=True)
+    modified_date = models.DateTimeField(auto_now=True,null=True, blank=True)
+
+class Vehicle_Theft(models.Model):
+    id = models.AutoField(primary_key=True)
+    rto_no = models.CharField(max_length=50,null=True, blank=True)          
+    chassi_no = models.CharField(max_length=100,null=True, blank=True)      
+    vehicle_color = models.CharField(max_length=50,null=True, blank=True)           
+    vehicle_model = models.CharField(max_length=100,null=True, blank=True)          
+    file_upload = models.FileField(upload_to='vehicle_files/Vehicle_Theft/', null=True, blank=True)
+    contact_no = models.CharField(max_length=20, null=True, blank=True)
+    scheduled_datetime = models.DateTimeField(null=True, blank=True)
+    address = models.TextField(null=True, blank=True)
+    latitude = models.FloatField(null=True,blank=True)
+    longitude = models.FloatField(null=True,blank=True) 
+    is_deleted = models.BooleanField(default=False)
+    added_by = models.CharField(max_length=255, null=True, blank=True)
+    modified_by = models.CharField(max_length=255, null=True, blank=True)
+    modified_date = models.DateTimeField(auto_now=True,null=True, blank=True)
