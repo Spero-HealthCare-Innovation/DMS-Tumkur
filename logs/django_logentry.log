@@ -1,0 +1,104 @@
+WARNING 2025-09-03 15:15:17,198 log Not Found: /admin_web/UnclaimedVehicle_get/
+WARNING 2025-09-03 15:15:17,199 basehttp "GET /admin_web/UnclaimedVehicle_get/ HTTP/1.1" 404 26400
+ERROR 2025-09-03 16:49:46,656 log Internal Server Error: /admin_web/VehicleTheft_get/
+Traceback (most recent call last):
+  File "C:\hhc1\DMS-Tumkur\myenv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\hhc1\DMS-Tumkur\myenv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\hhc1\DMS-Tumkur\myenv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\hhc1\DMS-Tumkur\myenv\Lib\site-packages\django\views\generic\base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\hhc1\DMS-Tumkur\myenv\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\hhc1\DMS-Tumkur\myenv\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\hhc1\DMS-Tumkur\myenv\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\hhc1\DMS-Tumkur\myenv\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\hhc1\DMS-Tumkur\DMS_goa\admin_web\views.py", line 2866, in get
+    serializer = VehicleTheftserializer(instance, many=True)
+                 ^^^^^^^^^^^^^^^^^^^^^^
+NameError: name 'VehicleTheftserializer' is not defined
+ERROR 2025-09-03 16:49:46,744 basehttp "GET /admin_web/VehicleTheft_get/ HTTP/1.1" 500 95502
+ERROR 2025-09-03 16:50:03,664 log Internal Server Error: /admin_web/VehicleTheft_get/
+Traceback (most recent call last):
+  File "C:\hhc1\DMS-Tumkur\myenv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\hhc1\DMS-Tumkur\myenv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\hhc1\DMS-Tumkur\myenv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\hhc1\DMS-Tumkur\myenv\Lib\site-packages\django\views\generic\base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\hhc1\DMS-Tumkur\myenv\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\hhc1\DMS-Tumkur\myenv\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\hhc1\DMS-Tumkur\myenv\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\hhc1\DMS-Tumkur\myenv\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\hhc1\DMS-Tumkur\DMS_goa\admin_web\views.py", line 2866, in get
+    serializer = VehicleTheftserializer(instance, many=True)
+                 ^^^^^^^^^^^^^^^^^^^^^^
+NameError: name 'VehicleTheftserializer' is not defined. Did you mean: 'Vehicle_Theftsserializer'?
+ERROR 2025-09-03 16:50:03,696 basehttp "GET /admin_web/VehicleTheft_get/ HTTP/1.1" 500 95502
+ERROR 2025-09-03 16:50:44,269 log Internal Server Error: /admin_web/VehicleTheft_get/
+Traceback (most recent call last):
+  File "C:\hhc1\DMS-Tumkur\myenv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\hhc1\DMS-Tumkur\myenv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\hhc1\DMS-Tumkur\myenv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\hhc1\DMS-Tumkur\myenv\Lib\site-packages\django\views\generic\base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\hhc1\DMS-Tumkur\myenv\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\hhc1\DMS-Tumkur\myenv\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\hhc1\DMS-Tumkur\myenv\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\hhc1\DMS-Tumkur\myenv\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\hhc1\DMS-Tumkur\DMS_goa\admin_web\views.py", line 2866, in get
+    serializer = VehicleTheftserializer(instance, many=True)
+                 ^^^^^^^^^^^^^^^^^^^^^^
+NameError: name 'VehicleTheftserializer' is not defined. Did you mean: 'Vehicle_Theftsserializer'?
+ERROR 2025-09-03 16:50:44,294 basehttp "GET /admin_web/VehicleTheft_get/ HTTP/1.1" 500 95502
+ERROR 2025-09-03 16:51:21,671 log Internal Server Error: /admin_web/VehicleTheft_get/
+Traceback (most recent call last):
+  File "C:\hhc1\DMS-Tumkur\myenv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\hhc1\DMS-Tumkur\myenv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\hhc1\DMS-Tumkur\myenv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\hhc1\DMS-Tumkur\myenv\Lib\site-packages\django\views\generic\base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\hhc1\DMS-Tumkur\myenv\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\hhc1\DMS-Tumkur\myenv\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\hhc1\DMS-Tumkur\myenv\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\hhc1\DMS-Tumkur\myenv\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\hhc1\DMS-Tumkur\DMS_goa\admin_web\views.py", line 2866, in get
+    serializer = VehicleTheftserializer(instance, many=True)
+                 ^^^^^^^^^^^^^^^^^^^^^^
+NameError: name 'VehicleTheftserializer' is not defined. Did you mean: 'Vehicle_Theftsserializer'?
+ERROR 2025-09-03 16:51:21,709 basehttp "GET /admin_web/VehicleTheft_get/ HTTP/1.1" 500 95502
+WARNING 2025-09-03 16:55:19,056 log Not Found: /admin_web/VehicleTheft_idwiseget/
+WARNING 2025-09-03 16:55:19,057 basehttp "GET /admin_web/VehicleTheft_idwiseget/?rto_no=MH12AB1232 HTTP/1.1" 404 31227
