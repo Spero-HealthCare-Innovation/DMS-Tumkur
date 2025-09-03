@@ -14,7 +14,7 @@ pipeline {
     // restart server
 
     environment {
-        GIT_REPO_URL = 'https://github.com/Spero-HealthCare-Innovation/DMS-GOA.git'
+        GIT_REPO_URL = 'https://github.com/Spero-HealthCare-Innovation/DMS-Tumkur.git'
         GIT_BRANCH = 'main'
         TARGET_DIR = '/var/www/html/DMS_goa'
     } 
@@ -41,19 +41,21 @@ pipeline {
             steps {
                 dir("${TARGET_DIR}") {
                     script {
-                        if (!fileExists('.git')) {
-                            echo "Cloning repository into ${TARGET_DIR}..."
-                            sh """
-                                git clone -b ${GIT_BRANCH} ${GIT_REPO_URL} .
-                            """
-                        } else {
-                            echo "Repository already exists. Pulling latest changes..."
-                            sh """
-                                git config --global --add safe.directory \$(pwd)
-                                git fetch origin ${GIT_BRANCH}
-                                git reset --hard origin/${GIT_BRANCH}
-                                git clean -fd -e vvenv/
-                            """
+                        withCredentials([usernamePassword(credentialsId: 'dms_tumkuru', usernameVariable: 'GIT_USER', passwordVariable: 'GIT_TOKEN')]) {
+                            if (!fileExists('.git')) {
+                                echo "Cloning repository into ${TARGET_DIR}..."
+                                sh """
+                                    git clone -b ${GIT_BRANCH} https://${GIT_USER}:${GIT_TOKEN}@github.com/Spero-HealthCare-Innovation/DMS-Tumkur.git .
+                                """
+                            } else {
+                                echo "Repository already exists. Pulling latest changes..."
+                                sh """
+                                    git config --global --add safe.directory \$(pwd)
+                                    git fetch origin ${GIT_BRANCH}
+                                    git reset --hard origin/${GIT_BRANCH}
+                                    git clean -fd -e vvenv/
+                                """
+                            }
                         }
                     }
                 }
