@@ -166,5 +166,31 @@ urlpatterns = [
     path('parent_complaint_get_calltypewise/<int:call_type_id>/', ParentComplaintByCallType.as_view(), name='parent_complaint'),
     # path('disaster_type_disaster_parent/<int:disaster_parent>/',DMS_Disaster_Type_disaster_parent_Get_API.as_view(), name='DMS_Disaster_Type_Get')
     path('disaster_type_disaster_parent/<int:disaster_parent>/',DMS_Disaster_Type_disaster_parent_Get_API.as_view(), name='DMS_Disaster_Type_Get'),
+
+    path('MissingPerson_get/',MissingPersonget.as_view(), name='MissingPersonget_get'),
+    path('MissingPerson_post/',MissingPerson_post.as_view(), name='MissingPersonget_post'),
+    path('MissingPerson_put/<int:id>/',missingperson_put.as_view(), name='MissingPersonget_put'),
+    path('MissingPerson_delete/<int:id>/',missingperson_delete.as_view(), name='MissingPersonget_delete'),
+
+    path('UnclaimedBodies_get/',UnclaimedBodies_get.as_view(), name='UnclaimedBodies_get'),
+    path('UnclaimedBodies_idwiseget/<int:id>/',UnclaimedBodies_idwiseget.as_view(), name='UnclaimedBodies_idwiseget'),
+    path('UnclaimedBodies_post/',UnclaimedBodies_post.as_view(), name='UnclaimedBodies_post'),
+    path('UnclaimedBodies_put/<int:id>/',UnclaimedBodies_put.as_view(), name='MissingPersonget_put'),
+    path('UnclaimedBodies_delete/<int:id>/',UnclaimedBodies_delete.as_view(), name='MissingPersonget_delete'),
+
+
+    path('UnclaimedVehicle_get/',UnclaimedVehicle_get.as_view(), name='UnclaimedVehicle_get'),
+    path('UnclaimedVehicle_post/',UnclaimedVehicle_post.as_view(), name='UnclaimedVehicle_post'),
+    path('UnclaimedVehicle_put/<int:id>/',UnclaimedVehicle_put.as_view(), name='UnclaimedVehicle_put'),
+    path('UnclaimedVehicle_delete/<int:id>/',UnclaimedVehicle_delete.as_view(), name='UnclaimedVehicle_delete'),
+
+    # path('VehicleTheft_get/',VehicleTheft_get.as_view(), name='VehicleTheft_get'),
+    # path('VehicleTheft_idwiseget/<int:id>/',VehicleTheft_idwiseget.as_view(), name='VehicleTheft_idwiseget'),
+    # path('UnclaimedVehicle_post/',UnclaimedVehicle_post.as_view(), name='UnclaimedVehicle_post'),
+    # path('UnclaimedVehicle_put/<int:id>/',UnclaimedVehicle_put.as_view(), name='UnclaimedVehicle_put'),
+    # path('UnclaimedVehicle_delete/<int:id>/',UnclaimedVehicle_delete.as_view(), name='UnclaimedVehicle_delete'),
+
+
+
 ]
 
