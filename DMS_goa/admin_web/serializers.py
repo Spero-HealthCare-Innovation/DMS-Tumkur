@@ -742,3 +742,19 @@ class ParentComplaintSerializer(serializers.ModelSerializer):
     class Meta:
         model = ParentComplaint
         fields= '__all__'
+
+class missing_personserializer(serializers.ModelSerializer):
+    class Meta:
+        model = Missing_Person
+        fields = '__all__'
+
+class Unclaimed_Bodiesserializer(serializers.ModelSerializer):
+    class Meta:
+        model = Unclaimed_Bodies
+        fields = '__all__'
+
+
+class Unclaimed_Vehiclesserializer(serializers.ModelSerializer):
+    class Meta:
+        model = Unclaimed_Vehicles
+        fields = '__all__'
