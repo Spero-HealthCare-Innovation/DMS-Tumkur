@@ -2676,192 +2676,192 @@ def send_valuefirst_sms(mobile: str, test_id: str = "12345"):
     except Exception as e:
         return {"status": "error", "details": str(e)}
 
-# class MissingPersonget(APIView):
-#     def get(self, request):
-#         missingperson = Missing_Person.objects.filter(is_deleted=False)
-#         serializer = missing_personserializer(missingperson, many=True)
-#         return Response(serializer.data, status=status.HTTP_200_OK)
+class MissingPersonget(APIView):
+    def get(self, request):
+        missingperson = Missing_Person.objects.filter(is_deleted=False)
+        serializer = missing_personserializer(missingperson, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
-# class MissingPerson_post(APIView):
-#     def post(self, request):
-#         serializer = missing_personserializer(data=request.data)
-#         if serializer.is_valid():
-#             serializer.save()
-#             return Response(serializer.data, status=status.HTTP_201_CREATED)
-#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+class MissingPerson_post(APIView):
+    def post(self, request):
+        serializer = missing_personserializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-# class missingperson_put(APIView):
-#     def get(self, request,id):
-#         try:
-#             snippet = Missing_Person.objects.get(id=id,is_deleted=False)
-#         except Missing_Person.DoesNotExist:
-#             return Response({"error": "record not found."}, status=status.HTTP_404_NOT_FOUND)
-#         serializer = missing_personserializer(snippet)
-#         return Response(serializer.data, status=status.HTTP_200_OK)
+class missingperson_put(APIView):
+    def get(self, request,id):
+        try:
+            snippet = Missing_Person.objects.get(id=id,is_deleted=False)
+        except Missing_Person.DoesNotExist:
+            return Response({"error": "record not found."}, status=status.HTTP_404_NOT_FOUND)
+        serializer = missing_personserializer(snippet)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
-#     def put(self,request,id):
-#         try:
-#             instance =Missing_Person.objects.get(id=id,is_deleted=False)
-#         except Missing_Person.DoesNotExist:
-#             return Response({"error": "record not found."}, status=status.HTTP_404_NOT_FOUND)
+    def put(self,request,id):
+        try:
+            instance =Missing_Person.objects.get(id=id,is_deleted=False)
+        except Missing_Person.DoesNotExist:
+            return Response({"error": "record not found."}, status=status.HTTP_404_NOT_FOUND)
 
-#         serializer = missing_personserializer(instance, data=request.data, partial=True)
+        serializer = missing_personserializer(instance, data=request.data, partial=True)
 
-#         if serializer.is_valid():
-#             serializer.save()
-#             return Response(serializer.data, status=status.HTTP_200_OK)
-#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-# class missingperson_delete(APIView):
-#     def get(self,request,id):
-#         try:
-#             instance = Missing_Person.objects.get(id=id,is_deleted=False)
-#         except Missing_Person.DoesNotExist:
-#             return Response({"error": "record not found or already deleted."}, status=status.HTTP_404_NOT_FOUND)
-#         serializer = missing_personserializer(instance)
-#         return Response(serializer.data, status=status.HTTP_200_OK)
+class missingperson_delete(APIView):
+    def get(self,request,id):
+        try:
+            instance = Missing_Person.objects.get(id=id,is_deleted=False)
+        except Missing_Person.DoesNotExist:
+            return Response({"error": "record not found or already deleted."}, status=status.HTTP_404_NOT_FOUND)
+        serializer = missing_personserializer(instance)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
-#     def delete(self,request,id):
-#         try:
-#             instance = Missing_Person.objects.get(id=id,is_deleted=False)
-#         except Missing_Person.DoesNotExist:
-#             return Response({"error": "record not found or already deleted."}, status=status.HTTP_404_NOT_FOUND)
+    def delete(self,request,id):
+        try:
+            instance = Missing_Person.objects.get(id=id,is_deleted=False)
+        except Missing_Person.DoesNotExist:
+            return Response({"error": "record not found or already deleted."}, status=status.HTTP_404_NOT_FOUND)
 
-#         instance.is_deleted = True
-#         instance.save()
-#         return Response({"message": "record soft deleted successfully."}, status=status.HTTP_200_OK)
-
-
-
-# class UnclaimedBodies_get(APIView):
-#     def get(self,request):
-#         instance = Unclaimed_Bodies.objects.filter(is_deleted=False)
-#         serializer = Unclaimed_Bodiesserializer(instance, many=True)
-#         return Response(serializer.data, status=status.HTTP_200_OK)
-
-# class UnclaimedBodies_idwiseget(APIView):
-#     def get(self,request,id):
-#         snippet = Unclaimed_Bodies.objects.filter(is_deleted=False,id=id)
-#         serializers = Unclaimed_Bodiesserializer(snippet,many=True)
-#         return Response(serializers.data,status=status.HTTP_200_OK)
+        instance.is_deleted = True
+        instance.save()
+        return Response({"message": "record soft deleted successfully."}, status=status.HTTP_200_OK)
 
 
-# class UnclaimedBodies_post(APIView):
-#     def post(self,request):
-#         serializer = Unclaimed_Bodiesserializer(data=request.data)
-#         if serializer.is_valid():
-#             serializer.save()
-#             return Response(serializer.data, status=status.HTTP_201_CREATED)
-#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-# class UnclaimedBodies_put(APIView):
-#     def get(self, request,id):
-#         try:
-#             snippet = Unclaimed_Bodies.objects.get(id=id,is_deleted=False)
-#         except Missing_Person.DoesNotExist:
-#             return Response({"error": "record not found."}, status=status.HTTP_404_NOT_FOUND)
-#         serializer = Unclaimed_Bodiesserializer(snippet)
-#         return Response(serializer.data, status=status.HTTP_200_OK)
+class UnclaimedBodies_get(APIView):
+    def get(self,request):
+        instance = Unclaimed_Bodies.objects.filter(is_deleted=False)
+        serializer = Unclaimed_Bodiesserializer(instance, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
-#     def put(self,request,id):
-#         try:
-#             instance = Unclaimed_Bodies.objects.get(id=id,is_deleted=False)
-#         except Unclaimed_Bodies.DoesNotExist:
-#             return Response({"error": "record not found."}, status=status.HTTP_404_NOT_FOUND)
-#         serializer = Unclaimed_Bodiesserializer(instance, data=request.data, partial=True)
-#         if serializer.is_valid():
-#             serializer.save()
-#             return Response(serializer.data, status=status.HTTP_200_OK)
-#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+class UnclaimedBodies_idwiseget(APIView):
+    def get(self,request,id):
+        snippet = Unclaimed_Bodies.objects.filter(is_deleted=False,id=id)
+        serializers = Unclaimed_Bodiesserializer(snippet,many=True)
+        return Response(serializers.data,status=status.HTTP_200_OK)
 
 
-# class UnclaimedBodies_delete(APIView):
-#     def get(self,request,id):
-#         try:
-#             instance = Unclaimed_Bodies.objects.get(id=id,is_deleted=False)
-#         except Unclaimed_Bodies.DoesNotExist:
-#             return Response({"error": "record not found or already deleted."}, status=status.HTTP_404_NOT_FOUND)
-#         serializer = Unclaimed_Bodiesserializer(instance)
-#         return Response(serializer.data, status=status.HTTP_200_OK)
+class UnclaimedBodies_post(APIView):
+    def post(self,request):
+        serializer = Unclaimed_Bodiesserializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-#     def delete(self,request,id):
-#         try:
-#             instance = Unclaimed_Bodies.objects.get(id=id,is_deleted=False)
-#         except Unclaimed_Bodies.DoesNotExist:
-#             return Response({"error": "record not found or already deleted."}, status=status.HTTP_404_NOT_FOUND)
+class UnclaimedBodies_put(APIView):
+    def get(self, request,id):
+        try:
+            snippet = Unclaimed_Bodies.objects.get(id=id,is_deleted=False)
+        except Missing_Person.DoesNotExist:
+            return Response({"error": "record not found."}, status=status.HTTP_404_NOT_FOUND)
+        serializer = Unclaimed_Bodiesserializer(snippet)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
-#         instance.is_deleted = True
-#         instance.save()
-#         return Response({"message": "record soft deleted successfully."}, status=status.HTTP_200_OK)
-
-
-# class UnclaimedVehicle_get(APIView):
-#     def get(self,request):
-#         instance = Unclaimed_Vehicles.objects.filter(is_deleted=False)
-#         serializer = Unclaimed_Vehiclesserializer(instance, many=True)
-#         return Response(serializer.data, status=status.HTTP_200_OK)
-# # def get(self,request):
-# #         rto_no = request.GET.get('rto_no')
-# #         chassi_no = request.GET.get('chassi_no')
-
-# #         instance = Vehicle_Theft.objects.filter(is_deleted=False)
-
-# #         if rto_no:
-# #             instance = instance.filter(rto_no=rto_no)  
-# #         if chassi_no:
-# #             instance = instance.filter(chassi_no=chassi_no) 
-
-# #         # instance = Unclaimed_Bodies.objects.filter(is_deleted=False)
-# #         serializer = Vehicle_Theftsserializer(instance, many=True)
-# #         return Response(serializer.data, status=status.HTTP_200_OK)
-
-# class UnclaimedVehicle_post(APIView):
-#     def post(self,request):
-#         serializer = Unclaimed_Vehiclesserializer(data=request.data)
-#         if serializer.is_valid():
-#             serializer.save()
-#             return Response(serializer.data, status=status.HTTP_201_CREATED)
-#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-# class UnclaimedVehicle_put(APIView):
-#     def get(self, request,id):
-#         try:
-#             snippet = Unclaimed_Vehicles.objects.get(id=id,is_deleted=False)
-#         except Unclaimed_Vehicles.DoesNotExist:
-#             return Response({"error": "record not found."}, status=status.HTTP_404_NOT_FOUND)
-#         serializer = Unclaimed_Vehiclesserializer(snippet)
-#         return Response(serializer.data, status=status.HTTP_200_OK)
-
-#     def put(self,request,id):
-#         try:
-#             instance = Unclaimed_Vehicles.objects.get(id=id,is_deleted=False)
-#         except Unclaimed_Vehicles.DoesNotExist:
-#             return Response({"error": "record not found."}, status=status.HTTP_404_NOT_FOUND)
-#         serializer = Unclaimed_Vehiclesserializer(instance, data=request.data, partial=True)
-#         if serializer.is_valid():
-#             serializer.save()
-#             return Response(serializer.data, status=status.HTTP_200_OK)
-#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    def put(self,request,id):
+        try:
+            instance = Unclaimed_Bodies.objects.get(id=id,is_deleted=False)
+        except Unclaimed_Bodies.DoesNotExist:
+            return Response({"error": "record not found."}, status=status.HTTP_404_NOT_FOUND)
+        serializer = Unclaimed_Bodiesserializer(instance, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-# class UnclaimedVehicle_delete(APIView):
-#     def get(self,request,id):
-#         try:
-#             instance = Unclaimed_Vehicles.objects.get(id=id,is_deleted=False)
-#         except Unclaimed_Vehicles.DoesNotExist:
-#             return Response({"error": "record not found or already deleted."}, status=status.HTTP_404_NOT_FOUND)
-#         serializer = Unclaimed_Vehiclesserializer(instance)
-#         return Response(serializer.data, status=status.HTTP_200_OK)
+class UnclaimedBodies_delete(APIView):
+    def get(self,request,id):
+        try:
+            instance = Unclaimed_Bodies.objects.get(id=id,is_deleted=False)
+        except Unclaimed_Bodies.DoesNotExist:
+            return Response({"error": "record not found or already deleted."}, status=status.HTTP_404_NOT_FOUND)
+        serializer = Unclaimed_Bodiesserializer(instance)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
-#     def delete(self,request,id):
-#         try:
-#             instance = Unclaimed_Vehicles.objects.get(id=id,is_deleted=False)
-#         except Unclaimed_Vehicles.DoesNotExist:
-#             return Response({"error": "record not found or already deleted."}, status=status.HTTP_404_NOT_FOUND)
+    def delete(self,request,id):
+        try:
+            instance = Unclaimed_Bodies.objects.get(id=id,is_deleted=False)
+        except Unclaimed_Bodies.DoesNotExist:
+            return Response({"error": "record not found or already deleted."}, status=status.HTTP_404_NOT_FOUND)
 
-#         instance.is_deleted = True
-#         instance.save()
-#         return Response({"message": "record soft deleted successfully."}, status=status.HTTP_200_OK)
+        instance.is_deleted = True
+        instance.save()
+        return Response({"message": "record soft deleted successfully."}, status=status.HTTP_200_OK)
+
+
+class UnclaimedVehicle_get(APIView):
+    def get(self,request):
+        instance = Unclaimed_Vehicles.objects.filter(is_deleted=False)
+        serializer = Unclaimed_Vehiclesserializer(instance, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    # def get(self,request):
+    #     rto_no = request.GET.get('rto_no')
+    #     chassi_no = request.GET.get('chassi_no')
+
+    #     instance = Vehicle_Theft.objects.filter(is_deleted=False)
+
+    #     if rto_no:
+    #         instance = instance.filter(rto_no=rto_no)  
+    #     if chassi_no:
+    #         instance = instance.filter(chassi_no=chassi_no) 
+
+    #     # instance = Unclaimed_Bodies.objects.filter(is_deleted=False)
+    #     serializer = Vehicle_Theftsserializer(instance, many=True)
+    #     return Response(serializer.data, status=status.HTTP_200_OK)
+
+class UnclaimedVehicle_post(APIView):
+    def post(self,request):
+        serializer = Unclaimed_Vehiclesserializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class UnclaimedVehicle_put(APIView):
+    def get(self, request,id):
+        try:
+            snippet = Unclaimed_Vehicles.objects.get(id=id,is_deleted=False)
+        except Unclaimed_Vehicles.DoesNotExist:
+            return Response({"error": "record not found."}, status=status.HTTP_404_NOT_FOUND)
+        serializer = Unclaimed_Vehiclesserializer(snippet)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def put(self,request,id):
+        try:
+            instance = Unclaimed_Vehicles.objects.get(id=id,is_deleted=False)
+        except Unclaimed_Vehicles.DoesNotExist:
+            return Response({"error": "record not found."}, status=status.HTTP_404_NOT_FOUND)
+        serializer = Unclaimed_Vehiclesserializer(instance, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class UnclaimedVehicle_delete(APIView):
+    def get(self,request,id):
+        try:
+            instance = Unclaimed_Vehicles.objects.get(id=id,is_deleted=False)
+        except Unclaimed_Vehicles.DoesNotExist:
+            return Response({"error": "record not found or already deleted."}, status=status.HTTP_404_NOT_FOUND)
+        serializer = Unclaimed_Vehiclesserializer(instance)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def delete(self,request,id):
+        try:
+            instance = Unclaimed_Vehicles.objects.get(id=id,is_deleted=False)
+        except Unclaimed_Vehicles.DoesNotExist:
+            return Response({"error": "record not found or already deleted."}, status=status.HTTP_404_NOT_FOUND)
+
+        instance.is_deleted = True
+        instance.save()
+        return Response({"message": "record soft deleted successfully."}, status=status.HTTP_200_OK)
 
 
 # class VehicleTheft_get(APIView):
