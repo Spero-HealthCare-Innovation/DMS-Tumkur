@@ -236,7 +236,7 @@ const IncidentCreateMap = () => {
                 setQuery(label);
 
     // 👇 GeoJSON + Turf match
-    const geojsonRes = await fetch('/Boundaries/PUNEWARDS.geojson');
+    const geojsonRes = await fetch('/Boundaries/TUMAKURU_WARD.geojson');
     const geojson = await geojsonRes.json();
     const point = turf.point([position.lng, position.lat]);
 
@@ -263,7 +263,7 @@ const IncidentCreateMap = () => {
 
           }}
         >
-          <Popup>{popupTextMap || "PUNE"}</Popup>
+          <Popup>{popupTextMap || "TUMAKURU"}</Popup>
 
         </Marker>
       </MapContainer>
