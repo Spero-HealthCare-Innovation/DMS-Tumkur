@@ -759,7 +759,7 @@ class Unclaimed_Vehiclesserializer(serializers.ModelSerializer):
         model = Unclaimed_Vehicles
         fields = '__all__'
 
-# class Vehicle_Theftsserializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = Vehicle_Theft
-#         fields = '__all__'
+class Vehicle_Theftsserializer(serializers.ModelSerializer):
+    class Meta:
+        model = Vehicle_Theft
+        fields = '__all__'
