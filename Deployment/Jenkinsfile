@@ -8,7 +8,7 @@ pipeline {
  
     environment {
         GIT_REPO_URL = 'https://github.com/Spero-HealthCare-Innovation/DMS-Tumkur.git'
-        GIT_BRANCH = 'Development'
+        GIT_BRANCH = 'Testing'
         TARGET_DIR = '/var/www/html/DMS_Tumkur'
     } 
 
