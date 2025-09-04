@@ -1,5 +1,5 @@
 [Unit]
-Description=Uvicorn FastAPI app for DMS Goa (WebSocket + HTTP)
+Description=Uvicorn FastAPI app for DMS Tumkur (WebSocket + HTTP)
 After=network.target
 
 [Service]
@@ -9,7 +9,7 @@ WorkingDirectory=/var/www/html/DMS_Tumkur/DMS_goa/DMS_fastapi_service
 
 ExecStart=/var/www/html/DMS_Tumkur/vvenv/bin/uvicorn main:app \
     --host 127.0.0.1 \
-    --port 9000 \
+    --port 9001 \
     --proxy-headers \
     --forwarded-allow-ips '*'
 
