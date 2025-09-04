@@ -649,24 +649,28 @@ function Add_group({ darkMode }) {
 
                         </StyledCardContent>
 
-                        <StyledCardContent
-                          sx={{ flex: 2, justifyContent: "center", ...fontsTableBody }}
-                        >
-                          <Tooltip title={item.departmentID} arrow placement="top">
-                            <Typography
-                              variant="subtitle2"
-                              sx={{
-                                overflow: "hidden",
-                                textOverflow: "ellipsis",
-                                whiteSpace: "nowrap",
-                                maxWidth: 150,
-                              }}
-                            >
-                              {item.departmentID.length > 35 ? item.departmentID.slice(0, 35) + "..." : item.departmentID}
-                            </Typography>
-                          </Tooltip>
+                       <StyledCardContent
+  sx={{ flex: 2, justifyContent: "center", ...fontsTableBody }}
+>
+  <Tooltip title={item?.departmentID || ""} arrow placement="top">
+    <Typography
+      variant="subtitle2"
+      sx={{
+        overflow: "hidden",
+        textOverflow: "ellipsis",
+        whiteSpace: "nowrap",
+        maxWidth: 150,
+      }}
+    >
+      {item?.departmentID
+        ? item.departmentID.length > 35
+          ? item.departmentID.slice(0, 35) + "..."
+          : item.departmentID
+        : "-"}
+    </Typography>
+  </Tooltip>
+</StyledCardContent>
 
-                        </StyledCardContent>
 
                         <StyledCardContent
                           sx={{ flex: 1.2, justifyContent: "center", ...fontsTableBody }}
