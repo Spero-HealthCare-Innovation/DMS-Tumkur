@@ -13,7 +13,7 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         print(validated_data['veh_number'])
         print(validated_data['veh_default_mobile'])
-        grp_obj = DMS_Group.objects.get(grp_id=1)
+        grp_obj = DMS_Group.objects.get(grp_id=7)
         if Vehical.objects.filter(veh_number=validated_data['veh_number']).exists():
             raise serializers.ValidationError("Vehicle with this number already exists.")
         try:
