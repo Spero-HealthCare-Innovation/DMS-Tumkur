@@ -1525,6 +1525,22 @@ class DMS_comment_Get_API(APIView):
 #         return Response(serializers.data,status=status.HTTP_200_OK)
 
 
+class dispatch_close_API(APIView):
+    renderer_classes = [UserRenderer]
+    permission_classes = [IsAuthenticated]
+    def post(self,request):
+        inc_id = request.GET.get('incident_id', None)
+        user = request.user
+        print("user--", user.grp_id.grp_id)
+        if inc_id and user.grp_id.grp_id == 2:
+            inc_obj = DMS_Incident.objects.get(incident_id=inc_id, inc_is_deleted=False)
+            inc_obj.forcefully_closed = 1
+            inc_obj.save()
+            return Response({"msg": f"Incident {inc_obj.incident_id} forcefully closed."}, status=status.HTTP_200_OK)
+        else:
+            return Response({"error": "Invalid request or insufficient permissions."}, status=status.HTTP_200_OK)
+        
+    
 class dispatch_sop_Get_API(APIView):
     renderer_classes = [UserRenderer]
     permission_classes = [IsAuthenticated]
