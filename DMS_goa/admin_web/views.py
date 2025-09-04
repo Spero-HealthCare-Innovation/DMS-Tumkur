@@ -1807,8 +1807,11 @@ class Ward_Officer_get_API(APIView):
     def get(self,request,ward_id):
         print("ward_id--",ward_id)
         # ward = DMS_Employee.objects.filter(ward_id=ward_id,grp_id_id__grp_name='Ward Officer')
-        ward = DMS_Employee.objects.filter(ward_id=ward_id)
+        ward = DMS_Ward_Officers.objects.filter(ward_id=ward_id)
+        # for i in ward:
+        #     veh_data = Vehical.objects.filter(user= i.user_id,status=1)
         serializer = Ward_officer_get_Serializer(ward,many=True)
+        print("serializer.data--",serializer.data)
         return Response(serializer.data,status=status.HTTP_200_OK)
     
     
@@ -2744,7 +2747,17 @@ class missingperson_delete(APIView):
 
 class UnclaimedBodies_get(APIView):
     def get(self,request):
+        name = request.GET.get('name')
+        age = request.GET.get('age')
+
         instance = Unclaimed_Bodies.objects.filter(is_deleted=False)
+
+        if name:
+            instance = instance.filter(name__icontains=name)
+
+        if age:
+            instance = instance.filter(age=age)
+
         serializer = Unclaimed_Bodiesserializer(instance, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -2767,7 +2780,7 @@ class UnclaimedBodies_put(APIView):
     def get(self, request,id):
         try:
             snippet = Unclaimed_Bodies.objects.get(id=id,is_deleted=False)
-        except Missing_Person.DoesNotExist:
+        except Unclaimed_Bodies.DoesNotExist:
             return Response({"error": "record not found."}, status=status.HTTP_404_NOT_FOUND)
         serializer = Unclaimed_Bodiesserializer(snippet)
         return Response(serializer.data, status=status.HTTP_200_OK)
@@ -2805,24 +2818,30 @@ class UnclaimedBodies_delete(APIView):
 
 
 class UnclaimedVehicle_get(APIView):
+    # def get(self,request):
+    #     instance = Unclaimed_Vehicles.objects.filter(is_deleted=False)
+    #     serializer = Unclaimed_Vehiclesserializer(instance, many=True)
+    #     return Response(serializer.data, status=status.HTTP_200_OK)
     def get(self,request):
+        rto_no = request.GET.get('rto_no')
+        chassi_no = request.GET.get('chassi_no')
+
         instance = Unclaimed_Vehicles.objects.filter(is_deleted=False)
+
+        if rto_no:
+            instance = instance.filter(rto_no=rto_no)  
+        if chassi_no:
+            instance = instance.filter(chassi_no=chassi_no) 
+
+        # instance = Unclaimed_Bodies.objects.filter(is_deleted=False)
         serializer = Unclaimed_Vehiclesserializer(instance, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
-    # def get(self,request):
-    #     rto_no = request.GET.get('rto_no')
-    #     chassi_no = request.GET.get('chassi_no')
 
-    #     instance = Vehicle_Theft.objects.filter(is_deleted=False)
-
-    #     if rto_no:
-    #         instance = instance.filter(rto_no=rto_no)  
-    #     if chassi_no:
-    #         instance = instance.filter(chassi_no=chassi_no) 
-
-    #     # instance = Unclaimed_Bodies.objects.filter(is_deleted=False)
-    #     serializer = Vehicle_Theftsserializer(instance, many=True)
-    #     return Response(serializer.data, status=status.HTTP_200_OK)
+class UnclaimedVehicle_idwiseget(APIView):
+    def get (self,request,id):
+        snippet = Unclaimed_Vehicles.objects.filter(is_deleted=False,id=id)
+        serializers = Unclaimed_Vehiclesserializer(snippet,many=True)
+        return Response(serializers.data,status=status.HTTP_200_OK) 
 
 class UnclaimedVehicle_post(APIView):
     def post(self,request):
@@ -2873,74 +2892,74 @@ class UnclaimedVehicle_delete(APIView):
         return Response({"message": "record soft deleted successfully."}, status=status.HTTP_200_OK)
 
 
-# class VehicleTheft_get(APIView):
-#     def get(self,request):
-#         rto_no = request.GET.get('rto_no')
-#         chassi_no = request.GET.get('chassi_no')
+class VehicleTheft_get(APIView):
+    def get(self,request):
+        rto_no = request.GET.get('rto_no')
+        chassi_no = request.GET.get('chassi_no')
 
-#         instance = Vehicle_Theft.objects.filter(is_deleted=False)
+        instance = Vehicle_Theft.objects.filter(is_deleted=False)
 
-#         if rto_no:
-#             instance = instance.filter(rto_no=rto_no)  
-#         if chassi_no:
-#             instance = instance.filter(chassi_no=chassi_no) 
+        if rto_no:
+            instance = instance.filter(rto_no=rto_no)  
+        if chassi_no:
+            instance = instance.filter(chassi_no=chassi_no) 
 
-#         # instance = Unclaimed_Bodies.objects.filter(is_deleted=False)
-#         serializer = Vehicle_Theftsserializer(instance, many=True)
-#         return Response(serializer.data, status=status.HTTP_200_OK)
-
-
-# class VehicleTheft_idwiseget(APIView):
-#     def get(self,request,id):
-#         snippet = Vehicle_Theft.objects.filter(is_deleted=False,id=id)
-#         serializers = Vehicle_Theftsserializer(snippet,many=True)
-#         return Response(serializers.data,status=status.HTTP_200_OK)
+        # instance = Unclaimed_Bodies.objects.filter(is_deleted=False)
+        serializer = Vehicle_Theftsserializer(instance, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
-# class VehicleTheft_post(APIView):
-#     def post(self,request):
-#         serializer = Vehicle_Theftsserializer(data=request.data)
-#         if serializer.is_valid():
-#             serializer.save()
-#             return Response(serializer.data, status=status.HTTP_201_CREATED)
-#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-# class VehicleTheft_put(APIView):
-#     def get(self, request,id):
-#         try:
-#             snippet = Vehicle_Theft.objects.get(id=id,is_deleted=False)
-#         except Vehicle_Theft.DoesNotExist:
-#             return Response({"error": "record not found."}, status=status.HTTP_404_NOT_FOUND)
-#         serializer = Vehicle_Theftsserializer(snippet)
-#         return Response(serializer.data, status=status.HTTP_200_OK)
-
-#     def put(self,request,id):
-#         try:
-#             instance = Vehicle_Theft.objects.get(id=id,is_deleted=False)
-#         except Vehicle_Theft.DoesNotExist:
-#             return Response({"error": "record not found."}, status=status.HTTP_404_NOT_FOUND)
-#         serializer = Vehicle_Theftsserializer(instance, data=request.data, partial=True)
-#         if serializer.is_valid():
-#             serializer.save()
-#             return Response(serializer.data, status=status.HTTP_200_OK)
-#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+class VehicleTheft_idwiseget(APIView):
+    def get(self,request,id):
+        snippet = Vehicle_Theft.objects.filter(is_deleted=False,id=id)
+        serializers = Vehicle_Theftsserializer(snippet,many=True)
+        return Response(serializers.data,status=status.HTTP_200_OK)
 
 
-# class VehicleTheft_delete(APIView):
-#     def get(self,request,id):
-#         try:
-#             instance = Vehicle_Theft.objects.get(id=id,is_deleted=False)
-#         except Vehicle_Theft.DoesNotExist:
-#             return Response({"error": "record not found or already deleted."}, status=status.HTTP_404_NOT_FOUND)
-#         serializer = Vehicle_Theftsserializer(instance)
-#         return Response(serializer.data, status=status.HTTP_200_OK)
+class VehicleTheft_post(APIView):
+    def post(self,request):
+        serializer = Vehicle_Theftsserializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-#     def delete(self,request,id):
-#         try:
-#             instance = Vehicle_Theft.objects.get(id=id,is_deleted=False)
-#         except Vehicle_Theft.DoesNotExist:
-#             return Response({"error": "record not found or already deleted."}, status=status.HTTP_404_NOT_FOUND)
+class VehicleTheft_put(APIView):
+    def get(self, request,id):
+        try:
+            snippet = Vehicle_Theft.objects.get(id=id,is_deleted=False)
+        except Vehicle_Theft.DoesNotExist:
+            return Response({"error": "record not found."}, status=status.HTTP_404_NOT_FOUND)
+        serializer = Vehicle_Theftsserializer(snippet)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
-#         instance.is_deleted = True
-#         instance.save()
-#         return Response({"message": "record soft deleted successfully."}, status=status.HTTP_200_OK)
+    def put(self,request,id):
+        try:
+            instance = Vehicle_Theft.objects.get(id=id,is_deleted=False)
+        except Vehicle_Theft.DoesNotExist:
+            return Response({"error": "record not found."}, status=status.HTTP_404_NOT_FOUND)
+        serializer = Vehicle_Theftsserializer(instance, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class VehicleTheft_delete(APIView):
+    def get(self,request,id):
+        try:
+            instance = Vehicle_Theft.objects.get(id=id,is_deleted=False)
+        except Vehicle_Theft.DoesNotExist:
+            return Response({"error": "record not found or already deleted."}, status=status.HTTP_404_NOT_FOUND)
+        serializer = Vehicle_Theftsserializer(instance)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def delete(self,request,id):
+        try:
+            instance = Vehicle_Theft.objects.get(id=id,is_deleted=False)
+        except Vehicle_Theft.DoesNotExist:
+            return Response({"error": "record not found or already deleted."}, status=status.HTTP_404_NOT_FOUND)
+
+        instance.is_deleted = True
+        instance.save()
+        return Response({"message": "record soft deleted successfully."}, status=status.HTTP_200_OK)
