@@ -1808,8 +1808,8 @@ class Ward_Officer_get_API(APIView):
         print("ward_id--",ward_id)
         # ward = DMS_Employee.objects.filter(ward_id=ward_id,grp_id_id__grp_name='Ward Officer')
         ward = DMS_Ward_Officers.objects.filter(ward_id=ward_id)
-        for i in ward:
-            veh_data = Vehical.objects.filter(user= i.user_id,status=1)
+        # for i in ward:
+        #     veh_data = Vehical.objects.filter(user= i.user_id,status=1)
         serializer = Ward_officer_get_Serializer(ward,many=True)
         print("serializer.data--",serializer.data)
         return Response(serializer.data,status=status.HTTP_200_OK)

@@ -645,11 +645,20 @@ class Ward_get_Serializer(serializers.ModelSerializer):
         # fields = '__all__'
         fields = ['pk_id','ward_name']
 
+class VehicleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Vehical
+        fields = ["veh_id", "veh_number", "veh_default_mobile", "status"]  # adjust fields
 
 class Ward_officer_get_Serializer(serializers.ModelSerializer):
+    veh_data = serializers.SerializerMethodField()
     class Meta:
         model = DMS_Ward_Officers
-        fields = '__all__'
+        fields = ["officer_id", "officer_name", "officer_contact", "officer_dept", "officer_designation", "user_id", "ward_id", "veh_data"]
+
+    def get_veh_data(self, obj):
+        vehs = Vehical.objects.filter(user=obj.user_id, status=1)
+        return VehicleSerializer(vehs, many=True).data
         
         
 class TwitterDMSSerializer(serializers.ModelSerializer):
