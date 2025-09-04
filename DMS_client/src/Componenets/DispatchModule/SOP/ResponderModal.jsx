@@ -27,7 +27,6 @@ import {
   Tabs,
   Tab,
   Checkbox,
-  colors,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import axios from "axios";
@@ -42,18 +41,14 @@ export default function ResponderModal({
   lattitude,
   longitude,
   assignedMap = {},
+  wardOfficer = [],
+  selectedWardOfficer = [],
+  setSelectedWardOfficer = () => { }
 }) {
-  const statusMap = {
-    1: "Free",
-    2: "Busy",
-    3: "Maintenance",
-  };
-
+  const statusMap = { 1: "Free", 2: "Busy", 3: "Maintenance" };
   const port = import.meta.env.VITE_APP_API_KEY;
 
-  const [selectedResponder, setSelectedResponder] = useState(
-    responder?.res_id || ""
-  );
+  const [selectedResponder, setSelectedResponder] = useState(responder?.res_id || "");
   const [baseLocationList, setBaseLocationList] = useState([]);
   const [selectedBaseLocation, setSelectedBaseLocation] = useState("");
   const [vehicleNo, setVehicleNo] = useState("");
@@ -61,11 +56,9 @@ export default function ResponderModal({
   const [allData, setAllData] = useState([]);
   const [tableData, setTableData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [assignedVehicles, setAssignedVehicles] = useState(assignedMap || {});
 
-  
-  const [assignedVehicles, setAssignedVehicles] = useState({});
-  // { veh_id: true/false }
-
+  // Fetch base locations
   const fetchBaseLocations = async () => {
     try {
       const res = await axios.get(`${port}/DMS_mdt/vehical_base_loc/`);
@@ -76,11 +69,8 @@ export default function ResponderModal({
     }
   };
 
-  const fetchVehicles = async (
-    baseId = "",
-    responderId = "",
-    vehicleNo = ""
-  ) => {
+  // Fetch vehicles
+  const fetchVehicles = async (baseId = "", responderId = "", vehicleNo = "") => {
     setLoading(true);
     try {
       const res = await axios.get(`${port}/DMS_mdt/vehical/`, {
@@ -92,9 +82,7 @@ export default function ResponderModal({
           long: longitude,
         },
       });
-
       const vehicles = res.data || [];
-
       const mapped = vehicles.map((v, idx) => ({
         srNo: idx + 1,
         veh_id: v.veh_id,
@@ -105,11 +93,9 @@ export default function ResponderModal({
         distance: v.distance_km != null ? `${v.distance_km} km` : "-",
         assigned: assignedVehicles[v.veh_id] || false,
       }));
-
       setAllData(mapped);
       setTableData(mapped);
 
-      // Vehicle dropdown fill
       const vehicleOpts = vehicles.map((v) => ({
         veh_id: v.veh_id,
         veh_number: v.veh_number,
@@ -125,53 +111,28 @@ export default function ResponderModal({
       setLoading(false);
     }
   };
-  useEffect(() => {
-    if (open && selectedResponders.length > 0) {
-      setSelectedResponder(selectedResponders[0]);
-    }
-  }, [open, selectedResponders]);
-
-  useEffect(() => {
-    if (open && assignedMap) {
-      setAssignedVehicles(assignedMap);
-    }
-  }, [open, assignedMap]);
 
   useEffect(() => {
     if (open) {
       fetchBaseLocations();
-      setSelectedResponder("all");
       fetchVehicles("", "");
     }
   }, [open]);
 
   useEffect(() => {
-    if (selectedResponder === "all") {
-      fetchVehicles(selectedBaseLocation, "");
-    } else if (selectedResponder) {
-      fetchVehicles(selectedBaseLocation, selectedResponder);
-    }
+    if (selectedResponder === "all") fetchVehicles(selectedBaseLocation, "");
+    else if (selectedResponder) fetchVehicles(selectedBaseLocation, selectedResponder);
   }, [selectedResponder, selectedBaseLocation, lattitude, longitude]);
 
-  useEffect(() => {
-    if (responderList.length > 0 && !selectedResponder) {
-      setSelectedResponder(responderList[0].res_id);
-    }
-  }, [responderList, selectedResponder]);
-
-  useEffect(() => {
-    if (selectedResponder === "all") {
-      fetchVehicles(selectedBaseLocation, "", vehicleNo);
-    } else if (selectedResponder) {
-      fetchVehicles(selectedBaseLocation, selectedResponder, vehicleNo);
-    }
-  }, [
-    selectedResponder,
-    selectedBaseLocation,
-    vehicleNo,
-    lattitude,
-    longitude,
-  ]);
+  const handleAssignChange = (index, checked) => {
+    const updated = [...tableData];
+    updated[index].assigned = checked;
+    setTableData(updated);
+    setAssignedVehicles((prev) => ({
+      ...prev,
+      [updated[index].veh_id]: checked,
+    }));
+  };
 
   const resetFilters = () => {
     setSelectedBaseLocation("");
@@ -179,74 +140,66 @@ export default function ResponderModal({
     setSelectedResponder("all");
     fetchVehicles("", "", "");
   };
-const handleSave = () => {
-  const selectedVehicleIds = Object.keys(assignedVehicles)
-    .filter((vehId) => assignedVehicles[vehId])
-    .map(Number);
 
-  onSave({
-    selectedResponders,
-    res_id: selectedResponder,
-    baseLocation: selectedBaseLocation,
-    vehicleNo,
-    vehicleIds: selectedVehicleIds,  
-    assignedVehicles,                 
-  });
-};
+  const handleSave = () => {
+    const selectedVehicleIds = Object.keys(assignedVehicles)
+      .filter((vehId) => assignedVehicles[vehId])
+      .map(Number);
 
+    onSave({
+      selectedResponders,
+      res_id: selectedResponder,
+      baseLocation: selectedBaseLocation,
+      vehicleNo,
+      vehicleIds: selectedVehicleIds,
+      assignedVehicles,
+      selectedWardOfficer: localSelectedWardOfficer,
+    });
+  };
 
-  const handleAssignChange = (index, checked) => {
-    const updated = [...tableData];
-    updated[index].assigned = checked;
-    setTableData(updated);
+  const [localSelectedWardOfficer, setLocalSelectedWardOfficer] = useState([]);
 
-    setAssignedVehicles((prev) => ({
-      ...prev,
-      [updated[index].veh_id]: checked,
-    }));
+  useEffect(() => {
+    if (selectedResponder === 4 && wardOfficer.length > 0) {
+      setLocalSelectedWardOfficer(selectedWardOfficer || []);
+    } else {
+      setLocalSelectedWardOfficer([]);
+    }
+  }, [selectedResponder, wardOfficer, selectedWardOfficer]);
+
+  // Checkbox change handler for ward officers
+  const handleWardOfficerCheckbox = (officer) => (e) => {
+    const checked = e.target.checked;
+
+    const newSelectedWard = checked
+      ? [...localSelectedWardOfficer, officer.officer_id]
+      : localSelectedWardOfficer.filter((id) => id !== officer.officer_id);
+
+    setLocalSelectedWardOfficer(newSelectedWard);  
+    setSelectedWardOfficer(newSelectedWard);       
+
+    setAssignedVehicles((prev) => {
+      const updated = { ...prev };
+      officer.veh_data.forEach((v) => {
+        updated[v.veh_id] = checked;
+      });
+      return updated;
+    });
   };
 
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="lg">
-      <AppBar
-        position="static"
-        sx={{
-          position: "relative",
-          background: "linear-gradient(to right, #53bce1, #add0d8)",
-          boxShadow: "0 4px 6px rgba(0,0,0,0.1)",
-          borderBottomLeftRadius: 8,
-          borderBottomRightRadius: 8,
-        }}
-      >
-        <Toolbar
-          sx={{ display: "flex", justifyContent: "space-between", px: 3 }}
-        >
-          <Typography
-            variant="h6"
-            sx={{
-              fontWeight: 500,
-              letterSpacing: 0.5,
-              fontSize: { xs: "1rem", sm: "1.25rem" },
-              color: "#000000ff",
-              // textShadow: "1px 1px 2px rgba(0,0,0,0.3)",
-            }}
-          >
+      <AppBar position="static" sx={{ position: "relative", background: "linear-gradient(to right, #53bce1, #add0d8)" }}>
+        <Toolbar sx={{ display: "flex", justifyContent: "space-between", px: 3 }}>
+          <Typography variant="h6" sx={{ fontWeight: 500, letterSpacing: 0.5, fontSize: { xs: "1rem", sm: "1.25rem" }, color: "#000" }}>
             Responder Details
           </Typography>
-          <IconButton
-            edge="end"
-            onClick={onClose}
-            sx={{
-              backgroundColor: "rgba(255,255,255,0.1)",
-              "&:hover": { backgroundColor: "rgba(255,255,255,0.2)" },
-            }}
-          >
+          <IconButton edge="end" onClick={onClose}>
             <CloseIcon sx={{ color: "black" }} />
           </IconButton>
         </Toolbar>
       </AppBar>
 
-      {/* Tabs for responders */}
       <Tabs
         value={selectedResponder}
         onChange={(e, val) => setSelectedResponder(val)}
@@ -256,122 +209,105 @@ const handleSave = () => {
       >
         <Tab key="all" label="All Vehicles" value="all" />
         {responderList.map((resp) => (
-          <Tab
-            key={resp.res_id}
-            label={resp.responder_name}
-            value={resp.res_id}
-          />
+          <Tab key={resp.res_id} label={resp.responder_name} value={resp.res_id} />
         ))}
       </Tabs>
 
       <DialogContent sx={{ padding: 2 }}>
-        {/* Filters */}
         <Card variant="outlined" sx={{ mb: 2 }}>
           <CardContent>
-            <Box display="flex" gap={2} flexWrap="wrap" alignItems="center">
+            {selectedResponder === 4 && wardOfficer.length > 0 ? (
+              <TableContainer component={Paper} sx={{ maxHeight: 300, overflow: "auto" }}>
+                <Table stickyHeader size="small">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>Sr. No</TableCell>
+                      <TableCell>Vehicle ID</TableCell>
+                      <TableCell>Vehicle No</TableCell>
+                      <TableCell>Officer Name</TableCell>
+                      <TableCell>Contact</TableCell>
+                      <TableCell>Department</TableCell>
+                      <TableCell>Designation</TableCell>
+                      <TableCell>Assign</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {wardOfficer.map((officer, idx) => (
+                      <TableRow key={officer.officer_id}>
+                        <TableCell>{idx + 1}</TableCell>
+                        <TableCell>{officer.veh_data.map((v) => v.veh_id).join(", ")}</TableCell>
+                        <TableCell>{officer.veh_data.map((v) => v.veh_number).join(", ")}</TableCell>
+                        <TableCell>{officer.officer_name}</TableCell>
+                        <TableCell>{officer.officer_contact}</TableCell>
+                        <TableCell>{officer.officer_dept}</TableCell>
+                        <TableCell>{officer.officer_designation}</TableCell>
+                        <TableCell>
+                          <Checkbox
+                            checked={localSelectedWardOfficer.includes(officer.officer_id)}
+                            onChange={(e) => {
+                              const checked = e.target.checked;
+
+                              const newSelectedWard = checked
+                                ? [...localSelectedWardOfficer, officer.officer_id]
+                                : localSelectedWardOfficer.filter((id) => id !== officer.officer_id);
+                              setLocalSelectedWardOfficer(newSelectedWard);
+
+                              setSelectedWardOfficer(newSelectedWard);
+
+                              setAssignedVehicles((prev) => {
+                                const updated = { ...prev };
+                                officer.veh_data.forEach((v) => {
+                                  updated[v.veh_id] = checked;
+                                });
+                                return updated;
+                              });
+                            }}
+                          />
+                          Assign
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            ) : (
               <Box display="flex" gap={2} flexWrap="wrap" alignItems="center">
-                {/* Base Location */}
-                <FormControl
-                  sx={{ minWidth: 220, flexGrow: 1 }}
-                  variant="standard"
-                >
-                  <InputLabel sx={{ color: "#555" }}>Base Location</InputLabel>
+                <FormControl sx={{ minWidth: 220 }} variant="standard">
+                  <InputLabel>Base Location</InputLabel>
                   <Select
                     value={selectedBaseLocation}
                     onChange={(e) => setSelectedBaseLocation(e.target.value)}
-                    sx={{
-                      "&:before": { borderBottom: "1px solid #888" },
-                      "&:hover:not(.Mui-disabled):before": {
-                        borderBottom: "1px solid #1976d2",
-                      },
-                      "& .MuiSelect-select": {
-                        padding: "8px 12px",
-                        color: selectedBaseLocation ? "#fff" : "#000", // ✅ white when selected
-                      },
-                    }}
                   >
                     <MenuItem value="">All</MenuItem>
                     {baseLocationList.map((b) => (
-                      <MenuItem key={b.bs_id} value={b.bs_id}>
-                        {b.bs_name}
-                      </MenuItem>
+                      <MenuItem key={b.bs_id} value={b.bs_id}>{b.bs_name}</MenuItem>
                     ))}
                   </Select>
                 </FormControl>
 
-                {/* Vehicle No */}
-                <FormControl
-                  sx={{
-                    minWidth: 220,
-                    flexGrow: 1,
-                  }}
-                  variant="standard"
-                  disabled={!selectedBaseLocation}
-                >
-                  <InputLabel sx={{ color: "#555" }}>Vehicle No.</InputLabel>
+                <FormControl sx={{ minWidth: 220 }} variant="standard" disabled={!selectedBaseLocation}>
+                  <InputLabel>Vehicle No.</InputLabel>
                   <Select
                     value={vehicleNo}
                     onChange={(e) => setVehicleNo(e.target.value)}
-                    sx={{
-                      "&:before": { borderBottom: "1px solid #888" },
-                      "&:hover:not(.Mui-disabled):before": {
-                        borderBottom: "1px solid #1976d2",
-                      },
-                      "& .MuiSelect-select": {
-                        padding: "8px 12px",
-                        color: vehicleNo ? "#fff" : "#000", // ✅ selected text white
-                      },
-                    }}
-                    inputProps={{
-                      sx: { flexShrink: 1 },
-                    }}
                   >
                     <MenuItem value="">All</MenuItem>
                     {vehicleOptions.map((v) => (
-                      <MenuItem key={v.veh_number} value={v.veh_number}>
-                        {v.veh_number}
-                      </MenuItem>
+                      <MenuItem key={v.veh_number} value={v.veh_number}>{v.veh_number}</MenuItem>
                     ))}
                   </Select>
                 </FormControl>
-              </Box>
 
-              <Button
-                variant="outlined"
-                color="secondary"
-                onClick={resetFilters}
-              >
-                Reset
-              </Button>
-            </Box>
+                <Button variant="outlined" color="secondary" onClick={resetFilters}>Reset</Button>
+              </Box>
+            )}
           </CardContent>
         </Card>
 
-        {/* Loader */}
-        {loading && (
-          <Box display="flex" justifyContent="center" my={4}>
-            <CircularProgress />
-          </Box>
-        )}
+        {loading && <Box display="flex" justifyContent="center" my={4}><CircularProgress /></Box>}
 
-        {/* Table */}
-        {!loading && (
-          <TableContainer
-            component={Paper}
-            sx={{
-              maxHeight: 200,
-              overflow: "auto",
-              "&::-webkit-scrollbar": { width: 8, height: 8 },
-              "&::-webkit-scrollbar-thumb": {
-                backgroundColor: "#80c2f8ff",
-                borderRadius: 4,
-              },
-              "&::-webkit-scrollbar-thumb:hover": {
-                backgroundColor: "#2593ecff",
-              },
-              "&::-webkit-scrollbar-track": { backgroundColor: "#888" },
-            }}
-          >
+        {!loading && selectedResponder !== 4 && (
+          <TableContainer component={Paper} sx={{ maxHeight: 200, overflow: "auto" }}>
             <Table stickyHeader size="small">
               <TableHead>
                 <TableRow>
@@ -381,7 +317,7 @@ const handleSave = () => {
                   <TableCell>ETA</TableCell>
                   <TableCell>Distance</TableCell>
                   <TableCell>Status</TableCell>
-                  <TableCell>Action</TableCell>
+                  <TableCell>Assign</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -397,9 +333,7 @@ const handleSave = () => {
                       <Checkbox
                         size="small"
                         checked={row.assigned}
-                        onChange={(e) =>
-                          handleAssignChange(idx, e.target.checked)
-                        }
+                        onChange={(e) => handleAssignChange(idx, e.target.checked)}
                       />
                       Assign
                     </TableCell>
@@ -413,9 +347,7 @@ const handleSave = () => {
 
       <DialogActions>
         <Button onClick={onClose}>Cancel</Button>
-        <Button variant="contained" onClick={handleSave}>
-          Save
-        </Button>
+        <Button variant="contained" onClick={handleSave}>Save</Button>
       </DialogActions>
     </Dialog>
   );
