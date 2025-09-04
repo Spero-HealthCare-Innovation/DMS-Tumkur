@@ -2584,6 +2584,7 @@ class GisAnaIncidentFilterAPIView(APIView):
         end_date = request.query_params.get("end_date", None)
         call_type = request.query_params.get("call_type", None)
         parent_complaint = request.query_params.get("parent_complaint", None)
+        sub_parent_call = request.query_params.get("sub_parent_call", None)
 
         # Base queryset
         queryset = DMS_Incident.objects.filter(inc_is_deleted=False, inc_type=1)  # sirf emergency calls
@@ -2604,6 +2605,10 @@ class GisAnaIncidentFilterAPIView(APIView):
         # Chief complaint filter
         if parent_complaint:
             queryset = queryset.filter(parent_complaint=parent_complaint)
+            
+        # Sub chief complaint filter
+        if sub_parent_call:
+            queryset = queryset.filter(disaster_type=sub_parent_call)
 
         # Response format
         data = []

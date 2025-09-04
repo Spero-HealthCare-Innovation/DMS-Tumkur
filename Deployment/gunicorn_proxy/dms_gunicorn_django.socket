@@ -1,7 +1,0 @@
-[Unit]
-Description= DMS CICD gunicorn socket
-[Socket]
-ListenStream=/run/dms_gunicorn_django.sock
-SocketUser=www-data
-[Install]
-WantedBy=sockets.target
