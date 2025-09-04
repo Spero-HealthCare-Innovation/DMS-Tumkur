@@ -131,7 +131,7 @@ class VehicleLogin(APIView):
 class VehicleLogout(APIView):
     def post(self, request):
         try:
-            refresh_token = request.data.get('refresh_token')
+            refresh_token = request.data.get('refreshToken')
             veh_number = request.data.get('veh_number')
             # logout_odometer = request.data.get('logoutOdometer')
             # logout_question = request.data.get('logoutquestion')
@@ -230,7 +230,7 @@ class VehicleLogout(APIView):
                     "code": 1,
                     "message": "Not Logout"
                 },
-                "error": None
+                "error": str(e)
             }, status=status.HTTP_200_OK)
         
 class employee_list(APIView):
