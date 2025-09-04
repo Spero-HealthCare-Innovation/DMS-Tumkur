@@ -208,5 +208,5 @@ __marimo__/
 vehicle_files/
 
 Deployment/
-settings.py
+# settings.py
 .env
