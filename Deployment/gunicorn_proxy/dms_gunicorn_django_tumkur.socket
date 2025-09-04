@@ -1,0 +1,7 @@
+[Unit]
+Description= DMS Tumkur CICD gunicorn socket
+[Socket]
+ListenStream=/run/dms_gunicorn_django_tumkur.sock
+SocketUser=www-data
+[Install]   
+WantedBy=sockets.target
