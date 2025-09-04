@@ -1296,7 +1296,7 @@ const Incident = ({ darkMode }) => {
                       disabled={sopId.length === 0}
                       sx={{ mt: 2 }}
                     >
-                      Assign Ambulance
+                      Assign Responder
                     </Button>
                     {errors?.assignAmbulance && (
                       <Typography color="error" variant="body2" mt={1}>
