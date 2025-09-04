@@ -38,8 +38,9 @@ pipeline {
                             if (!fileExists('.git')) {
                                 echo "Cloning repository into ${TARGET_DIR}..."
                                 sh """
-                                    git clone -b ${GIT_BRANCH} https://${GIT_USER}:${GIT_TOKEN}@github.com/Spero-HealthCare-Innovation/DMS-Tumkur.git .
+                                    git clone -b ${GIT_BRANCH} "https://${GIT_USER}:${GIT_TOKEN}@github.com/Spero-HealthCare-Innovation/DMS-Tumkur.git" .
                                 """
+
                             } else {
                                 echo "Repository already exists. Pulling latest changes..."
                                 sh """
