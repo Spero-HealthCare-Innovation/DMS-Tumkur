@@ -648,9 +648,9 @@ class Ward_get_Serializer(serializers.ModelSerializer):
 
 class Ward_officer_get_Serializer(serializers.ModelSerializer):
     class Meta:
-        model = DMS_Employee
-        # fields = '__all__'
-        fields = ['emp_id','emp_name']
+        model = DMS_Ward_Officers
+        fields = '__all__'
+        
         
 class TwitterDMSSerializer(serializers.ModelSerializer):
     class Meta:
