@@ -778,6 +778,7 @@ class DMS_Ward_Officers(models.Model):
         blank=True,
         null=True
     )
+    user_id = models.ForeignKey(DMS_User,on_delete=models.CASCADE,null=True, blank=True)
     officer_name = models.CharField(max_length=255,null=True,blank=True)
     officer_contact = models.CharField(max_length=255,null=True,blank=True)
     officer_dept = models.CharField(max_length=255,null=True,blank=True)
