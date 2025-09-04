@@ -1,0 +1,583 @@
+event_code,prof_fullname,Job_type,Profeesinal Zone,srv_id_id,patient zone,session_count,closed_session_count,Patient Feedback
+2.02507E+11,Dr Madhura Mangnale,1,Hingane,Physiotherapy,Hingane,5,5,no
+2.02507E+11,Dr Dhoke Shilpa Yogeshwar,1,Hadapsar,Physiotherapy,PCMC,10,9,no
+2.02507E+11,Dr Sanika Vaidya,1,Kothrud,Physiotherapy,Kothrud,9,8,NO
+2.02507E+11,Dr Noopur Kayarkar,1,Kothrud,Physiotherapy,Kothrud,11,11,NO
+2.02507E+11,Dr Noopur Kayarkar,1,Kothrud,Physiotherapy,Kothrud,5,5,NO
+2.02507E+11,Dr Dhoke Apurva Mohan,1,Swarget,Physiotherapy,Hingane,10,7,NO
+2.02507E+11,Nimesh Ashok Gupta,1,Hadapsar,Physiotherapy,Katraj,10,10,no
+2.02507E+11,Chandera Darshanaben Ramsibhai,1,NULL,Physiotherapy,Katraj,10,7,NO
+2.02507E+11,Wanakhade Vaishnavi Gajanan,1,NULL,Physiotherapy,Aundh,9,6,no
+2.02507E+11,Snehal Avinash Mane,3,Yerwada,Physiotherapy,Hingane,1,1,NO
+2.02507E+11,Dr Ayush Bondre,NULL,Hadapsar,Physiotherapy,PCMC,5,5,NO
+2.02507E+11,Dr Varun Pohekar,NULL,PCMC,Physiotherapy,PCMC,10,10,no
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Kothrud,1,1,NO
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Hadapsar,1,1,NO
+2.02507E+11,Chandera Darshanaben Ramsibhai,1,NULL,Physiotherapy,Katraj,11,8,NO
+2.02507E+11,Kirti Atul Chaudhari,3,Yerwada,Physiotherapy,Kothrud,10,10,NULL
+2.02507E+11,Dr Snehal Meshram,1,Hingane,Physiotherapy,Hingane,17,7,NO
+2.02507E+11,Daniel  Premanand Shirsat,1,Swarget,Physiotherapy,Katraj,1,1,NO
+2.02507E+11,Dr Priyatharshini Mudaliar,NULL,Aundh,Physiotherapy,Aundh,5,5,no
+2.02507E+11,Dr Disha Bhosale,NULL,Kothrud,Physiotherapy,Kothrud,2,2,NO
+2.02507E+11,Dr. Roshani Rajkumar Ajmera,NULL,Katraj,Physiotherapy,Katraj,5,5,NO
+2.02507E+11,Kirti Atul Chaudhari,3,Yerwada,Physiotherapy,PCMC,7,7,NULL
+2.02507E+11,Thengdi Isha Keyur,1,NULL,Physiotherapy,Mulshi,2,2,NO
+2.02507E+11,Dr Noopur Kayarkar,1,Kothrud,Physiotherapy,Kothrud,6,6,NO
+2.02507E+11,Daniel  Premanand Shirsat,1,Swarget,Physiotherapy,PCMC,6,5,NO
+2.02507E+11,Dr Noopur Kayarkar,1,Kothrud,Physiotherapy,Hingane,10,10,NO
+2.02507E+11,Dr Shirole Ashwini Indrajeet,NULL,Kothrud,Doctor at Home,Ambegaon,1,1,NO
+2.02507E+11,Dr Dhoke Apurva Mohan,1,Swarget,Physiotherapy,Hingane,1,1,NO
+2.02507E+11,Dr Bulbule Omkar Vishwajit,1,NULL,Doctor at Home,Kothrud,1,0,NO
+2.02507E+11,Dr Choudhari Kiran Laxman,1,NULL,Doctor at Home,Aundh,1,1,NO
+2.02507E+11,Dr Snehal Giri,1,Kothrud,Physiotherapy,Hingane,1,1,no
+2.02507E+11,Dr Dhoke Shilpa Yogeshwar,1,Hadapsar,Physiotherapy,Kothrud,27,24,no
+2.02507E+11,Dr Sanika Vaidya,1,Kothrud,Physiotherapy,Kothrud,4,2,NO
+2.02507E+11,Dr Bushra Shaikh,NULL,Katraj,Physiotherapy,Swarget,1,1,no
+2.02507E+11,Dr Shirole Ashwini Indrajeet,NULL,Kothrud,Doctor at Home,Kothrud,1,1,NO
+2.02507E+11,Chaitali Sameer Gandhe,1,Hingane,Physiotherapy,Kothrud,2,1,NO
+2.02507E+11,Dr Bulbule Omkar Vishwajit,1,NULL,Doctor at Home,Kothrud,1,1,NO
+2.02507E+11,Chaitali Sameer Gandhe,1,Hingane,Physiotherapy,Kothrud,5,5,NO
+2.02507E+11,Dr Choudhari Kiran Laxman,1,NULL,Doctor at Home,Kothrud,1,0,NO
+2.02507E+11,Dr. Nancy Sharon,NULL,Hingane,Physiotherapy,Ambegaon,1,1,NO
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Kothrud,1,1,NO
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Hingane,1,1,NO
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Kothrud,1,1,NO
+2.02507E+11,Dr Rutuja Argade,NULL,PCMC,Physiotherapy,Aundh,1,1,NO
+2.02507E+11,Dr Naik Neha,1,NULL,Physiotherapy,Kothrud,10,9,NO
+2.02507E+11,Dr Pranita Jadhav,1,Hingane,Physiotherapy,Katraj,9,2,NO
+2.02507E+11,Dr Sayyed Farhan Jainuddin,1,Yerwada,Physiotherapy,Aundh,11,1,NO
+2.02507E+11,Dr Shirole Ashwini Indrajeet,NULL,Kothrud,Doctor at Home,Hingane,1,1,NO
+2.02507E+11,Dr Choudhari Kiran Laxman,1,NULL,Doctor at Home,Katraj,1,0,NO
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Hingane,1,1,NO
+2.02507E+11,Dr Priyatharshini Mudaliar,NULL,Aundh,Physiotherapy,Kothrud,4,4,no
+2.02507E+11,Yogeshwari Devidasrao Biradar,2,Katraj,Physiotherapy,PCMC,1,1,NO
+2.02507E+11,Yogeshwari Devidasrao Biradar,2,Katraj,Physiotherapy,Kothrud,2,2,NO
+2.02507E+11,Helkute Pramila Sadashiv,1,Hadapsar,Physiotherapy,Hadapsar,15,15,5
+2.02507E+11,Dr. Roshani Rajkumar Ajmera,NULL,Katraj,Physiotherapy,Katraj,5,5,NO
+2.02507E+11,Dr Bulbule Omkar Vishwajit,1,NULL,Doctor at Home,Swarget,1,0,NO
+2.02507E+11,Dr Choudhari Kiran Laxman,1,NULL,Doctor at Home,Katraj,1,0,NO
+2.02507E+11,Dr Himanshu Soni,NULL,Yerwada,Physiotherapy,Yerwada,2,1,NO
+2.02507E+11,Madhuri Pillay,NULL,Kothrud,Nurse at Home,Hingane,1,0,no
+2.02507E+11,Dr Dhoke Shilpa Yogeshwar,1,Hadapsar,Physiotherapy,PCMC,10,10,no
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Hingane,1,1,NO
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Kothrud,1,1,NO
+2.02507E+11,Dr Bulbule Omkar Vishwajit,1,NULL,Doctor at Home,Hingane,1,0,NO
+2.02507E+11,Dr Shirole Ashwini Indrajeet,NULL,Kothrud,Doctor at Home,Ambegaon,1,1,NO
+2.02507E+11,Dr Choudhari Kiran Laxman,1,NULL,Doctor at Home,PCMC,1,0,NO
+2.02507E+11,Dr Bulbule Omkar Vishwajit,1,NULL,Doctor at Home,Swarget,1,0,NO
+2.02507E+11,Dr Choudhari Kiran Laxman,1,NULL,Doctor at Home,PCMC,3,0,NO
+2.02507E+11,Chandera Darshanaben Ramsibhai,1,NULL,Physiotherapy,Aundh,22,12,NO
+2.02507E+11,Dr Priyatharshini Mudaliar,NULL,Aundh,Physiotherapy,Aundh,22,12,no
+2.02507E+11,Sheetal Shailesh Jain,1,Swarget,Physiotherapy,Hingane,1,0,NO
+2.02507E+11,Helkute Pramila Sadashiv,1,Hadapsar,Physiotherapy,Hadapsar,5,5,5
+2.02507E+11,Dr Bulbule Omkar Vishwajit,1,NULL,Doctor at Home,Hingane,1,0,NO
+2.02507E+11,Dr Choudhari Kiran Laxman,1,NULL,Doctor at Home,Kothrud,1,0,NO
+2.02507E+11,Dr Choudhari Kiran Laxman,1,NULL,Doctor at Home,Yerwada,1,0,NO
+2.02507E+11,Dr Choudhari Kiran Laxman,1,NULL,Doctor at Home,PCMC,1,0,NO
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Kothrud,1,1,NO
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Kothrud,1,1,NO
+2.02507E+11,Yogeshwari Devidasrao Biradar,2,Katraj,Physiotherapy,Kothrud,2,2,NO
+2.02507E+11,Dr Bulbule Omkar Vishwajit,1,NULL,Doctor at Home,Kothrud,1,0,NO
+2.02507E+11,Dr Pooja Chungade,1,Hadapsar,Physiotherapy,Hadapsar,9,8,NO
+2.02507E+11,Dr Himanshu Soni,NULL,Yerwada,Physiotherapy,Hadapsar,11,8,NO
+2.02507E+11,Dr Sanket Ransing,NULL,Katraj,Physiotherapy,Ambegaon,10,10,NO
+2.02507E+11,Yogeshwari Devidasrao Biradar,2,Katraj,Physiotherapy,PCMC,1,1,NO
+2.02507E+11,Dr Sanket Ransing,NULL,Katraj,Physiotherapy,Ambegaon,11,10,NO
+2.02507E+11,Dr Choudhari Kiran Laxman,1,NULL,Doctor at Home,PCMC,1,0,NO
+2.02507E+11,Dr Bulbule Omkar Vishwajit,1,NULL,Doctor at Home,Aundh,1,0,NO
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Hingane,1,1,NO
+2.02507E+11,Madhuri Pillay,NULL,Kothrud,Nurse at Home,Hingane,2,0,no
+2.02507E+11,Sheetal Shailesh Jain,1,Swarget,Physiotherapy,Hingane,5,5,NO
+2.02507E+11,Dr Madhura Mangnale,1,Hingane,Physiotherapy,PCMC,5,5,no
+2.02507E+11,Hiral Narendra Soni,1,Yerwada,Physiotherapy,Hingane,10,10,NO
+2.02507E+11,Dr Madhura Mangnale,1,Hingane,Physiotherapy,Katraj,23,19,no
+2.02507E+11,Mr. Ingole Ganesh Rajebhau,1,Yerwada,Doctor at Home,Hingane,1,0,no
+2.02507E+11,Dr Shirole Ashwini Indrajeet,NULL,Kothrud,Doctor at Home,Kothrud,1,1,NO
+2.02507E+11,Dr Purva Rasane,NULL,PCMC,Physiotherapy,PCMC,10,10,NO
+2.02507E+11,Dr Bulbule Omkar Vishwajit,1,NULL,Doctor at Home,Katraj,1,0,NO
+2.02507E+11,Dr Priyatharshini Mudaliar,NULL,Aundh,Physiotherapy,PCMC,7,7,no
+2.02507E+11,Sunanda Vaikar,NULL,Katraj,Healthcare attendants,Kothrud,1,0,no
+2.02507E+11,Sunanda Vaikar,NULL,Katraj,Healthcare attendants,Kothrud,1,0,no
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Hingane,1,1,NO
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Swarget,1,1,NO
+2.02507E+11,Dr. Nancy Sharon,NULL,Hingane,Physiotherapy,Katraj,11,7,NO
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Hingane,1,1,NO
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Swarget,1,1,NO
+2.02507E+11,Dr Shirole Ashwini Indrajeet,NULL,Kothrud,Doctor at Home,Hingane,1,1,NO
+2.02507E+11,Dr Shirole Ashwini Indrajeet,NULL,Kothrud,Doctor at Home,Hingane,1,1,NO
+2.02507E+11,Dr Varsha Birla,1,Hadapsar,Physiotherapy,Hadapsar,15,1,no
+2.02507E+11,Dr Shirole Ashwini Indrajeet,NULL,Kothrud,Doctor at Home,Hingane,1,0,NO
+2.02507E+11,Snehal Avinash Mane,3,Yerwada,Physiotherapy,Kothrud,10,6,NO
+2.02507E+11,Kirti Atul Chaudhari,3,Yerwada,Physiotherapy,PCMC,6,6,NULL
+2.02507E+11,Dr Sanket Ransing,NULL,Katraj,Physiotherapy,Ambegaon,5,5,NO
+2.02507E+11,Dr Madhura Mangnale,1,Hingane,Physiotherapy,Hingane,6,6,no
+2.02507E+11,Dr Ayush Bondre,NULL,Hadapsar,Physiotherapy,PCMC,5,5,NO
+2.02507E+11,Dr Pranita Jadhav,1,Hingane,Physiotherapy,Hingane,2,2,NO
+2.02507E+11,Dr Priyatharshini Mudaliar,NULL,Aundh,Physiotherapy,Aundh,10,10,no
+2.02507E+11,Chaitali Sameer Gandhe,1,Hingane,Physiotherapy,Hingane,5,3,NO
+2.02507E+11,Dr Bulbule Omkar Vishwajit,1,NULL,Doctor at Home,Kothrud,1,0,NO
+2.02507E+11,Daniel  Premanand Shirsat,1,Swarget,Physiotherapy,PCMC,6,6,NO
+2.02507E+11,Chaitali Sameer Gandhe,1,Hingane,Physiotherapy,Kothrud,7,6,NO
+2.02507E+11,Dr Sayyed Farhan Jainuddin,1,Yerwada,Physiotherapy,PCMC,5,5,NO
+2.02507E+11,Dr Choudhari Kiran Laxman,1,NULL,Doctor at Home,PCMC,1,0,NO
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Swarget,1,1,NO
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Swarget,1,1,NO
+2.02507E+11,Kirti Atul Chaudhari,3,Yerwada,Physiotherapy,PCMC,5,5,NULL
+2.02507E+11,Dr Shirole Ashwini Indrajeet,NULL,Kothrud,Doctor at Home,Swarget,1,1,NO
+2.02507E+11,Dr Solanki Devyani Ajay,1,NULL,Physiotherapy,PCMC,5,5,NO
+2.02507E+11,Dr Deepali Dashputre,1,Hingane,Physiotherapy,Kothrud,10,10,NO
+2.02507E+11,Dr Himanshu Soni,NULL,Yerwada,Physiotherapy,Hadapsar,10,10,NO
+2.02507E+11,Dr Madhura Mangnale,1,Hingane,Physiotherapy,Kothrud,5,2,no
+2.02507E+11,Dr Shirole Ashwini Indrajeet,NULL,Kothrud,Doctor at Home,Swarget,1,0,NO
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Swarget,1,1,NO
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Kothrud,1,1,NO
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Kothrud,1,1,NO
+2.02507E+11,Chandera Darshanaben Ramsibhai,1,NULL,Physiotherapy,Katraj,5,5,NO
+2.02507E+11,Dr Dhoke Apurva Mohan,1,Swarget,Physiotherapy,Swarget,1,1,NO
+2.02507E+11,Dr Choudhari Kiran Laxman,1,NULL,Doctor at Home,Kothrud,1,0,NO
+2.02507E+11,Dr Shirole Ashwini Indrajeet,NULL,Kothrud,Doctor at Home,Hingane,1,0,NO
+2.02507E+11,Mr. Ingole Ganesh Rajebhau,1,Yerwada,Doctor at Home,Kothrud,1,0,no
+2.02507E+11,Dr Choudhari Kiran Laxman,1,NULL,Doctor at Home,PCMC,1,0,NO
+2.02507E+11,Dr Choudhari Kiran Laxman,1,NULL,Doctor at Home,Kothrud,1,0,NO
+2.02507E+11,Dr Chavan Pranjali Johnny,1,NULL,Physiotherapy,PCMC,3,1,leave issue
+2.02507E+11,Dr Choudhari Kiran Laxman,1,NULL,Doctor at Home,Yerwada,1,0,NO
+2.02507E+11,Dr Choudhari Kiran Laxman,1,NULL,Doctor at Home,Ambegaon,1,0,NO
+2.02507E+11,Dr Choudhari Kiran Laxman,1,NULL,Doctor at Home,Kothrud,1,0,NO
+2.02507E+11,Dr Choudhari Kiran Laxman,1,NULL,Doctor at Home,Hadapsar,1,0,NO
+2.02507E+11,Dr Choudhari Kiran Laxman,1,NULL,Doctor at Home,Hingane,1,0,NO
+2.02507E+11,Dr Dhoke Apurva Mohan,1,Swarget,Physiotherapy,Kothrud,1,1,NO
+2.02507E+11,Dr Disha Bhosale,NULL,Kothrud,Physiotherapy,Kothrud,5,5,NO
+2.02507E+11,Dr Choudhari Kiran Laxman,1,NULL,Doctor at Home,PCMC,1,0,NO
+2.02507E+11,Dr Noopur Kayarkar,1,Kothrud,Physiotherapy,Kothrud,5,5,NO
+2.02507E+11,Snehal Avinash Mane,3,Yerwada,Physiotherapy,Hingane,6,4,NO
+2.02507E+11,Dr Priyatharshini Mudaliar,NULL,Aundh,Physiotherapy,Kothrud,10,10,no
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Swarget,1,1,NO
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Kothrud,1,1,NO
+2.02507E+11,Wanakhade Vaishnavi Gajanan,1,NULL,Physiotherapy,Mulshi,11,9,no
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Katraj,1,1,NO
+2.02507E+11,Dr Shirole Ashwini Indrajeet,NULL,Kothrud,Doctor at Home,Ambegaon,1,0,NO
+2.02507E+11,Dr Singh Deepak,NULL,Hadapsar,Physiotherapy,Hadapsar,5,5,no
+2.02507E+11,Dr Choudhari Kiran Laxman,1,NULL,Doctor at Home,PCMC,1,0,NO
+2.02507E+11,Dr Choudhari Kiran Laxman,1,NULL,Doctor at Home,Swarget,1,0,NO
+2.02507E+11,Dr Madhura Mangnale,1,Hingane,Physiotherapy,Kothrud,1,1,no
+2.02507E+11,Dr Kunal Sawant,NULL,Yerwada,Physiotherapy,PCMC,5,3,no
+2.02507E+11,Chandera Darshanaben Ramsibhai,1,NULL,Physiotherapy,Katraj,20,10,NO
+2.02507E+11,Helkute Pramila Sadashiv,1,Hadapsar,Physiotherapy,Hadapsar,6,6,5
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Kothrud,1,1,NO
+2.02507E+11,Dr Purva Rasane,NULL,PCMC,Physiotherapy,PCMC,13,10,NO
+2.02507E+11,Dr Noopur Kayarkar,1,Kothrud,Physiotherapy,Kothrud,4,4,NO
+2.02507E+11,Dr Bhujbal Priyanka Prashant,1,NULL,Physiotherapy,Hingane,3,3,NO
+2.02507E+11,Dr Pranita Jadhav,1,Hingane,Physiotherapy,Hingane,5,4,NO
+2.02507E+11,Dr Dhoke Apurva Mohan,1,Swarget,Physiotherapy,Hingane,1,1,NO
+2.02507E+11,Dr Dhoke Apurva Mohan,1,Swarget,Physiotherapy,Kothrud,3,3,NO
+2.02507E+11,Dr Sanika Vaidya,1,Kothrud,Physiotherapy,Kothrud,8,8,NO
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Swarget,1,1,NO
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Kothrud,1,1,NO
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Kothrud,1,1,NO
+2.02507E+11,Helkute Pramila Sadashiv,1,Hadapsar,Physiotherapy,Hadapsar,10,9,5
+2.02507E+11,Yogeshwari Devidasrao Biradar,2,Katraj,Physiotherapy,Kothrud,6,2,NO
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Hingane,1,1,NO
+2.02507E+11,Dr Disha Bhosale,NULL,Kothrud,Physiotherapy,Kothrud,10,10,NO
+2.02507E+11,Sheetal Shailesh Jain,1,Swarget,Physiotherapy,Hingane,5,5,NO
+2.02507E+11,Dr Choudhari Kiran Laxman,1,NULL,Doctor at Home,PCMC,1,0,NO
+2.02507E+11,Wanakhade Vaishnavi Gajanan,1,NULL,Physiotherapy,Aundh,7,4,no
+2.02507E+11,Dr Bulbule Omkar Vishwajit,1,NULL,Doctor at Home,Hingane,1,0,NO
+2.02507E+11,Mr. Ingole Ganesh Rajebhau,1,Yerwada,Doctor at Home,Hingane,1,0,no
+2.02507E+11,Hiral Narendra Soni,1,Yerwada,Physiotherapy,Swarget,1,1,NO
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Hingane,1,1,NO
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Kothrud,1,1,NO
+2.02507E+11,Dr Choudhari Kiran Laxman,1,NULL,Doctor at Home,Aundh,1,0,NO
+2.02507E+11,Dr Choudhari Kiran Laxman,1,NULL,Doctor at Home,Kothrud,1,0,NO
+2.02507E+11,Dr Chinmay Kanjoliya,1,Yerwada,Physiotherapy,Yerwada,10,9,NO
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Katraj,1,1,NO
+2.02507E+11,Dr Priyatharshini Mudaliar,NULL,Aundh,Physiotherapy,PCMC,6,6,no
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Katraj,1,1,NO
+2.02507E+11,Dr Dhoke Shilpa Yogeshwar,1,Hadapsar,Physiotherapy,PCMC,10,10,no
+2.02507E+11,Wanakhade Vaishnavi Gajanan,1,NULL,Physiotherapy,Aundh,10,10,no
+2.02507E+11,Wanakhade Vaishnavi Gajanan,1,NULL,Physiotherapy,Aundh,10,10,no
+2.02507E+11,Hiral Narendra Soni,1,Yerwada,Physiotherapy,Swarget,8,8,NO
+2.02507E+11,Dr Choudhari Kiran Laxman,1,NULL,Doctor at Home,PCMC,1,0,NO
+2.02507E+11,Dr Bulbule Omkar Vishwajit,1,NULL,Doctor at Home,Hadapsar,1,0,NO
+2.02507E+11,Dr Shirole Ashwini Indrajeet,NULL,Kothrud,Doctor at Home,Kothrud,1,1,NO
+2.02507E+11,Dr Shirole Ashwini Indrajeet,NULL,Kothrud,Doctor at Home,Hingane,1,1,NO
+2.02507E+11,Dr Bulbule Omkar Vishwajit,1,NULL,Doctor at Home,Katraj,1,0,NO
+2.02507E+11,Dr Shirole Ashwini Indrajeet,NULL,Kothrud,Doctor at Home,Hingane,1,1,NO
+2.02507E+11,Mr. Ingole Ganesh Rajebhau,1,Yerwada,Doctor at Home,Kothrud,1,0,no
+2.02507E+11,Chandera Darshanaben Ramsibhai,1,NULL,Physiotherapy,PCMC,10,10,NO
+2.02507E+11,Dr Ayush Bondre,NULL,Hadapsar,Physiotherapy,PCMC,5,3,NO
+2.02507E+11,Dr Shirole Ashwini Indrajeet,NULL,Kothrud,Doctor at Home,Hingane,1,1,NO
+2.02507E+11,Dr Shirole Ashwini Indrajeet,NULL,Kothrud,Doctor at Home,Hingane,1,1,NO
+2.02507E+11,Dr Noopur Kayarkar,1,Kothrud,Physiotherapy,Kothrud,10,10,NO
+2.02507E+11,Dr Sanika Vaidya,1,Kothrud,Physiotherapy,Kothrud,10,10,NO
+2.02507E+11,Dr Solanki Devyani Ajay,1,NULL,Physiotherapy,PCMC,10,10,NO
+2.02507E+11,Dr Dhoke Apurva Mohan,1,Swarget,Physiotherapy,Kothrud,5,3,NO
+2.02507E+11,Dr Pooja Chungade,1,Hadapsar,Physiotherapy,Hadapsar,1,1,NO
+2.02507E+11,Dr Himanshu Soni,NULL,Yerwada,Physiotherapy,Yerwada,10,10,NO
+2.02507E+11,Dr Bulbule Omkar Vishwajit,1,NULL,Doctor at Home,Kothrud,1,0,NO
+2.02507E+11,Dr Madhura Mangnale,1,Hingane,Physiotherapy,Hingane,10,10,no
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Hingane,1,1,NO
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Kothrud,1,1,NO
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Kothrud,1,1,NO
+2.02507E+11,Dr Bulbule Omkar Vishwajit,1,NULL,Doctor at Home,Hingane,1,0,NO
+2.02507E+11,Dr Sanket Ransing,NULL,Katraj,Physiotherapy,Ambegaon,5,5,NO
+2.02507E+11,Hiral Narendra Soni,1,Yerwada,Physiotherapy,Hingane,4,4,NO
+2.02507E+11,Dr Pranita Jadhav,1,Hingane,Physiotherapy,Katraj,2,2,NO
+2.02507E+11,Dr Choudhari Kiran Laxman,1,NULL,Doctor at Home,Ambegaon,1,0,NO
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Hingane,1,1,NO
+2.02507E+11,Dr Choudhari Kiran Laxman,1,NULL,Doctor at Home,PCMC,1,0,NO
+2.02507E+11,Dr Bulbule Omkar Vishwajit,1,NULL,Doctor at Home,Hingane,1,0,NO
+2.02507E+11,Dr Noopur Kayarkar,1,Kothrud,Physiotherapy,Kothrud,6,6,NO
+2.02507E+11,Wanakhade Vaishnavi Gajanan,1,NULL,Physiotherapy,Mulshi,10,3,no
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Swarget,1,1,NO
+2.02507E+11,Kirti Atul Chaudhari,3,Yerwada,Physiotherapy,PCMC,6,6,NULL
+2.02507E+11,Dr Bulbule Omkar Vishwajit,1,NULL,Doctor at Home,Hingane,1,0,NO
+2.02507E+11,Chaitali Sameer Gandhe,1,Hingane,Physiotherapy,Kothrud,8,6,NO
+2.02507E+11,Dr Bulbule Omkar Vishwajit,1,NULL,Doctor at Home,Kothrud,1,0,NO
+2.02507E+11,Dr Chavan Pranjali Johnny,1,NULL,Physiotherapy,PCMC,8,8,leave issue
+2.02507E+11,Dr Madhura Mangnale,1,Hingane,Physiotherapy,Hingane,6,5,no
+2.02507E+11,Chandera Darshanaben Ramsibhai,1,NULL,Physiotherapy,Katraj,5,5,NO
+2.02507E+11,Dr Dhoke Shilpa Yogeshwar,1,Hadapsar,Physiotherapy,PCMC,5,5,no
+2.02507E+11,Dr Bulbule Omkar Vishwajit,1,NULL,Doctor at Home,Hingane,1,0,NO
+2.02507E+11,Dr Himanshu Soni,NULL,Yerwada,Physiotherapy,Hadapsar,10,10,NO
+2.02507E+11,Dr Bulbule Omkar Vishwajit,1,NULL,Doctor at Home,Hingane,1,0,NO
+2.02507E+11,Dr Choudhari Kiran Laxman,1,NULL,Doctor at Home,PCMC,1,0,NO
+2.02507E+11,Dr Choudhari Kiran Laxman,1,NULL,Doctor at Home,Kothrud,1,0,NO
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Swarget,1,1,NO
+2.02507E+11,Mr. Ingole Ganesh Rajebhau,1,Yerwada,Doctor at Home,Hingane,1,0,no
+2.02507E+11,Dr Bulbule Omkar Vishwajit,1,NULL,Doctor at Home,Hingane,1,0,NO
+2.02507E+11,Dr Bulbule Omkar Vishwajit,1,NULL,Doctor at Home,Kothrud,1,0,NO
+2.02507E+11,Dr Choudhari Kiran Laxman,1,NULL,Doctor at Home,Hadapsar,1,0,NO
+2.02507E+11,Dr Singh Deepak,NULL,Hadapsar,Physiotherapy,Hadapsar,7,6,no
+2.02507E+11,Dr Choudhari Kiran Laxman,1,NULL,Doctor at Home,PCMC,1,0,NO
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Kothrud,1,1,NO
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Swarget,1,1,NO
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Kothrud,1,1,NO
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Hingane,1,1,NO
+2.02507E+11,Dr Dhoke Apurva Mohan,1,Swarget,Physiotherapy,Hingane,11,7,NO
+2.02507E+11,Reenu Jitendra Jain,3,Katraj,Physiotherapy,Ambegaon,10,10,NO
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Hingane,1,1,NO
+2.02507E+11,Dr Dhoke Shilpa Yogeshwar,1,Hadapsar,Physiotherapy,PCMC,5,5,no
+2.02507E+11,Dr Pranita Jadhav,1,Hingane,Physiotherapy,Hingane,19,11,NO
+2.02507E+11,Daniel  Premanand Shirsat,1,Swarget,Physiotherapy,PCMC,8,8,NO
+2.02507E+11,Dr Naik Neha,1,NULL,Physiotherapy,Kothrud,13,6,NO
+2.02507E+11,Dr Bulbule Omkar Vishwajit,1,NULL,Doctor at Home,Hingane,1,0,NO
+2.02507E+11,Dr Choudhari Kiran Laxman,1,NULL,Doctor at Home,Hadapsar,1,0,NO
+2.02507E+11,Mrs Priyanka Margale,1,Kothrud,Nurse at Home,Kothrud,8,0,NO
+2.02507E+11,Dr Bulbule Omkar Vishwajit,1,NULL,Doctor at Home,Kothrud,1,0,NO
+2.02507E+11,Dr Rutuja Argade,NULL,PCMC,Physiotherapy,Mulshi,10,10,NO
+2.02507E+11,Kirti Atul Chaudhari,3,Yerwada,Physiotherapy,Kothrud,6,6,NULL
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Kothrud,1,1,NO
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Swarget,1,1,NO
+2.02507E+11,Mr. Ingole Ganesh Rajebhau,1,Yerwada,Doctor at Home,Hingane,1,1,no
+2.02507E+11,Mr. Ingole Ganesh Rajebhau,1,Yerwada,Doctor at Home,Kothrud,1,0,no
+2.02507E+11,Chaitali Sameer Gandhe,1,Hingane,Physiotherapy,Kothrud,8,7,NO
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Hingane,1,1,NO
+2.02507E+11,Dr Himanshu Soni,NULL,Yerwada,Physiotherapy,Hadapsar,13,13,NO
+2.02507E+11,Helkute Pramila Sadashiv,1,Hadapsar,Physiotherapy,Hadapsar,8,8,5
+2.02507E+11,Dr Anagha Mahurkar,NULL,Swarget,Physiotherapy,Hingane,5,5,no
+2.02507E+11,Dr Shirole Ashwini Indrajeet,NULL,Kothrud,Doctor at Home,Hingane,1,0,NO
+2.02507E+11,Dr Choudhari Kiran Laxman,1,NULL,Doctor at Home,Hadapsar,1,0,NO
+2.02507E+11,Yogeshwari Devidasrao Biradar,2,Katraj,Physiotherapy,PCMC,1,1,NO
+2.02507E+11,Dr. Roshani Rajkumar Ajmera,NULL,Katraj,Physiotherapy,Katraj,10,10,NO
+2.02507E+11,Dr Choudhari Kiran Laxman,1,NULL,Doctor at Home,Kothrud,1,0,NO
+2.02507E+11,Dr Pranita Jadhav,1,Hingane,Physiotherapy,Hingane,2,2,NO
+2.02507E+11,Dr Bulbule Omkar Vishwajit,1,NULL,Doctor at Home,PCMC,1,0,NO
+2.02507E+11,Dr Bulbule Omkar Vishwajit,1,NULL,Doctor at Home,Swarget,1,0,NO
+2.02507E+11,Dr Ayush Bondre,NULL,Hadapsar,Physiotherapy,PCMC,7,6,NO
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Swarget,1,1,NO
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Kothrud,1,1,NO
+2.02507E+11,Dr Bulbule Omkar Vishwajit,1,NULL,Doctor at Home,Aundh,1,0,NO
+2.02507E+11,Dr Choudhari Kiran Laxman,1,NULL,Doctor at Home,Hingane,1,0,NO
+2.02507E+11,Mr. Ingole Ganesh Rajebhau,1,Yerwada,Doctor at Home,Hingane,1,1,no
+2.02507E+11,Dr Choudhari Kiran Laxman,1,NULL,Doctor at Home,Hingane,1,0,NO
+2.02507E+11,Dr Choudhari Kiran Laxman,1,NULL,Doctor at Home,Hingane,1,0,NO
+2.02507E+11,Dr Choudhari Kiran Laxman,1,NULL,Doctor at Home,Hadapsar,1,0,NO
+2.02507E+11,Dr Sanket Ransing,NULL,Katraj,Physiotherapy,Ambegaon,5,5,NO
+2.02507E+11,Dr. Nancy Sharon,NULL,Hingane,Physiotherapy,Katraj,5,5,NO
+2.02507E+11,Dr Choudhari Kiran Laxman,1,NULL,Doctor at Home,Aundh,1,0,NO
+2.02507E+11,Sheetal Shailesh Jain,1,Swarget,Physiotherapy,Hingane,6,5,NO
+2.02507E+11,Dr Bulbule Omkar Vishwajit,1,NULL,Doctor at Home,Katraj,1,0,NO
+2.02507E+11,Dr Sanket Ransing,NULL,Katraj,Physiotherapy,Ambegaon,10,9,NO
+2.02507E+11,Reenu Jitendra Jain,3,Katraj,Physiotherapy,Ambegaon,10,9,NO
+2.02507E+11,Dr Sanket Ransing,NULL,Katraj,Physiotherapy,Ambegaon,9,7,NO
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Kothrud,1,1,NO
+2.02507E+11,Dr Bulbule Omkar Vishwajit,1,NULL,Doctor at Home,Kothrud,1,0,NO
+2.02507E+11,Yogeshwari Devidasrao Biradar,2,Katraj,Physiotherapy,PCMC,1,1,NO
+2.02507E+11,Chandera Darshanaben Ramsibhai,1,NULL,Physiotherapy,Katraj,6,6,NO
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Swarget,1,1,NO
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Kothrud,1,1,NO
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Kothrud,1,1,NO
+2.02507E+11,Dr Choudhari Kiran Laxman,1,NULL,Doctor at Home,Katraj,1,0,NO
+2.02507E+11,Dr Bulbule Omkar Vishwajit,1,NULL,Doctor at Home,Swarget,1,0,NO
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Hingane,1,1,NO
+2.02507E+11,Dr Bulbule Omkar Vishwajit,1,NULL,Doctor at Home,Katraj,1,0,NO
+2.02507E+11,Dr Bulbule Omkar Vishwajit,1,NULL,Doctor at Home,Swarget,1,0,NO
+2.02507E+11,Dr Ayush Bondre,NULL,Hadapsar,Physiotherapy,PCMC,5,1,NO
+2.02507E+11,Dr Dhoke Apurva Mohan,1,Swarget,Physiotherapy,Kothrud,3,3,NO
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Kothrud,1,1,NO
+2.02507E+11,Dr Choudhari Kiran Laxman,1,NULL,Doctor at Home,Hadapsar,1,0,NO
+2.02507E+11,Dr Bhujbal Priyanka Prashant,1,NULL,Physiotherapy,Hingane,8,4,NO
+2.02507E+11,Dr Bulbule Omkar Vishwajit,1,NULL,Doctor at Home,Hingane,1,0,NO
+2.02507E+11,Dr Disha Bhosale,NULL,Kothrud,Physiotherapy,Kothrud,8,8,NO
+2.02507E+11,Dr Sanika Vaidya,1,Kothrud,Physiotherapy,Kothrud,8,8,NO
+2.02507E+11,Dr Nishigandha Shewale,1,Hingane,Physiotherapy,Hingane,1,1,no
+2.02507E+11,Dr Himanshu Soni,NULL,Yerwada,Physiotherapy,Hadapsar,10,10,NO
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Kothrud,1,1,NO
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Kothrud,1,1,NO
+2.02507E+11,Helkute Pramila Sadashiv,1,Hadapsar,Physiotherapy,Hadapsar,11,11,5
+2.02507E+11,Helkute Pramila Sadashiv,1,Hadapsar,Physiotherapy,Hadapsar,11,9,5
+2.02507E+11,Dr Disha Bhosale,NULL,Kothrud,Physiotherapy,Kothrud,5,5,NO
+2.02507E+11,Dr Priyatharshini Mudaliar,NULL,Aundh,Physiotherapy,Kothrud,5,5,no
+2.02507E+11,Dr Chavan Pranjali Johnny,1,NULL,Physiotherapy,PCMC,11,8,leave issue
+2.02507E+11,Dr Madhurika Kate,NULL,PCMC,Physiotherapy,PCMC,11,8,time issue Wrong Physio taken
+2.02507E+11,Chandera Darshanaben Ramsibhai,1,NULL,Physiotherapy,Katraj,5,5,NO
+2.02507E+11,Dr Dhoke Shilpa Yogeshwar,1,Hadapsar,Physiotherapy,PCMC,10,10,no
+2.02507E+11,Mrs Priyanka Margale,1,Kothrud,Nurse at Home,Kothrud,13,0,NO
+2.02507E+11,Kirti Atul Chaudhari,3,Yerwada,Physiotherapy,PCMC,12,10,NULL
+2.02507E+11,Wanakhade Vaishnavi Gajanan,1,NULL,Physiotherapy,Aundh,3,2,no
+2.02507E+11,Dr Bulbule Omkar Vishwajit,1,NULL,Doctor at Home,PCMC,1,0,NO
+2.02507E+11,Dr Bulbule Omkar Vishwajit,1,NULL,Doctor at Home,Katraj,1,0,NO
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Hingane,1,1,NO
+2.02507E+11,Dr Kunal Sawant,NULL,Yerwada,Physiotherapy,Yerwada,6,3,no
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Swarget,1,1,NO
+2.02507E+11,Dr Choudhari Kiran Laxman,1,NULL,Doctor at Home,Katraj,1,0,NO
+2.02507E+11,Dr Bulbule Omkar Vishwajit,1,NULL,Doctor at Home,Swarget,1,0,NO
+2.02507E+11,Dr Priyatharshini Mudaliar,NULL,Aundh,Physiotherapy,Aundh,5,2,no
+2.02507E+11,Dr Bulbule Omkar Vishwajit,1,NULL,Doctor at Home,Hingane,1,0,NO
+2.02507E+11,Dr Bulbule Omkar Vishwajit,1,NULL,Doctor at Home,Kothrud,1,1,NO
+2.02507E+11,Dr Shirole Ashwini Indrajeet,NULL,Kothrud,Doctor at Home,Kothrud,1,1,NO
+2.02507E+11,Dr Shirole Ashwini Indrajeet,NULL,Kothrud,Doctor at Home,Hingane,1,1,NO
+2.02507E+11,Dr Choudhari Kiran Laxman,1,NULL,Doctor at Home,PCMC,1,0,NO
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Kothrud,1,1,NO
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Hingane,1,1,NO
+2.02507E+11,Dr Pranita Jadhav,1,Hingane,Physiotherapy,Katraj,2,2,NO
+2.02507E+11,Dr Disha Bhosale,NULL,Kothrud,Physiotherapy,Kothrud,5,5,NO
+2.02507E+11,Dr Nishigandha Shewale,1,Hingane,Physiotherapy,Hingane,1,1,no
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Swarget,1,1,NO
+2.02507E+11,Dr Bulbule Omkar Vishwajit,1,NULL,Doctor at Home,Swarget,1,0,NO
+2.02507E+11,Dr Shirole Ashwini Indrajeet,NULL,Kothrud,Doctor at Home,Kothrud,1,1,NO
+2.02507E+11,Dr Bulbule Omkar Vishwajit,1,NULL,Doctor at Home,Hingane,1,0,NO
+2.02507E+11,Dr Choudhari Kiran Laxman,1,NULL,Doctor at Home,Yerwada,1,0,NO
+2.02507E+11,Dr Sanika Vaidya,1,Kothrud,Physiotherapy,Kothrud,1,1,NO
+2.02507E+11,Dr Bushra Shaikh,NULL,Katraj,Physiotherapy,Hadapsar,10,10,no
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Swarget,1,1,NO
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Kothrud,1,1,NO
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Hingane,1,1,NO
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Kothrud,1,1,NO
+2.02507E+11,Dr. Nancy Sharon,NULL,Hingane,Physiotherapy,Katraj,8,5,NO
+2.02507E+11,Dr Bulbule Omkar Vishwajit,1,NULL,Doctor at Home,Hingane,1,0,NO
+2.02507E+11,Chandera Darshanaben Ramsibhai,1,NULL,Physiotherapy,Katraj,10,10,NO
+2.02507E+11,Chandera Darshanaben Ramsibhai,1,NULL,Physiotherapy,Katraj,1,1,NO
+2.02507E+11,Dr Choudhari Kiran Laxman,1,NULL,Doctor at Home,PCMC,1,0,NO
+2.02507E+11,Dr Choudhari Kiran Laxman,1,NULL,Doctor at Home,Kothrud,1,0,NO
+2.02507E+11,Chaitali Sameer Gandhe,1,Hingane,Physiotherapy,Kothrud,7,6,NO
+2.02507E+11,Dr Singh Deepak,NULL,Hadapsar,Physiotherapy,Hadapsar,7,6,no
+2.02507E+11,Dr Varsha Birla,1,Hadapsar,Physiotherapy,Hadapsar,7,6,no
+2.02507E+11,Dr Disha Bhosale,NULL,Kothrud,Physiotherapy,Kothrud,8,8,NO
+2.02507E+11,Dr Bhujbal Priyanka Prashant,1,NULL,Physiotherapy,Hingane,5,4,NO
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Hingane,1,1,NO
+2.02507E+11,Dr Choudhari Kiran Laxman,1,NULL,Doctor at Home,Hingane,1,0,NO
+2.02507E+11,Yogeshwari Devidasrao Biradar,2,Katraj,Physiotherapy,PCMC,1,1,NO
+2.02507E+11,Daniel  Premanand Shirsat,1,Swarget,Physiotherapy,Katraj,5,5,NO
+2.02507E+11,Kirti Atul Chaudhari,3,Yerwada,Physiotherapy,PCMC,2,2,NULL
+2.02507E+11,Dr Choudhari Kiran Laxman,1,NULL,Doctor at Home,Swarget,1,0,NO
+2.02507E+11,Dr Pranita Jadhav,1,Hingane,Physiotherapy,Hingane,6,6,NO
+2.02507E+11,Dr Dhoke Shilpa Yogeshwar,1,Hadapsar,Physiotherapy,PCMC,9,9,no
+2.02507E+11,Dr Choudhari Kiran Laxman,1,NULL,Doctor at Home,PCMC,1,0,NO
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Kothrud,1,1,NO
+2.02507E+11,Dr. Nancy Sharon,NULL,Hingane,Physiotherapy,Ambegaon,10,4,NO
+2.02507E+11,Dr Choudhari Kiran Laxman,1,NULL,Doctor at Home,PCMC,1,0,NO
+2.02507E+11,Dr Choudhari Kiran Laxman,1,NULL,Doctor at Home,Katraj,1,0,NO
+2.02507E+11,Yogeshwari Devidasrao Biradar,2,Katraj,Physiotherapy,PCMC,1,1,NO
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Hingane,1,1,NO
+2.02507E+11,Chandera Darshanaben Ramsibhai,1,NULL,Physiotherapy,Katraj,1,1,NO
+2.02507E+11,Chandera Darshanaben Ramsibhai,1,NULL,Physiotherapy,Katraj,1,1,NO
+2.02507E+11,Dr Dhoke Shilpa Yogeshwar,1,Hadapsar,Physiotherapy,PCMC,7,7,no
+2.02507E+11,Dr Bulbule Omkar Vishwajit,1,NULL,Doctor at Home,Hingane,1,0,NO
+2.02507E+11,Dr Bulbule Omkar Vishwajit,1,NULL,Doctor at Home,Hingane,1,0,NO
+2.02507E+11,Dr Ayush Bondre,NULL,Hadapsar,Physiotherapy,PCMC,7,6,NO
+2.02507E+11,Dr Dhoke Apurva Mohan,1,Swarget,Physiotherapy,Kothrud,4,1,NO
+2.02507E+11,Dr Bulbule Omkar Vishwajit,1,NULL,Doctor at Home,Kothrud,1,0,NO
+2.02507E+11,Dr Bulbule Omkar Vishwajit,1,NULL,Doctor at Home,Hingane,1,1,NO
+2.02507E+11,Dr Dhoke Apurva Mohan,1,Swarget,Physiotherapy,Hingane,4,4,NO
+2.02507E+11,Dr Nishigandha Shewale,1,Hingane,Physiotherapy,Hingane,1,1,no
+2.02507E+11,Dr Dhoke Apurva Mohan,1,Swarget,Physiotherapy,Kothrud,1,1,NO
+2.02507E+11,Dr Choudhari Kiran Laxman,1,NULL,Doctor at Home,PCMC,1,0,NO
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Swarget,1,1,NO
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Kothrud,1,1,NO
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Kothrud,1,1,NO
+2.02507E+11,Dr Shirole Ashwini Indrajeet,NULL,Kothrud,Doctor at Home,Swarget,1,1,NO
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Kothrud,1,1,NO
+2.02507E+11,Dr Dhoke Apurva Mohan,1,Swarget,Physiotherapy,Hingane,4,4,NO
+2.02507E+11,Sheetal Shailesh Jain,1,Swarget,Physiotherapy,Hingane,6,5,NO
+2.02507E+11,Dr Shirole Ashwini Indrajeet,NULL,Kothrud,Doctor at Home,Kothrud,1,0,NO
+2.02507E+11,Dr Pranita Jadhav,1,Hingane,Physiotherapy,Katraj,3,2,NO
+2.02507E+11,Dr Madhura Mangnale,1,Hingane,Physiotherapy,Hingane,6,6,no
+2.02507E+11,Dr Madhura Mangnale,1,Hingane,Physiotherapy,Hingane,7,7,no
+2.02507E+11,Dr Madhura Mangnale,1,Hingane,Physiotherapy,Hingane,9,7,no
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Hingane,1,1,NO
+2.02507E+11,Dr Choudhari Kiran Laxman,1,NULL,Doctor at Home,Ambegaon,1,0,NO
+2.02507E+11,Dr Choudhari Kiran Laxman,1,NULL,Doctor at Home,PCMC,1,0,NO
+2.02507E+11,Chandera Darshanaben Ramsibhai,1,NULL,Physiotherapy,PCMC,9,8,NO
+2.02507E+11,Dr Disha Bhosale,NULL,Kothrud,Physiotherapy,PCMC,9,8,NO
+2.02507E+11,Dr Himanshu Soni,NULL,Yerwada,Physiotherapy,Yerwada,7,7,NO
+2.02507E+11,Dr Bulbule Omkar Vishwajit,1,NULL,Doctor at Home,Hingane,1,0,NO
+2.02507E+11,Dr Chinmay Kanjoliya,1,Yerwada,Physiotherapy,Yerwada,6,6,NO
+2.02507E+11,Sunanda Vaikar,NULL,Katraj,Healthcare attendants,Kothrud,1,0,no
+2.02507E+11,Dr Disha Bhosale,NULL,Kothrud,Physiotherapy,Kothrud,2,2,NO
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Kothrud,1,1,NO
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Hingane,1,1,NO
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Swarget,1,1,NO
+2.02507E+11,Dr Professional S,NULL,PCMC,Healthcare attendants,All,1,0,ok
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Kothrud,1,1,NO
+2.02507E+11,Dr Choudhari Kiran Laxman,1,NULL,Doctor at Home,Hingane,1,0,NO
+2.02507E+11,Dr Bulbule Omkar Vishwajit,1,NULL,Doctor at Home,Kothrud,1,0,NO
+2.02507E+11,Dr Shirole Ashwini Indrajeet,NULL,Kothrud,Doctor at Home,Kothrud,1,0,NO
+2.02507E+11,Dr Himanshu Soni,NULL,Yerwada,Physiotherapy,Hadapsar,6,6,NO
+2.02507E+11,Helkute Pramila Sadashiv,1,Hadapsar,Physiotherapy,Hadapsar,7,6,5
+2.02507E+11,Dr Choudhari Kiran Laxman,1,NULL,Doctor at Home,PCMC,1,0,NO
+2.02507E+11,Dr Shirole Ashwini Indrajeet,NULL,Kothrud,Doctor at Home,Hingane,1,1,NO
+2.02507E+11,Dr Bulbule Omkar Vishwajit,1,NULL,Doctor at Home,Hingane,1,0,NO
+2.02507E+11,Dr Professional S,NULL,PCMC,Healthcare attendants,PCMC,5,0,ok
+2.02507E+11,Dr Professional S,NULL,PCMC,Healthcare attendants,All,3,0,ok
+2.02507E+11,Dr Choudhari Kiran Laxman,1,NULL,Doctor at Home,PCMC,1,0,NO
+2.02507E+11,Dr Disha Bhosale,NULL,Kothrud,Physiotherapy,Kothrud,6,3,NO
+2.02507E+11,Chandera Darshanaben Ramsibhai,1,NULL,Physiotherapy,Katraj,7,7,NO
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Swarget,1,1,NO
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Swarget,1,1,NO
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Kothrud,1,1,NO
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Hingane,1,1,NO
+2.02507E+11,Dr Bulbule Omkar Vishwajit,1,NULL,Doctor at Home,Hingane,1,0,NO
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Kothrud,1,1,NO
+2.02507E+11,Dr Dhoke Apurva Mohan,1,Swarget,Physiotherapy,Hingane,10,1,NO
+2.02507E+11,Dr Shirole Ashwini Indrajeet,NULL,Kothrud,Doctor at Home,Hingane,1,1,NO
+2.02507E+11,Dr Bulbule Omkar Vishwajit,1,NULL,Doctor at Home,Hingane,1,0,NO
+2.02507E+11,Reenu Jitendra Jain,3,Katraj,Physiotherapy,Ambegaon,5,5,NO
+2.02507E+11,Dr Choudhari Kiran Laxman,1,NULL,Doctor at Home,Mulshi,1,0,NO
+2.02507E+11,Dr Rutuja Argade,NULL,PCMC,Physiotherapy,Mulshi,5,5,NO
+2.02507E+11,Dr Disha Bhosale,NULL,Kothrud,Physiotherapy,Kothrud,5,5,NO
+2.02507E+11,Dr Dhoke Apurva Mohan,1,Swarget,Physiotherapy,Kothrud,4,4,NO
+2.02507E+11,Yogeshwari Devidasrao Biradar,2,Katraj,Physiotherapy,PCMC,1,1,NO
+2.02507E+11,Mr. Ingole Ganesh Rajebhau,1,Yerwada,Doctor at Home,Katraj,2,0,no
+2.02507E+11,Dr Pranita Jadhav,1,Hingane,Physiotherapy,Hingane,1,1,NO
+2.02507E+11,Mr. Ingole Ganesh Rajebhau,1,Yerwada,Doctor at Home,Swarget,1,0,no
+2.02507E+11,Dr Madhura Mangnale,1,Hingane,Physiotherapy,Hingane,4,4,no
+2.02507E+11,Dr Sanket Ransing,NULL,Katraj,Physiotherapy,Ambegaon,4,3,NO
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Swarget,1,1,NO
+2.02507E+11,Dr Disha Bhosale,NULL,Kothrud,Physiotherapy,Kothrud,5,5,NO
+2.02507E+11,Dr Naik Neha,1,NULL,Physiotherapy,Hingane,2,1,NO
+2.02507E+11,Dr Bulbule Omkar Vishwajit,1,NULL,Doctor at Home,Hingane,1,0,NO
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Kothrud,1,1,NO
+2.02507E+11,Dr Dhoke Apurva Mohan,1,Swarget,Physiotherapy,Hingane,5,5,NO
+2.02507E+11,Dr Shirole Ashwini Indrajeet,NULL,Kothrud,Doctor at Home,Kothrud,1,0,NO
+2.02507E+11,Dr Bulbule Omkar Vishwajit,1,NULL,Doctor at Home,PCMC,1,1,NO
+2.02507E+11,Dr Bulbule Omkar Vishwajit,1,NULL,Doctor at Home,Swarget,1,0,NO
+2.02507E+11,Dr Choudhari Kiran Laxman,1,NULL,Doctor at Home,Hingane,1,0,NO
+2.02507E+11,Dr Shirole Ashwini Indrajeet,NULL,Kothrud,Doctor at Home,Hingane,1,0,NO
+2.02507E+11,Dr Choudhari Kiran Laxman,1,NULL,Doctor at Home,Katraj,1,0,NO
+2.02507E+11,Dr Anagha Mahurkar,NULL,Swarget,Physiotherapy,Hingane,9,4,no
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Swarget,1,1,NO
+2.02507E+11,Hiral Narendra Soni,1,Yerwada,Physiotherapy,Hingane,10,10,NO
+2.02507E+11,Dr Shirole Ashwini Indrajeet,NULL,Kothrud,Doctor at Home,Hingane,1,1,NO
+2.02507E+11,Dr Choudhari Kiran Laxman,1,NULL,Doctor at Home,PCMC,1,0,NO
+2.02507E+11,Dr Madhura Mangnale,1,Hingane,Physiotherapy,Hingane,4,4,no
+2.02507E+11,Dr Choudhari Kiran Laxman,1,NULL,Doctor at Home,PCMC,1,0,NO
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Swarget,1,1,NO
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Swarget,1,1,NO
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Kothrud,1,1,NO
+2.02507E+11,Chaitali Sameer Gandhe,1,Hingane,Physiotherapy,Kothrud,7,4,NO
+2.02507E+11,Dr Dhoke Apurva Mohan,1,Swarget,Physiotherapy,Hingane,4,4,NO
+2.02507E+11,Dr Dhoke Apurva Mohan,1,Swarget,Physiotherapy,Hingane,4,4,NO
+2.02507E+11,Dr Choudhari Kiran Laxman,1,NULL,Doctor at Home,Hadapsar,1,1,NO
+2.02507E+11,Dr Choudhari Kiran Laxman,1,NULL,Doctor at Home,Yerwada,1,0,NO
+2.02507E+11,Dr Bulbule Omkar Vishwajit,1,NULL,Doctor at Home,Hingane,1,0,NO
+2.02507E+11,Dr Dhoke Shilpa Yogeshwar,1,Hadapsar,Physiotherapy,PCMC,3,3,no
+2.02507E+11,Dr Madhura Mangnale,1,Hingane,Physiotherapy,Katraj,4,4,no
+2.02507E+11,Dr Chinmay Kanjoliya,1,Yerwada,Physiotherapy,PCMC,3,3,NO
+2.02507E+11,Dr Chinmay Kanjoliya,1,Yerwada,Physiotherapy,PCMC,3,3,NO
+2.02507E+11,Dr Deepali Dashputre,1,Hingane,Physiotherapy,Kothrud,10,2,NO
+2.02507E+11,Dr. Nancy Sharon,NULL,Hingane,Physiotherapy,Katraj,5,5,NO
+2.02507E+11,Dr Naik Neha,1,NULL,Physiotherapy,Hingane,3,3,NO
+2.02507E+11,Dr Anagha Mahurkar,NULL,Swarget,Physiotherapy,PCMC,3,3,no
+2.02507E+11,Dr Professional S,NULL,PCMC,Healthcare attendants,All,2,1,ok
+2.02507E+11,Dr. Test Varsha Raut,NULL,PCMC,Physiotherapy,All,1,0,Ok
+2.02507E+11,Dr. Test Varsha Raut,NULL,PCMC,Physiotherapy,All,2,0,Ok
+2.02507E+11,Dr Professional S,NULL,PCMC,Healthcare attendants,All,1,1,ok
+2.02507E+11,Dr. Nancy Sharon,NULL,Hingane,Physiotherapy,Hingane,3,3,NO
+2.02507E+11,Dr. Test Varsha Raut,NULL,PCMC,Physiotherapy,All,2,0,Ok
+2.02507E+11,Dr Singh Deepak,NULL,Hadapsar,Physiotherapy,Hadapsar,8,4,no
+2.02507E+11,Dr Shirole Ashwini Indrajeet,NULL,Kothrud,Doctor at Home,Kothrud,1,1,NO
+2.02507E+11,Yogeshwari Devidasrao Biradar,2,Katraj,Physiotherapy,PCMC,1,1,NO
+2.02507E+11,Dr Professional S,NULL,PCMC,Healthcare attendants,All,3,0,ok
+2.02507E+11,Dr Bulbule Omkar Vishwajit,1,NULL,Doctor at Home,Hadapsar,1,0,NO
+2.02507E+11,Dr Professional S,NULL,PCMC,Healthcare attendants,All,2,0,ok
+2.02507E+11,Dr Bulbule Omkar Vishwajit,1,NULL,Doctor at Home,PCMC,1,1,NO
+2.02507E+11,Dr Professional S,NULL,PCMC,Healthcare attendants,All,5,0,ok
+2.02507E+11,Dr Choudhari Kiran Laxman,1,NULL,Doctor at Home,Hadapsar,1,0,NO
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Swarget,1,1,NO
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Hingane,1,1,NO
+2.02507E+11,Dr Dhoke Apurva Mohan,1,Swarget,Physiotherapy,Hingane,1,1,NO
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Hingane,1,1,NO
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Hingane,1,1,NO
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Hingane,1,1,NO
+2.02507E+11,Dr Shirole Ashwini Indrajeet,NULL,Kothrud,Doctor at Home,Kothrud,1,0,NO
+2.02507E+11,Dr Bulbule Omkar Vishwajit,1,NULL,Doctor at Home,Hingane,1,0,NO
+2.02507E+11,Dr Choudhari Kiran Laxman,1,NULL,Doctor at Home,PCMC,1,0,NO
+2.02507E+11,Dr Sanket Ransing,NULL,Katraj,Physiotherapy,Ambegaon,15,4,NO
+2.02507E+11,Dr Sanket Ransing,NULL,Katraj,Physiotherapy,Ambegaon,16,1,NO
+2.02507E+11,Dr Bulbule Omkar Vishwajit,1,NULL,Doctor at Home,Hingane,1,0,NO
+2.02507E+11,Dr Bulbule Omkar Vishwajit,1,NULL,Doctor at Home,Hingane,1,0,NO
+2.02507E+11,Dr Pranita Jadhav,1,Hingane,Physiotherapy,Hingane,6,4,NO
+2.02507E+11,Dr Pranita Jadhav,1,Hingane,Physiotherapy,Hingane,5,3,NO
+2.02507E+11,Snehal Avinash Mane,3,Yerwada,Physiotherapy,Kothrud,3,3,NO
+2.02507E+11,Dr Bulbule Omkar Vishwajit,1,NULL,Doctor at Home,Swarget,1,0,NO
+2.02507E+11,Dr Choudhari Kiran Laxman,1,NULL,Doctor at Home,Kothrud,1,0,NO
+2.02507E+11,Dr Bhujbal Priyanka Prashant,1,NULL,Physiotherapy,Hingane,3,3,NO
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Swarget,1,1,NO
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Kothrud,1,1,NO
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Hingane,1,1,NO
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Hingane,1,1,NO
+2.02507E+11,Dr Choudhari Kiran Laxman,1,NULL,Doctor at Home,Kothrud,2,0,NO
+2.02507E+11,Dr Disha Bhosale,NULL,Kothrud,Physiotherapy,Kothrud,8,8,NO
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Kothrud,1,1,NO
+2.02507E+11,Dr Noopur Kayarkar,1,Kothrud,Physiotherapy,Kothrud,1,1,NO
+2.02507E+11,Dr Naik Neha,1,NULL,Physiotherapy,Kothrud,7,0,NO
+2.02507E+11,Dr Noopur Kayarkar,1,Kothrud,Physiotherapy,Kothrud,15,14,NO
+2.02507E+11,Dr Dhoke Apurva Mohan,1,Swarget,Physiotherapy,Hingane,10,10,NO
+2.02507E+11,Dr Choudhari Kiran Laxman,1,NULL,Doctor at Home,PCMC,1,0,NO
+2.02507E+11,Dr Purva Rasane,NULL,PCMC,Physiotherapy,PCMC,10,1,NO
+2.02507E+11,Dr Dhoke Shilpa Yogeshwar,1,Hadapsar,Physiotherapy,PCMC,8,8,no
+2.02507E+11,Dr Naik Neha,1,NULL,Physiotherapy,Hingane,8,6,NO
+2.02507E+11,Dr Nishigandha Shewale,1,Hingane,Physiotherapy,Hingane,5,3,no
+2.02507E+11,Mrs Prachi Varma,NULL,Junnar,Physiotherapy,Yerwada,2,2,NO
+2.02507E+11,Dr Shirole Ashwini Indrajeet,NULL,Kothrud,Doctor at Home,Kothrud,1,0,NO
+2.02507E+11,Dr Bulbule Omkar Vishwajit,1,NULL,Doctor at Home,PCMC,1,0,NO
+2.02507E+11,Dr Bulbule Omkar Vishwajit,1,NULL,Doctor at Home,Aundh,1,0,NO
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Swarget,1,0,NO
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Kothrud,1,0,NO
+2.02507E+11,Dr Disha Bhosale,NULL,Kothrud,Physiotherapy,Kothrud,7,7,NO
+2.02507E+11,Samruddha Anand Borana,2,PCMC,Doctor at Home,Hingane,1,0,NO
+2.02507E+11,Helkute Pramila Sadashiv,1,Hadapsar,Physiotherapy,Hadapsar,1,1,5
+2.02507E+11,Chaitali Sameer Gandhe,1,Hingane,Physiotherapy,Kothrud,4,0,NO
+2.02507E+11,Dr Bulbule Omkar Vishwajit,1,NULL,Doctor at Home,Kothrud,1,0,NO
+2.02507E+11,Dr Bulbule Omkar Vishwajit,1,NULL,Doctor at Home,PCMC,1,0,NO
+2.02507E+11,Dr Shirole Ashwini Indrajeet,NULL,Kothrud,Doctor at Home,Hingane,1,1,NO
+2.02507E+11,Dr Sanket Bartakke,1,Katraj,Physiotherapy,Katraj,5,5,NO
+2.02507E+11,Dr Choudhari Kiran Laxman,1,NULL,Doctor at Home,Hingane,1,0,NO
+2.02507E+11,Kirti Atul Chaudhari,3,Yerwada,Physiotherapy,PCMC,7,7,NULL
+2.02507E+11,Dr Anagha Mahurkar,NULL,Swarget,Physiotherapy,PCMC,7,6,no
+2.02507E+11,Dr Pranita Jadhav,1,Hingane,Physiotherapy,Katraj,1,1,NO
+2.02507E+11,Helkute Pramila Sadashiv,1,Hadapsar,Physiotherapy,Hadapsar,13,8,5
+2.02507E+11,Dr Himanshu Soni,NULL,Yerwada,Physiotherapy,Hadapsar,11,10,NO
+2.02507E+11,Dr Disha Bhosale,NULL,Kothrud,Physiotherapy,Kothrud,6,6,NO
+2.02507E+11,Dr Bhujbal Priyanka Prashant,1,NULL,Physiotherapy,Hingane,9,0,NO
+2.02507E+11,Dr Chinmay Kanjoliya,1,Yerwada,Physiotherapy,PCMC,10,10,NO
+2.02507E+11,Dr Chinmay Kanjoliya,1,Yerwada,Physiotherapy,PCMC,11,10,NO
+2.02507E+11,Yogeshwari Devidasrao Biradar,2,Katraj,Physiotherapy,PCMC,1,1,NO
+2.02507E+11,Dr. Nancy Sharon,NULL,Hingane,Physiotherapy,Hingane,7,5,NO
+2.02507E+11,Helkute Pramila Sadashiv,1,Hadapsar,Physiotherapy,Hadapsar,9,7,5
+2.02507E+11,Dr Dhoke Shilpa Yogeshwar,1,Hadapsar,Physiotherapy,PCMC,5,5,no
+2.02507E+11,Dr Dhoke Apurva Mohan,1,Swarget,Physiotherapy,Hingane,8,8,NO
+2.02507E+11,Dr Madhura Mangnale,1,Hingane,Physiotherapy,Hingane,8,2,no
+2.02507E+11,Dr Bushra Shaikh,NULL,Katraj,Physiotherapy,Hadapsar,19,15,no
+2.02507E+11,Snehal Avinash Mane,3,Yerwada,Physiotherapy,Kothrud,8,8,NO
