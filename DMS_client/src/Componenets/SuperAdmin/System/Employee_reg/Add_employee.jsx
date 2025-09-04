@@ -668,14 +668,18 @@ function Add_employee({ darkMode }) {
   }, [effectiveToken]);
 
 
-  const filteredEmployees = employees.filter(employee =>
-    employee.empName.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+ const filteredEmployees = employees.filter((employee) =>
+  (employee?.empName || "")
+    .toLowerCase()
+    .includes((searchTerm || "").toLowerCase())
+);
 
-  const paginatedData = filteredEmployees;
-  const validatePassword = (password) => {
-    return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?#&])[A-Za-z\d@$!%*?#&]{8,}$/.test(password);
-  };
+const paginatedData = filteredEmployees;
+
+const validatePassword = (password) => {
+  return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?#&])[A-Za-z\d@$!%*?#&]{8,}$/.test(password);
+};
+
 
   const fetchDistrictsByState = async (stateId) => {
     setSelectedStateId(stateId);
@@ -961,28 +965,32 @@ function Add_employee({ darkMode }) {
                               </Typography>
                             </StyledCardContent>
 
-                            <StyledCardContent
-                              sx={{
-                                flex: 2,
-                                justifyContent: "center",
-                                ...fontsTableBody,
-                              }}
-                            >
-                              <Tooltip title={item.empName} arrow placement="top">
-                                <Typography
-                                  variant="subtitle2"
-                                  sx={{
-                                    overflow: "hidden",
-                                    textOverflow: "ellipsis",
-                                    whiteSpace: "nowrap",
-                                    maxWidth: 150, // adjust as needed
-                                  }}
-                                >
-                                  {item.empName.length > 35 ? item.empName.slice(0, 35) + "..." : item.empName}
-                                </Typography>
-                              </Tooltip>
+                          <StyledCardContent
+  sx={{
+    flex: 2,
+    justifyContent: "center",
+    ...fontsTableBody,
+  }}
+>
+  <Tooltip title={item?.empName || ""} arrow placement="top">
+    <Typography
+      variant="subtitle2"
+      sx={{
+        overflow: "hidden",
+        textOverflow: "ellipsis",
+        whiteSpace: "nowrap",
+        maxWidth: 150, // adjust as needed
+      }}
+    >
+      {item?.empName
+        ? item.empName.length > 35
+          ? item.empName.slice(0, 35) + "..."
+          : item.empName
+        : "-"}
+    </Typography>
+  </Tooltip>
+</StyledCardContent>
 
-                            </StyledCardContent>
                             <StyledCardContent
                               sx={{
                                 flex: 2,
