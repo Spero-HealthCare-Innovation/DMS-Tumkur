@@ -12,9 +12,7 @@ import {
   DialogActions,
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
-// import loginBg from "../../assets/Bg_login1.png";
 import loginBg from "../../assets/pune_login_bg.png";
-// import PMCLogo from "../../assets/PMC.png";
 import PMCLogo from "../../assets/logo.png";
 import Spero from "../../assets/spero1.png";
 import { useNavigate } from "react-router-dom";
@@ -247,7 +245,11 @@ function Login() {
       } else if (group === "4") {
         console.log("GROUP 4 DETECTED - Navigating to /add-group");
         navigate("/add-group");
-      } else {
+      } 
+      else if (group === "6") {
+        navigate("/sop");
+      }
+      else {
         console.warn("Unhandled user group:", group);
         navigate("/not-authorized");
       }

@@ -858,7 +858,7 @@ function SopTask({
                               )
                               :
                               (
-                                <>-</>
+                                <></>
                               )
                             }
 
@@ -881,7 +881,7 @@ function SopTask({
                                 </IconButton>
                               </Tooltip>
                             ) : (
-                              <>-</>
+                              <></>
                             )}
                           </StyledCardContent>
                         </EnquiryCardBody>
