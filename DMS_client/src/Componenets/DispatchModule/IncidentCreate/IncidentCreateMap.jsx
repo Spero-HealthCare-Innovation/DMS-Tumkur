@@ -70,6 +70,7 @@ const IncidentCreateMap = () => {
   //   setQuery(queryMap);  // send value to context
   // }, [queryMap]);
 
+  //Added Tumakuru Wards GeoJSON
   useEffect(() => {
     fetch('/Boundaries/TUMAKURU_WARD.geojson')
       .then(res => res.json())
