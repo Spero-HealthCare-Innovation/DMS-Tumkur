@@ -2,9 +2,9 @@
 
 PJ_BASE_PATH="/var/www/html/DMS_Tumkur/Deployment"
 VENV_PATH="./vvenv"
-FASTAPI_SERVICE="/etc/systemd/system/dms_uvicorn_fastapi.service"
-NGINX_CONF="/etc/nginx/sites-available/dms_goa_fastapi_7777.conf"
-SOCKET_FILE="/tmp/dms_uvicorn_fastapi.sock"
+FASTAPI_SERVICE="/etc/systemd/system/dms_uvicorn_fastapi_tumkur.service"
+NGINX_CONF="/etc/nginx/sites-available/dms_goa_fastapi_7778_tumkur.conf"
+SOCKET_FILE="/tmp/dms_uvicorn_fastapi_tumkur.sock"
 
 echo "========= Starting FastAPI Setup ========="
 
@@ -32,7 +32,7 @@ if [ -f "$FASTAPI_SERVICE" ]; then
     echo "[✓] dms_uvicorn_fastapi.service already exists."
 else
     echo "[+] Copying FastAPI systemd service file..."
-    sudo cp -f "$PJ_BASE_PATH/gunicorn_proxy/dms_uvicorn_fastapi.service" "$FASTAPI_SERVICE"
+    sudo cp -f "$PJ_BASE_PATH/gunicorn_proxy/dms_uvicorn_fastapi_tumkur.service" "$FASTAPI_SERVICE"
     echo "[✓] FastAPI service copied."
 fi
 
@@ -41,15 +41,15 @@ if [ -f "$NGINX_CONF" ]; then
     echo "[✓] FastAPI nginx conf already exists."
 else
     echo "[+] Copying FastAPI nginx conf..."
-    sudo cp -f "$PJ_BASE_PATH/nginx_proxy/dms_goa_fastapi_7777.conf" /etc/nginx/sites-available/
-    sudo ln -sf /etc/nginx/sites-available/dms_goa_fastapi_7777.conf /etc/nginx/sites-enabled/
+    sudo cp -f "$PJ_BASE_PATH/nginx_proxy/dms_goa_fastapi_7778_tumkur.conf" /etc/nginx/sites-available/
+    sudo ln -sf /etc/nginx/sites-available/dms_goa_fastapi_7778_tumkur.conf /etc/nginx/sites-enabled/
     echo "[✓] FastAPI nginx conf copied and enabled."
 fi
 
 # Reload systemd and start FastAPI
 sudo systemctl daemon-reload
-sudo systemctl enable dms_uvicorn_fastapi
-sudo systemctl restart dms_uvicorn_fastapi
-sudo systemctl status dms_uvicorn_fastapi
+sudo systemctl enable dms_uvicorn_fastapi_tumkur
+sudo systemctl restart dms_uvicorn_fastapi_tumkur
+sudo systemctl status dms_uvicorn_fastapi_tumkur
 
 echo "========= FastAPI Setup Completed ========="

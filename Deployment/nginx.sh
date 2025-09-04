@@ -6,23 +6,23 @@ LOG_PATH="/var/www/html/DMS_Tumkur/logs"
 echo "========= Starting NGINX Configuration ========="
 
 # Django NGINX Config
-if [ -f "/etc/nginx/sites-available/dms_django_6003.conf" ]; then
-    echo "[✓] dms_django_6003.conf already present."
+if [ -f "/etc/nginx/sites-available/dms_django_6004_tumkur.conf" ]; then
+    echo "[✓] dms_django_6004_tumkur.conf already present."
 else
-    echo "[+] Copying dms_django_6003.conf..."
-    sudo cp -f "$NGINX_CONF_PATH/dms_django_6003.conf" /etc/nginx/sites-available/
-    sudo ln -sf /etc/nginx/sites-available/dms_django_6003.conf /etc/nginx/sites-enabled/
-    echo "[✓] Copied and enabled dms_django_6003.conf"
+    echo "[+] Copying dms_django_6004_tumkur.conf..."
+    sudo cp -f "$NGINX_CONF_PATH/dms_django_6004_tumkur.conf" /etc/nginx/sites-available/
+    sudo ln -sf /etc/nginx/sites-available/dms_django_6004_tumkur.conf /etc/nginx/sites-enabled/
+    echo "[✓] Copied and enabled dms_django_6004_tumkur.conf"
 fi
 
 # React NGINX Config
-if [ -f "/etc/nginx/sites-available/dms_goa_react_7000.conf" ]; then
-    echo "[✓] dms_goa_react_7000.conf already present."
+if [ -f "/etc/nginx/sites-available/dms_goa_react_7001_tumkur.conf" ]; then
+    echo "[✓] dms_goa_react_7001_tumkur.conf already present."
 else
-    echo "[+] Copying dms_goa_react_7000.conf..."
-    sudo cp -f "$NGINX_CONF_PATH/dms_goa_react_7000.conf" /etc/nginx/sites-available/
-    sudo ln -sf /etc/nginx/sites-available/dms_goa_react_7000.conf /etc/nginx/sites-enabled/
-    echo "[✓] Copied and enabled dms_goa_react_7000.conf"
+    echo "[+] Copying dms_goa_react_7001_tumkur.conf..."
+    sudo cp -f "$NGINX_CONF_PATH/dms_goa_react_7001_tumkur.conf" /etc/nginx/sites-available/
+    sudo ln -sf /etc/nginx/sites-available/dms_goa_react_tumkur_7001.conf /etc/nginx/sites-enabled/
+    echo "[✓] Copied and enabled dms_goa_react_7001_tumkur.conf"
 fi
 
 # Reload and restart nginx
@@ -54,7 +54,7 @@ sudo chown -R www-data:www-data /var/www/html/DMS_Tumkur/logs/
 sudo chmod -R 775 /var/www/html/DMS_Tumkur/logs/
 sudo systemctl daemon-reexec
 sudo systemctl daemon-reload
-sudo systemctl restart dms_uvicorn_fastapi
-sudo systemctl status dms_uvicorn_fastapi
+sudo systemctl restart dms_uvicorn_fastapi_tumkur
+sudo systemctl status dms_uvicorn_fastapi_tumkur
 
 echo "========= NGINX Configuration Completed ========="
