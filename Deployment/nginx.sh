@@ -21,7 +21,7 @@ if [ -f "/etc/nginx/sites-available/dms_goa_react_7001_tumkur.conf" ]; then
 else
     echo "[+] Copying dms_goa_react_7001_tumkur.conf..."
     sudo cp -f "$NGINX_CONF_PATH/dms_goa_react_7001_tumkur.conf" /etc/nginx/sites-available/
-    sudo ln -sf /etc/nginx/sites-available/dms_goa_react_tumkur_7001.conf /etc/nginx/sites-enabled/
+    sudo ln -sf /etc/nginx/sites-available/dms_goa_react_7001_tumkur.conf /etc/nginx/sites-enabled/
     echo "[✓] Copied and enabled dms_goa_react_7001_tumkur.conf"
 fi
 
