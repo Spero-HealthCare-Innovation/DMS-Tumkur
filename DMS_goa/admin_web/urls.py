@@ -180,17 +180,20 @@ urlpatterns = [
 
 
     path('UnclaimedVehicle_get/',UnclaimedVehicle_get.as_view(), name='UnclaimedVehicle_get'),
+    path('UnclaimedVehicle_idwiseget/<int:id>/',UnclaimedVehicle_idwiseget.as_view(), name='UnclaimedVehicle_idwiseget'),
     path('UnclaimedVehicle_post/',UnclaimedVehicle_post.as_view(), name='UnclaimedVehicle_post'),
     path('UnclaimedVehicle_put/<int:id>/',UnclaimedVehicle_put.as_view(), name='UnclaimedVehicle_put'),
     path('UnclaimedVehicle_delete/<int:id>/',UnclaimedVehicle_delete.as_view(), name='UnclaimedVehicle_delete'),
 
-    # path('VehicleTheft_get/',VehicleTheft_get.as_view(), name='VehicleTheft_get'),
-    # path('VehicleTheft_idwiseget/<int:id>/',VehicleTheft_idwiseget.as_view(), name='VehicleTheft_idwiseget'),
-    # path('UnclaimedVehicle_post/',UnclaimedVehicle_post.as_view(), name='UnclaimedVehicle_post'),
-    # path('UnclaimedVehicle_put/<int:id>/',UnclaimedVehicle_put.as_view(), name='UnclaimedVehicle_put'),
-    # path('UnclaimedVehicle_delete/<int:id>/',UnclaimedVehicle_delete.as_view(), name='UnclaimedVehicle_delete'),
+    path('VehicleTheft_get/',VehicleTheft_get.as_view(), name='VehicleTheft_get'),
+    path('VehicleTheft_idwiseget/<int:id>/',VehicleTheft_idwiseget.as_view(), name='VehicleTheft_idwiseget'),
+    path('VehicleTheft_post/',VehicleTheft_post.as_view(), name='VehicleTheft_post'),
+    path('VehicleTheft_put/<int:id>/',VehicleTheft_put.as_view(), name='VehicleTheft_put'),
+    path('VehicleTheft_delete/<int:id>/',VehicleTheft_delete.as_view(), name='VehicleTheft_delete'),
+
 
 
 
 ]
+
 
