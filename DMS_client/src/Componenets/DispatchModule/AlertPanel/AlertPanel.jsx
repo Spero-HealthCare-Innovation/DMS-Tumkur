@@ -328,10 +328,24 @@ const AlertPanel = ({ darkMode }) => {
     useEffect(() => {
         audioRef.current = new Audio(sirenSound);
         audioRef.current.load();
-    }, []);
+
+        // Check if notifications were previously enabled and user is logged in
+        const saved = localStorage.getItem("notificationsEnabled");
+        const localToken = localStorage.getItem("access_token");
+
+        if (saved === "true" && localToken && newToken) {
+            setAllowed(true);
+
+            // Silent unlock for autoplay
+            const silent = new Audio();
+            silent.volume = 0;
+            silent.play().catch(() => { });
+        }
+    }, [newToken]);
 
     useEffect(() => {
-        if (!allowed) return;
+        const localToken = localStorage.getItem("access_token");
+        if (!allowed || !localToken || !newToken) return;
 
         const ws = new WebSocket("ws://192.168.1.202:7778/ws/pending_weather_alerts");
 
@@ -352,9 +366,21 @@ const AlertPanel = ({ darkMode }) => {
             }
         };
 
-        return () => ws.close();
-    }, [allowed]);
+        ws.onerror = (err) => console.error("WebSocket error:", err);
+        ws.onclose = () => console.log("⚠️ WebSocket disconnected");
 
+        return () => ws.close();
+    }, [allowed, newToken]);
+
+    const enableNotifications = () => {
+        setAllowed(true);
+        localStorage.setItem("notificationsEnabled", "true");
+
+        // Silent unlock for autoplay
+        const silent = new Audio();
+        silent.volume = 0;
+        silent.play().catch(() => { });
+    };
 
     return (
         <Box
@@ -368,15 +394,8 @@ const AlertPanel = ({ darkMode }) => {
         >
 
             <>
-                {!allowed && (
-                    <button
-                        onClick={() => {
-                            setAllowed(true);
-                            audioRef.current.play().catch(() => { });
-                            audioRef.current.pause();
-                            audioRef.current.currentTime = 0;
-                        }}
-                    >
+                {!allowed && newToken && (
+                    <button onClick={enableNotifications}>
                         Enable Notifications
                     </button>
                 )}
