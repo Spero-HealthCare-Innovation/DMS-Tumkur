@@ -1,10 +1,6 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import axios from "axios";
 import * as turf from "@turf/turf";
-<<<<<<< HEAD
-=======
-
->>>>>>> Development
 const AuthContext = createContext();
 export const useAuth = () => useContext(AuthContext);
 
@@ -54,11 +50,7 @@ export const AuthProvider = ({ children }) => {
   const [query, setQuery] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [selectedPosition, setSelectedPosition] = useState([
-<<<<<<< HEAD
-    18.519566133802865, 73.85534807018765,
-=======
     13.338263, 77.101410
->>>>>>> Development
   ]); // Default: Pune
   const [popupText, setPopupText] = useState("");
   const [commentText, setCommentText] = useState("");
@@ -413,10 +405,7 @@ export const AuthProvider = ({ children }) => {
   const [avgTimes, setAvgTimes] = useState(null);
   const [callTypes, setCallTypes] = useState([]);
   const [chiefComplaints, setChiefComplaints] = useState([]);
-<<<<<<< HEAD
-=======
   const [subChiefComplaints, setSubChiefComplaints] = useState({});
->>>>>>> Development
   const [filter, setFilter] = useState("total"); // default filter
 
    const fetchVehicles = async () => {
@@ -498,8 +487,6 @@ const fetchChiefComplaints = async (callTypeId = 1) => {
   }
 };
 
-<<<<<<< HEAD
-=======
 const fetchSubChiefComplaints = async (pc_id) => {
   try {
     const res = await axios.get(
@@ -514,7 +501,6 @@ const fetchSubChiefComplaints = async (pc_id) => {
   }
 };
 
->>>>>>> Development
 
   useEffect(() => {
     fetchVehicles();
@@ -668,13 +654,9 @@ useEffect(() => {
             avgTimes,
             callTypes,
              chiefComplaints,
-<<<<<<< HEAD
-  fetchChiefComplaints
-=======
   fetchChiefComplaints,
   fetchSubChiefComplaints,
   subChiefComplaints,
->>>>>>> Development
       }}
     >
       {children}
