@@ -52,8 +52,11 @@ urlpatterns = [
 
 
 
-    path('dispatch_close/',dispatch_close_API.as_view(),name='disapatch_close'),
+    path('duplicate_inc/',duplicate_incident_API.as_view(),name='duplicate_inc'),
+    path('mark_duplicate_inc/',duplicate_incident_API.as_view(),name='mark_duplicate_inc'),
+
     path('dispatch_get/',dispatch_sop_Get_API.as_view(),name='disapatch_get'),
+    path('dispatch_close/',dispatch_close_API.as_view(),name='disapatch_close'),
     path('dispatch_get_idwise/<int:inc_id>/',dispatch_sop_Idwise_Get_API.as_view(),name='disapatch_get_idwise'),
 
 
