@@ -29,10 +29,7 @@ import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import DialogContentText from '@mui/material/DialogContentText';
 import { Snackbar, Alert } from "@mui/material";
-<<<<<<< HEAD
-=======
 import NavbarLogo from "../../assets/Group 1000003335.png";
->>>>>>> Development
 
 // import DialogActions from '@mui/material/DialogActions';
 // import DialogContent from '@mui/material/DialogContent';
