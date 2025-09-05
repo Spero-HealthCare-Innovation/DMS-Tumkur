@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import {
   Box,
   Typography,
@@ -6,6 +6,7 @@ import {
   Grid,
   Tooltip,
   IconButton,
+  Popper,
   MenuItem,
   Select,
   TextField,
@@ -20,8 +21,16 @@ import {
   TableHead,
   Table,
   TableRow,
+  TablePagination,
+  Autocomplete,
+  FormHelperText,
 } from "@mui/material";
-import { Visibility, EditOutlined, DeleteOutline } from "@mui/icons-material";
+import {
+  Visibility,
+  EditOutlined,
+  DeleteOutline,
+  AddCircleOutline,
+} from "@mui/icons-material";
 import {
   TableDataCardBody,
   TableHeadingCard,
@@ -36,24 +45,39 @@ import {
 } from "../../../../CommonStyle/Style";
 import { useTheme } from "@mui/material/styles";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
+import { useAuth } from "../../../../Context/ContextAPI";
+import { data, useLocation } from "react-router-dom";
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
+import PreviewIcon from "@mui/icons-material/Preview";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 const UnclaimedBody = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    age: "",
-    gender: "",
-    vitals: "",
-    identificationMarks: "",
-    file: null,
-    schedules: "",
-    date: "",
-    time: "",
-  });
+  const port = import.meta.env.VITE_APP_API_KEY;
+  // const Department = localStorage.getItem("user_Department");
+  const token = localStorage.getItem("access_token");
+  const {
+    newToken,
+    responderScope,
+    setDisasterIncident,
+    disaster,
+    popupText,
+    setPopupText,
+    lattitude,
+    setLattitude,
+    longitude,
+    setLongitude,
+    suggestions,
+    setQuery,
+    setSuggestions,
+  } = useAuth();
   const theme = useTheme();
-
   const isDarkMode = theme.palette.mode === "dark";
   const darkMode = true;
+  const location = useLocation();
+
   const selectStyles = getCustomSelectStyles(isDarkMode);
+  const { handleSearchChange, handleSelectSuggestion, query } = useAuth();
 
   const labelColor = darkMode ? "#5FECC8" : "#1976d2";
   const borderColor = darkMode ? "#7F7F7F" : "#ccc";
@@ -61,22 +85,64 @@ const UnclaimedBody = () => {
   const textColor = darkMode ? "#ffffff" : "#000000";
   const bgColor = darkMode ? "202328" : "#ffffff";
 
-  const [staticData, setStaticData] = useState([
-    {
-      id: 1,
-      name: "John Doe",
-      age: 45,
-      gender: "Male",
-      vitals: "Stable",
-      identificationMarks: "Scar on left hand",
-      schedules: "Post-mortem",
-      date: "2025-09-02",
-      time: "10:30 AM",
-    },
-  ]);
+  const [fieldErrors, setFieldErrors] = useState({});
+  const [nameEror, setNameError] = useState(false);
+  const [NameErrorMsg, setNameErrorMsg] = useState("");
+  const [ageError, setAgeError] = useState(false);
+  const [genderError, setGenderError] = useState(false);
+  const [vitalsError, setVitalsError] = useState(false);
+  const [identificationMarksError, setIdentificationMarksError] =
+    useState(false);
+  const [contactNoError, setContactNoError] = useState(false);
+  const [addressError, setAddressError] = useState(false);
+  const [datetimeError, setDatetimeError] = useState(false);
+  const [fileError, setFileError] = useState(false);
+
+  const [addressErrorMsg, setAddressErrorMsg] = useState("");
+  const [datetimeErrorMsg, setDatetimeErrorMsg] = useState("");
+  const [fileErrorMsg, setFileErrorMsg] = useState("");
+  const [contactNoErrorMsg, setContactNoErrorMsg] = useState("");
+  const [ageErrorMsg, setAgeErrorMsg] = useState("");
+  const [genderErrorMsg, setGenderErrorMsg] = useState("");
+  const [vitalsErrorMsg, setVitalsErrorMsg] = useState("");
+  const [identificationMarksErrorMsg, setIdentificationMarksErrorMsg] =
+    useState("");
+  const [isValid, setIsValid] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [isEditMode, setIsEditMode] = useState(false);
+  // Filter state
+  const [filters, setFilters] = useState({ personName: "", age: "" });
+  const [filteredRows, setFilteredRows] = useState();
+  // --- add near your other useState hooks ---
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [sceduledateTime, setSceduledateTime] = useState(null);
+  const [personName, setpersonName] = useState("");
+  const [age, setAge] = useState("");
+  const [gender, setGender] = useState("");
+  // -------filter state state-----
+  const [Name, setName] = useState("");
+  const [ages, setAges] = useState("");
+  const [unclaimedBody, setUnclaimedBody] = useState(null);
+  const [unclaimedBodyList, setUnclaimedBodyList] = useState([]);
+
+  // Filtered data (specific to UnclaimedBody)
+  const [filteredUnclaimedBodyData, setFilteredUnclaimedBodyData] = useState(
+    []
+  );
+  // filter state
+  const [file, setFile] = useState(null);
+  const [photo, setPhoto] = useState(null);
+  const [vitals, setVitals] = useState("");
+  const [identificationMarks, setIdentificationMarks] = useState("");
+  const [datetime, setDatetime] = useState("");
+  const [schedules, setSchedules] = useState("");
+  const [address, setAddress] = useState("");
+  const [contactNo, setContactNo] = useState("");
+  const [deleteDepId, setDeleteDepId] = useState(null);
+  const [existingFileName, setExistingFileName] = useState("");
+  const [personNameErrorMsg, setPersonNameErrorMsg] = useState("");
+  const [personNameError, setPersonNameError] = useState(false);
+
   const handleChange = (e) => {
     const { name, value, files } = e.target;
     setFormData((prev) => ({
@@ -85,47 +151,34 @@ const UnclaimedBody = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setStaticData((prev) => [
-      ...prev,
-      {
-        id: prev.length + 1,
-        ...formData,
-      },
-    ]);
-    handleClose();
+  const handleChangePage = (_event, newPage) => {
+    setPage(newPage);
   };
 
-  const handleClose = () => {
-    setFormData({
-      name: "",
-      age: "",
-      gender: "",
-      vitals: "",
-      identificationMarks: "",
-      file: null,
-      schedules: "",
-      dateTime: "",
-    });
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
   };
 
-  const [rows] = useState([
-    { id: 1, name: "John Doe", age: 45 },
-    { id: 2, name: "Jane Smith", age: 32 },
-    { id: 3, name: "Rahul Sharma", age: 45 },
-  ]);
+  const [previewUrl, setPreviewUrl] = useState(null);
+  const [previewOpen, setPreviewOpen] = useState(false);
+  const handleFileChange = (e) => {
+    const selectedFile = e.target.files[0];
+    if (selectedFile) {
+      setFile(selectedFile);
+      setExistingFileName(""); // clear backend file if new upload
+    }
+  };
 
-  // Filter state
-  const [filters, setFilters] = useState({ personName: "", age: "" });
-  const [filteredRows, setFilteredRows] = useState(rows);
-  const [personName, setpersonName] = useState("");
-  const [age, setAge] = useState("");
-  const [gender, setGender] = useState("");
-  const [vitals, setVitals] = useState("");
-  const [identificationMarks, setIdentificationMarks] = useState("");
-  const [datetime, setDatetime] = useState("");
-  const [schedules, setSchedules] = useState("");
+  const getPreviewUrl = () => {
+    if (file) {
+      return URL.createObjectURL(file); // ✅ works for new upload
+    }
+    if (existingFileName) {
+      return `${port}${existingFileName}`; // ✅ works for edit mode
+    }
+    return null;
+  };
 
   // Handle filter submit
   const handleFilterSubmit = () => {
@@ -148,13 +201,176 @@ const UnclaimedBody = () => {
 
   // Reset filter
   const handleReset = () => {
-    setFilters({ personName: "", age: "" });
-    setFilteredRows(rows);
+    setName("");
+    setAges("");
+    fetchData(); // reset to default data
   };
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [openModal, setOpenModal] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
+  const [MissingPerson, setMissingPerson] = useState(null);
+  const [missingPersonList, setMissingpersonList] = useState([]);
+  const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
+
+  const [editingId, setEditingId] = useState(null);
+  const [snackbar, setSnackbar] = useState({
+    open: false,
+    message: "",
+    severity: "success", // "success" | "error" | "warning" | "info"
+  });
+
+  const handleOpenPopover = (event, item) => {
+    setAnchorEl(event.currentTarget);
+    setSelectedItem(item);
+  };
+
+  const handleClosePopover = () => {
+    setAnchorEl(null);
+    setSelectedItem(null);
+  };
+
+  const handleView = (item) => {
+    console.log("View", item);
+    handleClosePopover();
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    setAddressError(false);
+    setAgeError(false);
+    setDatetimeError(false);
+    setFileError(false);
+    setGenderError(false);
+    setIdentificationMarksError(false);
+    setNameError(false);
+    setNameErrorMsg("");
+    setAgeErrorMsg("");
+    setDatetimeErrorMsg("");
+    setFileErrorMsg("");
+    setGenderErrorMsg("");
+    setIdentificationMarksErrorMsg("");
+    setAddressErrorMsg("");
+    setVitalsErrorMsg("");
+
+    setVitalsError(false);
+    if (!personName.trim()) {
+      setNameError(true);
+      // setDepartmentErrorMsg("Department name is required.");
+      isValid = false;
+    }
+    if (!age) {
+      setAgeError(true);
+    }
+    if (!gender) {
+      setGenderError(true);
+    }
+    if (!vitals) {
+      setVitalsError(true);
+    }
+    if (!identificationMarks) {
+      setIdentificationMarksError(true);
+    }
+
+    if (!address) {
+      setAddressError(true);
+    }
+    if (!datetime) {
+      setDatetimeError(true);
+    }
+    if (!file) {
+      setFileError(true);
+    }
+    try {
+      const formDataToSend = new FormData();
+      formDataToSend.append("name", personName || "");
+      formDataToSend.append("age", age || "");
+      formDataToSend.append("gender", gender !== "" ? gender : null);
+      formDataToSend.append("vitals", vitals || "");
+      formDataToSend.append("identification_marks", identificationMarks || "");
+      formDataToSend.append("contact_no", contactNo || "");
+      formDataToSend.append("address", popupText || "");
+      formDataToSend.append("scheduled_datetime", datetime || "");
+      formDataToSend.append("latitude", lattitude || "");
+      formDataToSend.append("longitude", longitude || "");
+
+      if (file) {
+        formDataToSend.append("file_upload", file);
+      }
+
+      const response = await fetch(`${port}/admin_web/UnclaimedBodies_post/`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token || newToken}`,
+          // ❌ DO NOT set Content-Type here, fetch will set it automatically for FormData
+        },
+        body: formDataToSend,
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log("Form submitted successfully:", data);
+        setUnclaimedBodyList((prevList) => [...prevList, data]);
+        resetForm();
+        setSnackbar({
+          open: true,
+          message: data.message || "Record submitted successfully!",
+          severity: "success",
+        });
+      } else {
+        setSnackbar({
+          open: true,
+          message: data.message || "Failed to submit record!",
+          severity: "error",
+        });
+      }
+    } catch (error) {
+      console.error("Error submitting form:", error);
+    }
+  };
+
+  const handleEdit = async (item) => {
+    try {
+      const res = await fetch(
+        `${port}/admin_web/UnclaimedBodies_put/${item.id}/`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (!res.ok) throw new Error("Failed to fetch data");
+
+      const data = await res.json();
+
+      // Fill form states with fetched data
+      setpersonName(data.name || "");
+      setContactNo(data.contact_no || "");
+      setAge(data.age || "");
+      setGender(data.gender || "");
+      setVitals(data.vitals || "");
+      setIdentificationMarks(data.identification_marks || "");
+      setQuery(data.address || "");
+      setLattitude(data.latitude || "");
+      setLongitude(data.longitude || "");
+      setDatetime(data.scheduled_datetime || "");
+      setFile(null); // fresh file reset
+      if (data.file_upload) {
+        setExistingFileName(data.file_upload);
+        setPreviewUrl(`${port}${data.file_upload}`); // ✅ Force preview for backend image
+      } else {
+        setExistingFileName("");
+        setPreviewUrl(null);
+      }
+      setEditingId(data.id); // track which record is being edited
+      setIsEditMode(true);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
 
   const hasPermission = (moduleName, submoduleName, actionName) => {
     const stored = localStorage.getItem("permissions");
@@ -196,28 +412,192 @@ const UnclaimedBody = () => {
 
     return hasAction;
   };
-  const handleOpenPopover = (event, item) => {
-    setAnchorEl(event.currentTarget);
-    setSelectedItem(item);
+
+  const fetchData = async (name = "", age = "") => {
+    // setLoading(true);
+    try {
+      // Build URL using template literal
+      const url = `${port}/admin_web/UnclaimedBodies_get/?name=${Name}&age=${ages}`;
+      const res = await fetch(url);
+      const result = await res.json();
+      setUnclaimedBodyList(result);
+    } catch (err) {
+      console.error("Error fetching data:", err);
+      setUnclaimedBodyList([]);
+    } finally {
+      // setLoading(false);
+    }
   };
 
-  const handleClosePopover = () => {
-    setAnchorEl(null);
-    setSelectedItem(null);
+  useEffect(() => {
+    fetchData(); // no params = default data
+  }, []);
+
+  const handleSearch = () => {
+    fetchData(Name, ages); // pass inputs for filtering
   };
 
-  const handleView = (item) => {
-    console.log("View", item);
-    handleClosePopover();
+  useEffect(() => {
+    setPage(1);
+  }, [searchQuery]);
+
+  const filteredData = useMemo(() => {
+    if (!searchQuery) return unclaimedBodyList;
+    const query = searchQuery.toLowerCase();
+
+    return unclaimedBodyList.filter(
+      (item) =>
+        item.name?.toLowerCase().includes(query) ||
+        item.contact_no?.toLowerCase().includes(query) ||
+        item.vitals?.toLowerCase().includes(query)
+    );
+  }, [unclaimedBodyList, searchQuery]);
+
+  const paginatedData = useMemo(() => {
+    if (!filteredData?.length) return [];
+    const start = (page - 1) * rowsPerPage;
+    const end = start + rowsPerPage;
+    return filteredData.slice(start, end);
+  }, [page, rowsPerPage, filteredData]);
+
+  const handleUpdate = async () => {
+    const formDataToSend = new FormData();
+    formDataToSend.append("name", personName || "");
+    // formDataToSend.append("contact_no", contactNo || "");
+    formDataToSend.append("age", age || "");
+    formDataToSend.append("gender", gender || "");
+    formDataToSend.append("vitals", vitals || "");
+    formDataToSend.append("identification_marks", identificationMarks || "");
+    formDataToSend.append("address", popupText || "");
+    formDataToSend.append("latitude", lattitude || "");
+    formDataToSend.append("longitude", longitude || "");
+    formDataToSend.append("scheduled_datetime", datetime || "");
+
+    if (file) {
+      formDataToSend.append("file_upload", file);
+    }
+
+    try {
+      const res = await fetch(
+        `${port}/admin_web/UnclaimedBodies_put/${editingId}/`,
+        {
+          method: "PUT",
+          headers: { Authorization: `Bearer ${newToken}` }, // ✅ No Content-Type
+          body: formDataToSend,
+        }
+      );
+
+      if (!res.ok) {
+        const errorText = await res.text(); // 👈 get backend error details
+        throw new Error(errorText || "Update failed");
+      }
+
+      const result = await res.json();
+      console.log("✅ Update result:", result);
+
+      // 🔄 Refresh table immediately
+      await fetchData();
+
+      setSnackbar({
+        open: true,
+        message: "Record updated successfully!",
+        severity: "success",
+      });
+      setEditingId(null);
+
+      // reset form
+      setpersonName("");
+      setContactNo("");
+      setAge("");
+      setGender("");
+      setVitals("");
+      setIdentificationMarks("");
+      setQuery("");
+      setLattitude("");
+      setLongitude("");
+      setDatetime("");
+      setFile(null);
+    } catch (err) {
+      console.error("❌ Update error:", err.message);
+      setSnackbar({
+        open: true,
+        message: "Failed to update record! " + err.message,
+        severity: "error",
+      });
+    }
   };
 
-  const handleEdit = (item) => {
-    console.log("Edit", item);
-    handleClosePopover();
+  const handleDelete = async (id) => {
+    try {
+      const res = await fetch(
+        `${port}/admin_web/UnclaimedBodies_delete/${id}/`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`, // agar token hai toh
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (!res.ok) throw new Error("Failed to delete record");
+
+      setSnackbar({
+        open: true,
+        message: "Record deleted successfully",
+        severity: "success",
+      });
+
+      fetchData(); // list refresh
+    } catch (err) {
+      setSnackbar({
+        open: true,
+        message: "Failed to delete record",
+        severity: "error",
+      });
+    } finally {
+      setOpenDeleteDialog(false);
+      handleClosePopover();
+    }
   };
+
+  const resetForm = () => {
+    setpersonName("");
+    setContactNo("");
+    setAge("");
+    setGender("");
+    setVitals("");
+    setPopupText(""); // address
+    setIdentificationMarks("");
+    setQuery("");
+    setLattitude("");
+    setLongitude("");
+    setDatetime("");
+    setFile(null);
+
+    setEditingId(null); // reset editing id
+    setIsEditMode(false); // disable Add button again
+  };
+
+  const [FilterData, setFilteredData] = useState([]);
 
   return (
     <Box sx={{ p: 2, marginLeft: "3rem" }}>
+      <Snackbar
+        open={snackbar.open}
+        autoHideDuration={3000}
+        onClose={() => setSnackbar({ ...snackbar, open: false })}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      >
+        <Alert
+          onClose={() => setSnackbar({ ...snackbar, open: false })}
+          severity={snackbar.severity}
+          sx={{ width: "100%" }}
+        >
+          {snackbar.message}
+        </Alert>
+      </Snackbar>
+
       <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
         <Typography
           variant="h6"
@@ -241,8 +621,8 @@ const UnclaimedBody = () => {
               backgroundColor: bgColor,
               p: 2,
               borderRadius: 2,
-              color: textColor,
               transition: "all 0.3s ease-in-out",
+              boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
             }}
           >
             <Paper
@@ -262,15 +642,15 @@ const UnclaimedBody = () => {
               <TextField
                 size="small"
                 placeholder="Person Name"
-                value={personName}
-                onChange={(e) => setpersonName(e.target.value)}
+                value={Name}
+                onChange={(e) => setName(e.target.value)}
                 sx={{ ...selectStyles, flex: 2, background: bgColor }}
                 InputLabelProps={{ shrink: false }}
               />
               <TextField
                 placeholder="Age"
-                value={age}
-                onChange={(e) => setAge(e.target.value)}
+                value={ages}
+                onChange={(e) => setAges(e.target.value)}
                 sx={{ ...selectStyles, flex: 1 }}
                 InputLabelProps={{ shrink: false }}
               />
@@ -278,13 +658,15 @@ const UnclaimedBody = () => {
                 variant="contained"
                 color="primary"
                 sx={{ minHeight: 36, px: 2, fontSize: "0.8rem" }}
+                onClick={handleSearch}
               >
-                Submit
+                Search
               </Button>
               <Button
                 variant="outlined"
                 color="secondary"
                 sx={{ minHeight: 36, px: 2, fontSize: "0.8rem" }}
+                onClick={handleReset}
               >
                 Reset
               </Button>
@@ -346,19 +728,6 @@ const UnclaimedBody = () => {
 
                       <StyledCardContent
                         sx={{
-                          flex: 0.8,
-                          borderRight: "1px solid black",
-
-                          justifyContent: "center",
-                        }}
-                      >
-                        <Typography variant="subtitle2" sx={fontsTableHeading}>
-                          Gender
-                        </Typography>
-                      </StyledCardContent>
-
-                      <StyledCardContent
-                        sx={{
                           flex: 1,
                           borderRight: "1px solid black",
                           justifyContent: "center",
@@ -366,18 +735,6 @@ const UnclaimedBody = () => {
                       >
                         <Typography variant="subtitle2" sx={fontsTableHeading}>
                           Vitals
-                        </Typography>
-                      </StyledCardContent>
-
-                      <StyledCardContent
-                        sx={{
-                          flex: 1.2,
-                          borderRight: "1px solid black",
-                          justifyContent: "center",
-                        }}
-                      >
-                        <Typography variant="subtitle2" sx={fontsTableHeading}>
-                          Schedules
                         </Typography>
                       </StyledCardContent>
 
@@ -402,9 +759,7 @@ const UnclaimedBody = () => {
                     overflowY: "auto",
                     scrollBehavior: "smooth",
                     width: "100%",
-                    "&::-webkit-scrollbar": {
-                      width: "6px",
-                    },
+                    "&::-webkit-scrollbar": { width: "6px" },
                     "&::-webkit-scrollbar-thumb": {
                       backgroundColor: darkMode ? "#5FC8EC" : "#888",
                       borderRadius: 3,
@@ -414,100 +769,113 @@ const UnclaimedBody = () => {
                     },
                   }}
                 >
-                  {staticData.map((row, index) => (
-                    <TableDataCardBody
-                      key={index}
-                      sx={{
-                        bgcolor: "rgb(53 53 53)",
-                        borderRadius: 2,
-                        color: textColor,
-                        display: "flex",
-                        alignItems: "center",
-                        width: "100%",
-                        mb: 1, // spacing between rows
-                      }}
-                    >
-                      {/* Sr No */}
-                      <StyledCardContent
-                        sx={{ flex: 0.4, justifyContent: "center" }}
-                      >
-                        <Typography variant="subtitle2" sx={fontsTableBody}>
-                          {index + 1}
-                        </Typography>
-                      </StyledCardContent>
-
-                      {/* Name */}
+                  {paginatedData.length === 0 ? (
+                    <TableRow>
                       <StyledCardContent
                         sx={{
-                          flex: 1.2,
+                          width: "100%",
+                          textAlign: "center",
+                          py: 3,
+                          display: "flex",
                           justifyContent: "center",
                         }}
                       >
-                        <Typography variant="subtitle2" sx={fontsTableBody}>
-                          {row.name}
+                        <Typography variant="subtitle1" sx={{ color: "#888" }}>
+                          No Data Found
                         </Typography>
                       </StyledCardContent>
-
-                      {/* Age */}
-                      <StyledCardContent
+                    </TableRow>
+                  ) : (
+                    paginatedData.map((row, index) => (
+                      <TableDataCardBody
+                        key={row.id}
                         sx={{
-                          flex: 0.5,
-                          justifyContent: "center",
+                          bgcolor: "rgb(53 53 53)",
+                          borderRadius: 2,
+                          color: textColor,
+                          display: "flex",
+                          alignItems: "center",
+                          width: "100%",
+                          mb: 1,
                         }}
                       >
-                        <Typography variant="subtitle2" sx={fontsTableBody}>
-                          {row.age}
-                        </Typography>
-                      </StyledCardContent>
+                        {/* Sr No */}
+                        <StyledCardContent
+                          sx={{ flex: 0.4, justifyContent: "center" }}
+                        >
+                          <Typography variant="subtitle2" sx={fontsTableBody}>
+                            {(page - 1) * rowsPerPage + index + 1}
+                          </Typography>
+                        </StyledCardContent>
 
-                      {/* Gender */}
-                      <StyledCardContent
-                        sx={{ flex: 0.8, justifyContent: "center" }}
-                      >
-                        <Typography variant="subtitle2" sx={fontsTableBody}>
-                          {row.gender}
-                        </Typography>
-                      </StyledCardContent>
+                        {/* Name */}
+                        <StyledCardContent
+                          sx={{ flex: 1.2, justifyContent: "center" }}
+                        >
+                          <Typography variant="subtitle2" sx={fontsTableBody}>
+                            {row.name}
+                          </Typography>
+                        </StyledCardContent>
 
-                      {/* Vitals */}
-                      <StyledCardContent
-                        sx={{ flex: 1, justifyContent: "center" }}
-                      >
-                        <Typography variant="subtitle2" sx={fontsTableBody}>
-                          {row.vitals}
-                        </Typography>
-                      </StyledCardContent>
+                        {/* Age */}
+                        <StyledCardContent
+                          sx={{ flex: 0.5, justifyContent: "center" }}
+                        >
+                          <Typography variant="subtitle2" sx={fontsTableBody}>
+                            {row.age}
+                          </Typography>
+                        </StyledCardContent>
 
-                      {/* Schedules */}
-                      <StyledCardContent
-                        sx={{ flex: 1.2, justifyContent: "center" }}
-                      >
-                        <Typography variant="subtitle2" sx={fontsTableBody}>
-                          {row.schedules}
-                        </Typography>
-                      </StyledCardContent>
+                        {/* Image */}
+                        {/* <StyledCardContent
+                          sx={{ flex: 0.8, justifyContent: "center" }}
+                        >
+                          <Typography variant="subtitle2" sx={fontsTableBody}>
+                            {row.file_upload ? (
+                              <img
+                                src={`${port}${row.file_upload}`}
+                                // alt={row.name}
+                                style={{
+                                  width: 35,
+                                  height: 35,
+                                  objectFit: "cover",
+                                  borderRadius: 8,
+                                  marginBottom: 4,
+                                }}
+                              />
+                            ) : (
+                              "No Image"
+                            )}
+                          </Typography>
+                        </StyledCardContent> */}
 
-                      {/* Actions */}
-                      <StyledCardContent
-                        sx={{
-                          flex: 0.5,
-                          justifyContent: "center",
-                        }}
-                      >
-                        <MoreHorizIcon
-                          onClick={(e) => handleOpenPopover(e, row)}
-                          sx={{
-                            color: "white",
-                            cursor: "pointer",
-                            fontSize: 20,
-                            ...fontsTableBody,
-                          }}
-                        />
-                      </StyledCardContent>
-                    </TableDataCardBody>
-                  ))}
+                        {/* Vitals */}
+                        <StyledCardContent
+                          sx={{ flex: 1, justifyContent: "center" }}
+                        >
+                          <Typography variant="subtitle2" sx={fontsTableBody}>
+                            {row.vitals}
+                          </Typography>
+                        </StyledCardContent>
 
-                  {/* Single Popover (works for clicked row only) */}
+                        {/* Actions */}
+                        <StyledCardContent
+                          sx={{ flex: 0.5, justifyContent: "center" }}
+                        >
+                          <MoreHorizIcon
+                            onClick={(e) => handleOpenPopover(e, row)}
+                            sx={{
+                              color: "white",
+                              cursor: "pointer",
+                              fontSize: 20,
+                              ...fontsTableBody,
+                            }}
+                          />
+                        </StyledCardContent>
+                      </TableDataCardBody>
+                    ))
+                  )}
+
                   <Popover
                     open={Boolean(anchorEl)}
                     anchorEl={anchorEl}
@@ -532,19 +900,6 @@ const UnclaimedBody = () => {
                       },
                     }}
                   >
-                    {/* View */}
-                    <Button
-                      fullWidth
-                      variant="outlined"
-                      color="primary"
-                      startIcon={<Visibility sx={{ fontSize: 16 }} />}
-                      onClick={() => handleView(selectedItem)}
-                      sx={{ textTransform: "none", fontSize: "14px" }}
-                    >
-                      View
-                    </Button>
-
-                    {/* Edit */}
                     <Button
                       fullWidth
                       variant="outlined"
@@ -563,7 +918,7 @@ const UnclaimedBody = () => {
                       color="error"
                       startIcon={<DeleteOutline sx={{ fontSize: 16 }} />}
                       onClick={() => {
-                        setDeleteDepId(selectedItem.dep_id);
+                        setDeleteDepId(selectedItem?.id);
                         setOpenDeleteDialog(true);
                       }}
                       sx={{ textTransform: "none", fontSize: "14px" }}
@@ -571,9 +926,37 @@ const UnclaimedBody = () => {
                       Delete
                     </Button>
                   </Popover>
+
+                  <Dialog
+                    open={openDeleteDialog}
+                    onClose={() => setOpenDeleteDialog(false)}
+                  >
+                    <DialogTitle>Confirm Delete</DialogTitle>
+                    <DialogContent>
+                      <Typography>
+                        Are you sure you want to delete this record?
+                      </Typography>
+                    </DialogContent>
+                    <DialogActions>
+                      <Button
+                        onClick={() => setOpenDeleteDialog(false)}
+                        color="primary"
+                      >
+                        Cancel
+                      </Button>
+                      <Button
+                        onClick={() => handleDelete(deleteDepId)}
+                        color="error"
+                        variant="contained"
+                      >
+                        Delete
+                      </Button>
+                    </DialogActions>
+                  </Dialog>
                 </TableBody>
               </Table>
             </TableContainer>
+
             <Box
               display="flex"
               justifyContent="space-between"
@@ -642,17 +1025,17 @@ const UnclaimedBody = () => {
                 </Box>
 
                 <Box>
-                  {page}/ {Math.ceil(staticData.length / rowsPerPage)}
+                  {page}/ {Math.ceil(missingPersonList.length / rowsPerPage)}
                 </Box>
 
                 <Box
                   onClick={() =>
-                    page < Math.ceil(staticData.length / rowsPerPage) &&
+                    page < Math.ceil(missingPersonList.length / rowsPerPage) &&
                     setPage(page + 1)
                   }
                   sx={{
                     cursor:
-                      page < Math.ceil(staticData.length / rowsPerPage)
+                      page < Math.ceil(missingPersonList.length / rowsPerPage)
                         ? "pointer"
                         : "not-allowed",
                     userSelect: "none",
@@ -697,150 +1080,434 @@ const UnclaimedBody = () => {
               >
                 Unclaimed Body Form
               </Typography>
-              {hasPermission("BOLO", "Unclaimed Body", "Add") && (
+
+              {hasPermission("BOLO", "Missing Person", "Add") && (
                 <Button
                   variant="contained"
+                  disabled={!isEditMode} // default disabled
+                  startIcon={<AddCircleOutline />}
                   sx={{
-                    bgcolor: "#5FC8EC",
-                    "&:hover": { bgcolor: "#4FB0D0" },
-                    fontSize: 14,
+                    backgroundColor: "rgba(223,76,76, 0.8)",
+                    color: "#fff",
+                    fontWeight: 600,
+                    fontFamily: "Roboto",
+                    textTransform: "none",
+                    // px: 1,
+                    py: 1,
+                    fontSize: { xs: "0.75rem", sm: "0.875rem" },
+                    "&:hover": {
+                      backgroundColor: "rgba(223,76,76, 0.8)",
+                    },
                   }}
-                  onClick={() => setOpenForm(true)} // optional trigger
+                  onClick={() => {
+                    resetForm(); // clear fields
+                    setOpenForm(true); // open form in "add" mode
+                  }}
                 >
-                  + New Record
+                  Add Unclaimed Record
                 </Button>
               )}
             </Box>
 
             {/* Form */}
-            <form onSubmit={handleSubmit}>
-              <Grid container spacing={2}>
-                {/* Name */}
-                <Grid item xs={12} sm={6} md={6}>
-                  <TextField
-                    fullWidth
-                    size="small"
-                    placeholder="Full Name"
-                    value={personName}
-                    sx={selectStyles}
-                    onChange={(e) => setpersonName(e.target.value)}
-                  />
-                </Grid>
-
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    fullWidth
-                    size="small"
-                    placeholder="DD-MM-YYYY"
-                    sx={selectStyles}
-                    type="datetime-local"
-                    format="DD-MM-YYYY"
-                    value={datetime}
-                    onChange={(e) => setDatetime(e.target.value)}
-                  />
-                </Grid>
-                {/* Age */}
-                <Grid item xs={12} sm={6} md={6}>
-                  <TextField
-                    fullWidth
-                    size="small"
-                    placeholder="Age"
-                    type="number"
-                    value={age}
-                    onChange={(e) => setAge(e.target.value)}
-                    sx={selectStyles}
-                  />
-                </Grid>
-
-                {/* Gender */}
-                <Grid item xs={12} sm={6} md={6}>
-                  <Select
-                    fullWidth
-                    size="small"
-                    // placeholder="Gender"
-                    value={gender}
-                    displayEmpty
-                    onChange={(e) => setGender(e.target.value)}
-                    sx={selectStyles}
-                    inputProps={{ "aria-label": "Select Gender" }}
+            {/* <form onSubmit={handleSubmit}> */}
+            <Grid container spacing={2}>
+              {/* Name */}
+              <Grid item xs={12} sm={6} md={6}>
+                {/* <Grid item xs={12} sm={6} md={6}> */}
+                <TextField
+                  fullWidth
+                  size="small"
+                  placeholder="Full Name"
+                  value={personName}
+                  sx={selectStyles}
+                  // onChange={(e) => setpersonName(e.target.value)}
+                  onChange={(e) => {
+                    const onlyLetters = e.target.value.replace(
+                      /[^a-zA-Z\s]/g,
+                      ""
+                    );
+                    setpersonName(onlyLetters);
+                    setNameError(false);
+                    setNameErrorMsg("");
+                    error = { nameEror: false };
+                    helperText = { NameErrorMsg };
+                  }}
+                />
+                {nameEror && (
+                  <FormHelperText
+                    error
+                    sx={{
+                      marginLeft: "14px",
+                      marginTop: "3px",
+                      fontSize: "0.75rem",
+                    }}
                   >
-                    <MenuItem value="" disabled>
-                      Select Gender
-                    </MenuItem>
-                    <MenuItem value="Male">Male</MenuItem>
-                    <MenuItem value="Female">Female</MenuItem>
-                  </Select>
-                </Grid>
+                    {NameErrorMsg || "Please enter a valid name"}
+                  </FormHelperText>
+                )}
+              </Grid>
+              {/* </Grid> */}
 
-                {/* Vitals */}
-                <Grid item xs={12} sm={6} md={6}>
-                  <TextField
-                    placeholder="Vitals"
-                    fullWidth
-                    size="small"
-                    value={vitals}
-                    onChange={(e) => setVitals(e.target.value)}
-                    sx={selectStyles}
-                  />
-                </Grid>
+              {/* Age */}
+              <Grid item xs={12} sm={6} md={6}>
+                <TextField
+                  fullWidth
+                  size="small"
+                  placeholder="Age"
+                  type="number"
+                  value={age}
+                  onChange={(e) => {
+                    let value = e.target.value;
+                    // Allow only digits
+                    if (!/^\d*$/.test(value)) return;
+                    // Limit to max 3 digits
+                    if (value.length > 3) return;
 
-                {/* Identification Marks */}
-                <Grid item xs={12} sm={6} md={6}>
-                  <TextField
-                    placeholder="Identification Marks"
-                    fullWidth
-                    size="small"
-                    value={identificationMarks}
-                    onChange={(e) => setIdentificationMarks(e.target.value)}
-                    sx={selectStyles}
-                  />
-                </Grid>
+                    setAge(value);
+                  }}
+                  sx={{
+                    ...selectStyles,
+                    "& input[type=number]": {
+                      MozAppearance: "textfield",
+                    },
+                    "& input[type=number]::-webkit-outer-spin-button": {
+                      WebkitAppearance: "none",
+                      margin: 0,
+                    },
+                    "& input[type=number]::-webkit-inner-spin-button": {
+                      WebkitAppearance: "none",
+                      margin: 0,
+                    },
+                  }}
+                  inputProps={{ inputMode: "numeric", pattern: "[0-1]*" }}
+                  error={ageError}
+                  helperText={ageErrorMsg}
+                />
 
-                {/* File Upload */}
-                <Grid item xs={12} sm={6}>
+                {ageError && (
+                  <FormHelperText
+                    error
+                    sx={{
+                      marginLeft: "14px",
+                      marginTop: "3px",
+                      fontSize: "0.75rem",
+                    }}
+                  >
+                    {ageErrorMsg || "Please enter a valid age"}
+                  </FormHelperText>
+                )}
+              </Grid>
+
+              {/* Gender */}
+              <Grid item xs={12} sm={6} md={6}>
+                <Select
+                  fullWidth
+                  size="small"
+                  // placeholder="Gender"
+                  value={gender ?? ""}
+                  displayEmpty
+                  onChange={(e) => setGender(e.target.value)}
+                  sx={selectStyles}
+                  inputProps={{ "aria-label": "Select Gender" }}
+                  error={genderError}
+                  helperText={genderErrorMsg}
+                >
+                  <MenuItem value="" disabled>
+                    Select Gender
+                  </MenuItem>
+                  <MenuItem value={1}>Male</MenuItem>
+                  <MenuItem value={2}>Female</MenuItem>
+                </Select>
+                {genderError && (
+                  <FormHelperText
+                    error
+                    sx={{
+                      marginLeft: "14px",
+                      marginTop: "3px",
+                      fontSize: "0.75rem",
+                    }}
+                  >
+                    {genderErrorMsg || "Please select a gender"}
+                  </FormHelperText>
+                )}
+              </Grid>
+
+              {/* Vitals */}
+              <Grid item xs={12} sm={6} md={6}>
+                <TextField
+                  placeholder="Vitals"
+                  fullWidth
+                  size="small"
+                  value={vitals}
+                  onChange={(e) => setVitals(e.target.value)}
+                  sx={selectStyles}
+                  error={vitalsError}
+                  helperText={vitalsErrorMsg}
+                />
+                {vitalsError && (
+                  <FormHelperText
+                    error
+                    sx={{
+                      marginLeft: "14px",
+                      marginTop: "3px",
+                      fontSize: "0.75rem",
+                    }}
+                  >
+                    {vitalsErrorMsg || "Please enter vitals"}
+                  </FormHelperText>
+                )}
+              </Grid>
+
+              {/* Identification Marks */}
+              <Grid item xs={12} sm={6} md={6}>
+                <TextField
+                  placeholder="Identification Marks"
+                  fullWidth
+                  size="small"
+                  value={identificationMarks}
+                  onChange={(e) => setIdentificationMarks(e.target.value)}
+                  sx={selectStyles}
+                  error={identificationMarksError}
+                  helperText={identificationMarksErrorMsg}
+                />
+                {identificationMarksError && (
+                  <FormHelperText
+                    error
+                    sx={{
+                      marginLeft: "14px",
+                      marginTop: "3px",
+                      fontSize: "0.75rem",
+                    }}
+                  >
+                    {identificationMarksErrorMsg ||
+                      "Please enter identification marks"}
+                  </FormHelperText>
+                )}
+              </Grid>
+
+              <Grid item xs={12} md={6} sm={6}>
+                <Autocomplete
+                  fullWidth
+                  freeSolo
+                  size="small"
+                  options={suggestions.map((item) => item.address.label)}
+                  inputValue={query || ""}
+                  onInputChange={(event, newValue) => {
+                    setQuery(newValue);
+                    setFieldErrors((prev) => ({
+                      ...prev,
+                      location: undefined,
+                    }));
+                    if (event)
+                      handleSearchChange({ target: { value: newValue } });
+                  }}
+                  onChange={(event, newValue) => {
+                    setQuery(newValue || "");
+                    setFieldErrors((prev) => ({
+                      ...prev,
+                      location: undefined,
+                    }));
+                    const selected = suggestions.find(
+                      (s) => s.address.label === newValue
+                    );
+                    if (selected) handleSelectSuggestion(selected);
+                  }}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      placeholder="Address"
+                      sx={{ ...selectStyles, mt: 0.5, fontFamily }}
+                      error={!!fieldErrors.location}
+                      helperText={fieldErrors.location}
+                    />
+                  )}
+                  PaperComponent={({ children }) => (
+                    <Paper
+                      sx={{
+                        backgroundColor: bgColor,
+                        color: "#fff",
+                        border: "1px solid #ccc",
+                        borderRadius: 1,
+                        maxHeight: 220,
+                        overflowY: "auto",
+                        boxShadow: "0 8px 24px rgba(0,0,0,0.1)",
+                        "&::-webkit-scrollbar": {
+                          width: "6px",
+                        },
+                        "&::-webkit-scrollbar-thumb": {
+                          backgroundColor: "#0288d1",
+                          borderRadius: "4px",
+                        },
+                        "&::-webkit-scrollbar-thumb:hover": {
+                          backgroundColor: "#56c8f2",
+                        },
+                      }}
+                    >
+                      {children}
+                    </Paper>
+                  )}
+                  PopperComponent={(props) => (
+                    <Popper {...props} placement="bottom-start" />
+                  )}
+                />
+              </Grid>
+              {/* Date */}
+              <Grid item xs={12} sm={6} md={6}>
+                <TextField
+                  label="Date"
+                  name="date"
+                  type="datetime-local"
+                  fullWidth
+                  size="small"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  sx={selectStyles}
+                  value={datetime}
+                  onChange={(e) => setDatetime(e.target.value)}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6} md={6} sx={{ mt: 0 }}>
+                {/* Row: Upload Button + Preview Icon */}
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                  {/* Upload Button */}
                   <Button
                     variant="outlined"
                     component="label"
-                    fullWidth
                     sx={{ color: "#5FC8EC", borderColor: "#5FC8EC" }}
+                    size="small"
                   >
                     Choose File
                     <input
                       type="file"
                       hidden
                       name="file"
-                      //   onChange={handleFileChange}
+                      accept="image/*"
+                      onChange={handleFileChange}
                     />
                   </Button>
-                  {formData.file && (
-                    <Typography variant="body2" sx={{ mt: 1, color: "white" }}>
-                      Selected: {formData.file.name}
-                    </Typography>
+
+                  {/* 👇 Preview Icon (opens modal) */}
+                  {(file || existingFileName) && (
+                    <Tooltip title="Preview Image">
+                      <IconButton
+                        onClick={() => setPreviewOpen(true)}
+                        sx={{ color: "#5FC8EC" }}
+                      >
+                        <PreviewIcon />
+                      </IconButton>
+                    </Tooltip>
                   )}
-                </Grid>
+                </Box>
 
-                {/* Date */}
+                {/* File status below */}
+                {file ? (
+                  <Typography variant="body2" sx={{ mt: 0, color: "white" }}>
+                    Selected: {file.name}
+                  </Typography>
+                ) : existingFileName ? (
+                  <Typography variant="body2" sx={{ mt: 0, color: "white" }}>
+                    Existing: {existingFileName.split("/").pop()}
+                  </Typography>
+                ) : (
+                  <Typography variant="body2" sx={{ mt: 0, color: "gray" }}>
+                    No file uploaded
+                  </Typography>
+                )}
+
+                {/* Image Preview Modal */}
+                <Dialog
+                  open={previewOpen}
+                  onClose={() => setPreviewOpen(false)}
+                  maxWidth="sm"
+                  fullWidth
+                >
+                  <DialogContent sx={{ textAlign: "center" }}>
+                    {getPreviewUrl() ? (
+                      <>
+                        <img
+                          src={getPreviewUrl()}
+                          alt="Preview"
+                          style={{
+                            maxWidth: "100%",
+                            maxHeight: "70vh",
+                            borderRadius: 8,
+                          }}
+                        />
+                        {/* Delete Button inside Modal */}
+                        <Button
+                          variant="outlined"
+                          color="error"
+                          sx={{ mt: 2 }}
+                          onClick={() => {
+                            setFile(null);
+                            setExistingFileName("");
+                            setPreviewUrl(null);
+                            setPreviewOpen(false);
+                          }}
+                        >
+                          Delete Image
+                        </Button>
+                      </>
+                    ) : (
+                      <Typography>No image available</Typography>
+                    )}
+                  </DialogContent>
+                </Dialog>
               </Grid>
+            </Grid>
 
-              {/* Buttons */}
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "center",
-                  mt: 3,
-                  gap: 2,
-                }}
-              >
-               
+            {/* File Upload */}
+
+            {/* Buttons */}
+            <Box
+              sx={{ display: "flex", justifyContent: "center", mt: 3, gap: 2 }}
+            >
+              {editingId ? (
                 <Button
-                  type="submit"
+                  color="warning"
+                  sx={{
+                    mt: 1,
+                    width: "40%",
+                    backgroundColor: "rgba(18,166,95, 0.8)",
+                    color: "#fff",
+                    textTransform: "none",
+                    fontWeight: "600",
+                    fontFamily: "Roboto",
+                    borderRadius: "12px",
+                    mx: "auto",
+                    display: "block",
+                  }}
+                  onClick={handleUpdate}
                   variant="contained"
-                  sx={{ bgcolor: "#5FC8EC", "&:hover": { bgcolor: "#4FB0D0" } }}
+                >
+                  Update
+                </Button>
+              ) : (
+                <Button
+                  color="warning"
+                  sx={{
+                    mt: 2,
+                    width: "40%",
+                    backgroundColor: "rgba(18,166,95, 0.8)",
+                    color: "#fff",
+                    fontWeight: "600",
+                    fontFamily: "Roboto",
+                    textTransform: "none",
+                    borderRadius: "12px",
+                    mx: "auto",
+                    display: "block",
+                  }}
+                  onClick={handleSubmit}
+                  variant="contained"
                 >
                   Submit
                 </Button>
-              </Box>
-            </form>
+              )}
+            </Box>
+
+            {/* </form> */}
           </Paper>
         </Grid>
       </Grid>

@@ -393,13 +393,13 @@ const AlertPanel = ({ darkMode }) => {
             }}
         >
 
-            <>
+            {/* <>
                 {!allowed && newToken && (
                     <button onClick={enableNotifications}>
                         Enable Notifications
                     </button>
                 )}
-            </>
+            </> */}
             {/* {
                 localStorage.getItem("user_group") !== "1" && <Sidebar darkMode={darkMode} />
             } */}

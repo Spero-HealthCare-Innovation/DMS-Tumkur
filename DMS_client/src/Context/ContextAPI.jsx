@@ -491,7 +491,7 @@ const fetchChiefComplaints = async (callTypeId = 1) => {
 const fetchSubChiefComplaints = async (pc_id) => {
   try {
     const res = await axios.get(
-      `http://192.168.1.116:6003/admin_web/sub_chief_complaints/${pc_id}/`
+      `${port}/admin_web/sub_chief_complaints/${pc_id}/`
     );
     setSubChiefComplaints(prev => ({
       ...prev,
