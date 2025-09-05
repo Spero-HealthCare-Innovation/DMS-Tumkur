@@ -11,12 +11,10 @@ import Departmentsidebar from "./Componenets/SuperAdmin/Sidebar/DepartmentSideba
 function App() {
   const [darkMode, setDarkMode] = useState(true);
   const [userGroup, setUserGroup] = useState("");
-  console.log(userGroup, 'userGroup');
   const location = useLocation();
 
   useEffect(() => {
     const storedGroup = localStorage.getItem("user_group");
-    console.log("Stored group from localStorage:", storedGroup);
     setUserGroup(storedGroup);
   }, [location]);
 
@@ -49,26 +47,36 @@ function App() {
       <div
         style={{
           display: "flex",
+          flexDirection: "column",
           minHeight: "100vh",
           backgroundColor: darkMode ? "black" : "#f5f5f5",
           transition: "background-color 0.5s ease-in-out",
         }}
       >
-        <div style={{ flex: 1 }}>
-          {!isAuthRoute && userGroup !== null && (
-            <>
-              <Navbar
-                darkMode={darkMode}
-                toggleDarkMode={() => setDarkMode((prev) => !prev)}
-              />
-              {(userGroup === "1") && <Departmentsidebar darkMode={darkMode} />}
-            </>
-          )}
-          <div>
-            <AppRoutes darkMode={darkMode} />
+        {/* Navbar (fixed at top) */}
+        {!isAuthRoute && userGroup !== null && (
+          <div style={{ position: "sticky", top: 0, zIndex: 1100 }}>
+            <Navbar
+              darkMode={darkMode}
+              toggleDarkMode={() => setDarkMode((prev) => !prev)}
+            />
           </div>
-          {!isAuthRoute && userGroup !== null && <Footer darkMode={darkMode} />}
+        )}
+
+        {/* Sidebar (only for group 1) */}
+        {(userGroup === "1") && <Departmentsidebar darkMode={darkMode} />}
+
+        {/* Main scrollable content */}
+        <div style={{ flex: 1, overflowY: "auto" }}>
+          <AppRoutes darkMode={darkMode} />
         </div>
+
+        {/* Footer (fixed at bottom) */}
+        {!isAuthRoute && userGroup !== null && (
+          <div style={{ position: "sticky", bottom: 0, zIndex: 1100 }}>
+            <Footer darkMode={darkMode} />
+          </div>
+        )}
       </div>
     </ThemeProvider>
   );
