@@ -236,7 +236,7 @@ const AppRoutes = ({ darkMode, setIsLoggedIn }) => {
         <Route path="*" element={<Unauthorized />} />
       </Routes>
 
-      <>
+      {/* <>
         <IconButton
           sx={{
             position: "fixed",
@@ -267,7 +267,7 @@ const AppRoutes = ({ darkMode, setIsLoggedIn }) => {
             <ChatModal handleClose={() => setOpen(false)} />
           </Box>
         </Grow>
-      </>
+      </> */}
 
     </Suspense>
   );

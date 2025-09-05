@@ -1027,47 +1027,37 @@ const AddDepartment = ({ darkMode, flag, setFlag, setSelectedIncident }) => {
                               {item.dst_name}
                             </Typography>
                           </StyledCardContent>
-
-                          {/* <StyledCardContent
-                            sx={{
-                              flex: 0.8,
-                              justifyContent: "center",
-                              ...fontsTableBody,
-                            }}
-                          >
-                            <Typography variant="subtitle2">
-                              {item.tah_name}
-                            </Typography>
-                          </StyledCardContent> */}
-                          {/* <StyledCardContent
-                            sx={{
-                              flex: 1.3,
-                              justifyContent: "center ",
-                              ...fontsTableBody,
-                            }}
-                          >
-                            <Typography variant="subtitle2">
-                              {item.city_name}
-                            </Typography>
-                          </StyledCardContent> */}
-                          <StyledCardContent
-                            sx={{
-                              flex: 0.3,
-                              justifyContent: "center",
-                            }}
-                          >
-                            <MoreHorizIcon
-                              onClick={(e) => handleOpen(e, item)}
+                          {(editDepartment || deleteDepartments) ? (
+                            <StyledCardContent
                               sx={{
-                                color: "white",
-                                cursor: "pointer",
-                                // fontSize: 35,
+                                flex: 0.3,
                                 justifyContent: "center",
-                                fontSize: 14,
-                                ...fontsTableBody,
                               }}
-                            />
-                          </StyledCardContent>
+                            >
+                              <MoreHorizIcon
+                                onClick={(e) => handleOpen(e, item)}
+                                sx={{
+                                  color: "white",
+                                  cursor: "pointer",
+                                  justifyContent: "center",
+                                  fontSize: 14,
+                                  ...fontsTableBody,
+                                }}
+                              />
+                            </StyledCardContent>
+                          )
+                            :
+                            (
+                              <StyledCardContent
+                                sx={{
+                                  flex: 0.3,
+                                  justifyContent: "center",
+                                }}
+                              >
+                              -
+                              </StyledCardContent>
+                            )
+                          }
 
                           {(editDepartment || deleteDepartments) && (
                             <Popover
