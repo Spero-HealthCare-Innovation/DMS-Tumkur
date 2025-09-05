@@ -1106,6 +1106,7 @@ class Missing_Person(models.Model):
     scheduled_datetime = models.DateTimeField(null=True, blank=True)
     is_deleted = models.BooleanField(default=False)
     added_by = models.CharField(max_length=255, null=True, blank=True)
+    added_date = models.DateTimeField(auto_now=True,null=True, blank=True)
     modified_by = models.CharField(max_length=255, null=True, blank=True)
     modified_date = models.DateTimeField(auto_now=True,null=True, blank=True)
 
@@ -1123,6 +1124,7 @@ class Unclaimed_Bodies(models.Model):
     longitude = models.FloatField(null=True,blank=True)
     scheduled_datetime = models.DateTimeField(null=True, blank=True)
     is_deleted = models.BooleanField(default=False)
+    added_date = models.DateTimeField(auto_now=True,null=True, blank=True)
     added_by = models.CharField(max_length=255, null=True, blank=True)
     modified_by = models.CharField(max_length=255, null=True, blank=True)
     modified_date = models.DateTimeField(auto_now=True,null=True, blank=True)
@@ -1140,6 +1142,7 @@ class Unclaimed_Vehicles(models.Model):
     latitude = models.FloatField(null=True,blank=True)
     longitude = models.FloatField(null=True,blank=True) 
     is_deleted = models.BooleanField(default=False)
+    added_date = models.DateTimeField(auto_now=True,null=True, blank=True)
     added_by = models.CharField(max_length=255, null=True, blank=True)
     modified_by = models.CharField(max_length=255, null=True, blank=True)
     modified_date = models.DateTimeField(auto_now=True,null=True, blank=True)
@@ -1157,6 +1160,7 @@ class Vehicle_Theft(models.Model):
     latitude = models.FloatField(null=True,blank=True)
     longitude = models.FloatField(null=True,blank=True) 
     is_deleted = models.BooleanField(default=False)
+    added_date = models.DateTimeField(auto_now=True,null=True, blank=True)
     added_by = models.CharField(max_length=255, null=True, blank=True)
     modified_by = models.CharField(max_length=255, null=True, blank=True)
     modified_date = models.DateTimeField(auto_now=True,null=True, blank=True)
@@ -1172,3 +1176,10 @@ class DMS_Files(models.Model):
     added_by = models.CharField(max_length=255, null=True, blank=True)
     modified_by = models.CharField(max_length=255, null=True, blank=True)
     modified_date = models.DateTimeField(auto_now=True,null=True, blank=True)
+    
+    
+class DMS_lat_long_data(models.Model):
+    pk_id = models.AutoField(primary_key=True)
+    latitude = models.FloatField(null=True,blank=True)
+    longitude = models.FloatField(null=True,blank=True)
+    vehicleNumberKey = models.CharField(max_length=50,null=True, blank=True)
