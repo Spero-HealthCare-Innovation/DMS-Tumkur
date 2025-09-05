@@ -1183,3 +1183,4 @@ class DMS_lat_long_data(models.Model):
     latitude = models.FloatField(null=True,blank=True)
     longitude = models.FloatField(null=True,blank=True)
     vehicleNumberKey = models.CharField(max_length=50,null=True, blank=True)
+    
