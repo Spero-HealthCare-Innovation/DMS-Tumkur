@@ -1155,3 +1155,15 @@ class Vehicle_Theft(models.Model):
     added_by = models.CharField(max_length=255, null=True, blank=True)
     modified_by = models.CharField(max_length=255, null=True, blank=True)
     modified_date = models.DateTimeField(auto_now=True,null=True, blank=True)
+
+
+
+class DMS_Files(models.Model):
+    pk_id = models.AutoField(primary_key=True)
+    incident_id = models.ForeignKey(DMS_Incident,on_delete=models.CASCADE,null=True,blank=True)
+    file = models.FileField(upload_to='media_files/DMS_Files/', null=True, blank=True)
+    is_deleted = models.BooleanField(default=False)
+    added_date = models.DateTimeField(auto_now=True,null=True, blank=True)
+    added_by = models.CharField(max_length=255, null=True, blank=True)
+    modified_by = models.CharField(max_length=255, null=True, blank=True)
+    modified_date = models.DateTimeField(auto_now=True,null=True, blank=True)

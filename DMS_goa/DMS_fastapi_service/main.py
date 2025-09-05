@@ -11,6 +11,8 @@ import asyncio
 from kafka import KafkaProducer
 from kafka import KafkaConsumer
 import threading
+from django.utils.timezone import now
+
 from asgiref.sync import sync_to_async
 # import subprocess
 # import pygetwindow as gw
@@ -30,6 +32,7 @@ from typing import List
 # # from .websocket_router import router as websocket_router
 import httpx
 import pandas as pd
+from django.core.cache import cache
 
 # from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 import json
@@ -137,6 +140,13 @@ async def lifespan(app: FastAPI):
     #     print("✅ send_weather_to_kafka_periodically task created")
     # except Exception as e:
     #     print(f"❌ Failed to create new_weather_task: {e}")
+    
+    try:
+        pending_web = asyncio.create_task(fetch_and_cache_pending_alerts())
+        print("✅ send_weather_to_kafka_periodically task created")
+    except Exception as e:
+        print(f"❌ Failed to create new_weather_task: {e}")
+
 
     try:
         postgres_task = asyncio.create_task(listen_to_postgres())
@@ -165,6 +175,10 @@ async def lifespan(app: FastAPI):
     #     await new_weather_task
     # except asyncio.CancelledError:
     #     pass
+    try:
+        await pending_web
+    except asyncio.CancelledError:
+        pass
 
 
 app = FastAPI(lifespan=lifespan)
@@ -1043,3 +1057,72 @@ async def websocket_disaster_alerts(websocket: WebSocket):
 
 
 
+connected_pending_clients = set()
+
+CACHE_KEY = "pending_alerts_cache"
+
+async def fetch_and_cache_pending_alerts():
+    """Background task: fetch pending alerts & store in cache"""
+    while True:
+        try:
+            five_min_ago = now() - timedelta(minutes=5)
+            pending_alerts = await sync_to_async(list)(
+                Weather_alerts.objects.filter(
+                    triger_status=1,
+                    alert_datetime__lte=five_min_ago
+                ).values("pk_id")
+            )
+
+            # Convert into simple list of dicts
+            data = [
+                {"pk_id": alert["pk_id"], "pending_action": True}
+                for alert in pending_alerts
+            ]
+
+            # Store in cache for 10 sec
+            cache.set(CACHE_KEY, data, timeout=10)
+
+            # Broadcast to all connected clients
+            for ws in connected_pending_clients.copy():
+                try:
+                    for alert in data:
+                        await ws.send_text(json.dumps(alert))
+                        await asyncio.sleep(0.01)
+                except Exception:
+                    connected_pending_clients.discard(ws)
+
+        except Exception as e:
+            print(f"Error in fetch_and_cache_pending_alerts: {e}")
+
+        await asyncio.sleep(10)  # refresh every 10 sec
+
+
+@app.on_event("startup")
+async def startup_event():
+    # Start background fetch task on server start
+    asyncio.create_task(fetch_and_cache_pending_alerts())
+
+
+@app.websocket("/ws/pending_weather_alerts")
+async def pending_weather_alerts_ws(websocket: WebSocket):
+    await websocket.accept()
+    connected_pending_clients.add(websocket)
+    print(f"Pending WebSocket connected: {websocket.client}")
+
+    try:
+        # Send cached data immediately on connect
+        cached_data = cache.get(CACHE_KEY, [])
+        for alert in cached_data:
+            await websocket.send_text(json.dumps(alert))
+
+        # Keep connection alive
+        while True:
+            try:
+                await asyncio.wait_for(websocket.receive_text(), timeout=30.0)
+            except asyncio.TimeoutError:
+                pass
+
+    except WebSocketDisconnect:
+        print(f"Pending WebSocket disconnected: {websocket.client}")
+    finally:
+        connected_pending_clients.discard(websocket)

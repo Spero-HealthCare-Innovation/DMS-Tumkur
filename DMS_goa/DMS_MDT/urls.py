@@ -21,5 +21,8 @@ urlpatterns = [
     path('Userlistambvise', Userlistambvise.as_view(),name='Userlistambvise'),
     path('clockinout',Clockinout.as_view(),name='clockinout'),
     path("vehical_dashboard/", VehicalDashboardCount.as_view(), name="vehical-dashboard-count"),    
+    path("pcr_report_get/", pcr_report_get.as_view(), name="pcr_report_get"),    
+
 ]
+
  
