@@ -52,6 +52,8 @@ urlpatterns = [
 
 
 
+    path('update_inc/',update_incident_API.as_view(),name='update_inc'),
+
     path('duplicate_inc/',duplicate_incident_API.as_view(),name='duplicate_inc'),
     path('mark_duplicate_inc/',duplicate_incident_API.as_view(),name='mark_duplicate_inc'),
 
@@ -113,6 +115,8 @@ urlpatterns = [
     
     path('ward_get/<int:tah_id>/', Ward_get_API.as_view(), name='ward_get'),
     path('ward_officer_get/<int:ward_id>/', Ward_Officer_get_API.as_view(), name='ward_officer_get'),
+    
+    path('caller_details/<str:caller_no>/', Caller_Details_get.as_view(), name='caller_details'),
     
     
     
@@ -195,8 +199,10 @@ urlpatterns = [
     path('VehicleTheft_put/<int:id>/',VehicleTheft_put.as_view(), name='VehicleTheft_put'),
     path('VehicleTheft_delete/<int:id>/',VehicleTheft_delete.as_view(), name='VehicleTheft_delete'),
 
+    path('lat_long_get/',lat_long_get.as_view(), name='lat_long_get'),
+    path('lat_long_post/',lat_long_post.as_view(), name='lat_long_post'),
 
-
+  
 
 ]
 

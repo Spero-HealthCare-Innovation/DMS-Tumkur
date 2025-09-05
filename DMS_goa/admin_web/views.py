@@ -943,21 +943,29 @@ class Manual_Call_Incident_api(APIView):
         print("Request data:", data)
         caller_fields = ['caller_no', 'caller_name', 'caller_added_by', 'caller_modified_by','call_recieved_from']
         comments_fields = ['comments', 'comm_added_by', 'comm_modified_by']
-
+        
         incident_data = {field: data.get(field) for field in incident_fields}
         caller_data = {field: data.get(field) for field in caller_fields}
         comments_data = {field: data.get(field) for field in comments_fields}
         
-        print("Incident data:", incident_data)
-        print("Caller data:", caller_data)
-        print("Comments data:", comments_data)
+        caller_instance = None
+        if caller_data.get("caller_no"):
+            caller_instance = DMS_Caller.objects.filter(caller_no=caller_data["caller_no"]).first()
 
-       
-        caller_serializer = Manual_call_data_Serializer(data=caller_data)
-        if not caller_serializer.is_valid():
-            return Response({"caller_errors": caller_serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
-        caller_instance = caller_serializer.save()
-        print("Caller instance saveddd:", caller_instance)
+        if caller_instance:
+            caller_serializer = Manual_call_data_Serializer(
+                caller_instance, data=caller_data, partial=True
+            )
+            if not caller_serializer.is_valid():
+                return Response({"caller_errors": caller_serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+            caller_instance = caller_serializer.save()
+            print("Caller updated:", caller_instance)
+        else:
+            caller_serializer = Manual_call_data_Serializer(data=caller_data)
+            if not caller_serializer.is_valid():
+                return Response({"caller_errors": caller_serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+            caller_instance = caller_serializer.save()
+            print("Caller created:", caller_instance)
         
         incident_data['caller_id'] = caller_instance.pk
         print("Updated incident data with caller_id:", incident_data['caller_id'])
@@ -979,12 +987,10 @@ class Manual_Call_Incident_api(APIView):
         
         uploaded_files = []
         if request.FILES:
-            # Get all uploaded files under the key `files`
             files = request.FILES.getlist("files")  
             for f in files:
-                # Create a new row for each file with SAME incident_id
                 file_obj = DMS_Files.objects.create(
-                    incident_id=incident_instance,   # 🔗 link all files to same incident
+                    incident_id=incident_instance,   
                     file=f,
                     added_by=incident_instance.inc_added_by,
                     modified_by=incident_instance.inc_modified_by
@@ -1349,7 +1355,10 @@ class closure_Post_api(APIView):
         try:
             inccc = request.data.get('incident_id')
             dpt = request.data.get('responder')
-            vehicle_no=request.data.get('vehicle_no')
+            vehicle_no= request.data.get('vehicle_no')
+            audio = request.data.get('audio') if request.data.get('audio') else None
+            video = request.data.get('video') if request.data.get('video') else None
+            image = request.data.get('image') if request.data.get('image') else None
 
             vehicl_dtls = Vehical.objects.get(veh_id=vehicle_no)
             inc_dtl = DMS_Incident.objects.get(incident_id=inccc)
@@ -1372,7 +1381,10 @@ class closure_Post_api(APIView):
                 closure_added_by=request.data.get('closure_added_by'),
                 closure_modified_by=request.data.get('closure_modified_by'),
                 closure_modified_date=request.data.get('closure_modified_date'),
-                closure_remark=request.data.get('closure_remark')
+                closure_remark=request.data.get('closure_remark'),
+                audio = audio,
+                video = video,
+                image = image
             )
             inc_vh = incident_vehicles.objects.filter(incident_id=inc_dtl, veh_id=vehicl_dtls, status=1)
             if inc_vh.exists():
@@ -1611,6 +1623,12 @@ class duplicate_incident_API(APIView):
 
             duplicates = DMS_Incident.objects.filter(**filters)
             print("duplicates-----", duplicates)
+
+            if not duplicates.exists():
+                return Response(
+                    {"msg": "No duplicate incident found."},
+                    status=status.HTTP_200_OK,
+                )
             serializer = Duplicate_Incident_Serializer(duplicates, many=True)
             return Response(
                 {"msg": "Duplicate incident is found", "data": serializer.data},
@@ -1639,6 +1657,96 @@ class duplicate_incident_API(APIView):
         return Response({'status': True, 'message': 'Incident marked as duplicate successfully.'}, status=status.HTTP_200_OK)
 
         
+
+class update_incident_API(APIView):
+    renderer_classes = [UserRenderer]
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        inc_id = request.data.get('incident_id')
+        if not inc_id:
+            return Response({"error": "incident_id is required."}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            inc_obj = DMS_Incident.objects.get(
+                incident_id=inc_id,
+                inc_is_deleted=False,
+                clouser_status=False
+            )
+        except DMS_Incident.DoesNotExist:
+            return Response({"error": "Incident not found or already closed/deleted."}, status=status.HTTP_404_NOT_FOUND)
+
+        # 🔹 Save current state into Reopened_Incident (history)
+        reopened = Reopened_Incident.objects.create(
+            incident_id=inc_obj,
+            reopend_inc_added_by=str(request.user),
+            location=inc_obj.location,
+            latitude=inc_obj.latitude,
+            longitude=inc_obj.longitude,
+            inc_type=inc_obj.inc_type,
+            disaster_type=inc_obj.disaster_type,
+            ward=inc_obj.ward,
+            tahsil=inc_obj.tahsil,
+            district=inc_obj.district,
+            # ward_officer=inc_obj.ward_officer,
+            summary=inc_obj.summary,
+            caller_id=inc_obj.caller_id,
+            notify_id=inc_obj.notify_id,
+            alert_id=inc_obj.alert_id,
+            alert_type=inc_obj.alert_type,
+            comment_id=inc_obj.comment_id,
+            alert_code=inc_obj.alert_code,
+            alert_division=inc_obj.alert_division,
+            mode=inc_obj.mode,
+            time=inc_obj.time,
+            inc_is_deleted=inc_obj.inc_is_deleted,
+            clouser_status=inc_obj.clouser_status,
+            inc_added_by=inc_obj.inc_added_by,
+            inc_modified_by=inc_obj.inc_modified_by,
+            call_recieved_from=inc_obj.call_recieved_from,
+            call_type=inc_obj.call_type,
+            parent_complaint=inc_obj.parent_complaint,
+            forcefully_closed=inc_obj.forcefully_closed,
+        )
+
+        # Copy ManyToMany (responder_scope) into history
+        if hasattr(inc_obj, "responder_scope"):
+            reopened.responder_scope.set(inc_obj.responder_scope.all())
+
+        # 🔹 Normal updatable fields (direct assignment)
+        normal_fields = [
+            "location", "latitude", "longitude",
+            "inc_type", "alert_type"
+        ]
+        # "ward_officer", 
+        for field in normal_fields:
+            if field in request.data:
+                setattr(inc_obj, field, request.data.get(field))
+
+        # 🔹 ForeignKey fields (_id assignment)
+        fk_fields = [
+            "disaster_type", "ward", "tahsil", "district",
+            "summary", "parent_complaint", "call_type"
+        ]
+        for field in fk_fields:
+            if field in request.data:
+                setattr(inc_obj, f"{field}_id", request.data.get(field))
+
+        # 🔹 ManyToMany fields
+        if "responder_scope" in request.data:
+            responder_ids = request.data.get("responder_scope", [])
+            inc_obj.responder_scope.set(responder_ids)
+
+        inc_obj.save()
+
+        return Response(
+            {"msg": f"Incident {inc_obj.incident_id} updated successfully. Previous data stored in Reopened_Incident."},
+            status=status.HTTP_200_OK
+        )
+
+
+
+
 
 
 class dispatch_sop_Get_API(APIView):
@@ -3028,7 +3136,7 @@ class VehicleTheft_get(APIView):
         # instance = Unclaimed_Bodies.objects.filter(is_deleted=False)
         serializer = Vehicle_Theftsserializer(instance, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
-
+ 
 
 class VehicleTheft_idwiseget(APIView):
     def get(self,request,id):
@@ -3087,9 +3195,26 @@ class VehicleTheft_delete(APIView):
 
 
 
+class Caller_Details_get(APIView):
+    def get(self,request,caller_no):
+        instance = DMS_Caller.objects.filter(caller_is_deleted=False,caller_no=caller_no)
+        serializer = DMS_caller_info_Serializer(instance, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
- 
 
+class lat_long_get(APIView):
+    def get(self, request):
+        lat_long = DMS_lat_long_data.objects.all()
+        serializer = DMSlatlongSerializer(lat_long, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+class lat_long_post(APIView):
+    def post(self, request):
+        serializer = DMSlatlongSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 

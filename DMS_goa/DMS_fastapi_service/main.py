@@ -1066,20 +1066,20 @@ async def fetch_and_cache_pending_alerts():
     while True:
         try:
             five_min_ago = now() - timedelta(minutes=5)
-            pending_alerts = await sync_to_async(list)(
+            pending_exists = await sync_to_async(
                 Weather_alerts.objects.filter(
                     triger_status=1,
                     alert_datetime__lte=five_min_ago
-                ).values("pk_id")
-            )
+                ).exists
+            )()
 
-            # Convert into simple list of dicts
-            data = [
-                {"pk_id": alert["pk_id"], "pending_action": True}
-                for alert in pending_alerts
-            ]
+            # Agar ek bhi pending record hai toh bas {"pending_action": True}
+            if pending_exists:
+                data = [{"pending_action": True}]
+            else:
+                data = [{"pending_action": False}]
 
-            # Store in cache for 10 sec
+            # Cache me store
             cache.set(CACHE_KEY, data, timeout=10)
 
             # Broadcast to all connected clients
