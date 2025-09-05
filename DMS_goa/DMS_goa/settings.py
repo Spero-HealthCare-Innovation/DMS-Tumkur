@@ -21,7 +21,6 @@ import os
 # BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = Path(__file__).resolve().parent.parent
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
 
@@ -34,7 +33,8 @@ SECRET_KEY = 'django-insecure-8(5d-gneh@!wgfto_an0d!*-*6)pc#$5^9^q6wi4&i2upr$=^c
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['122.176.232.35','192.168.1.202','127.0.0.1','192.168.1.133']
+# ALLOWED_HOSTS = ['122.176.232.35','192.168.1.202','127.0.0.1','192.168.1.133']
+ALLOWED_HOSTS = ['122.176.232.35','192.168.1.116','127.0.0.1','192.168.1.133']
 
 
 # Application definition
@@ -116,7 +116,7 @@ DATABASES = {
 
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'DMS_Testing_TUMKUR_2025',
+        'NAME': 'DMS_TUMKUR_2025',
         'USER': 'postgres',
         'PASSWORD': 'spero@123#2025$', 
         'HOST': '192.168.1.133',
@@ -259,18 +259,25 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "http://localhost:5174",
     "http://localhost:5175",
-    "http://192.168.1.202:7001",
-    "http://192.168.1.202:6004",
-    "http://192.168.1.202:7778",
-    "http://192.168.1.202:9001",
+    "http://192.168.1.116:7000",
+    "http://192.168.1.116:6003",
+    "http://92.168.1.116:7777",
+    "http://192.168.1.116:9000",
     "http://122.176.232.35:7000",
+    "http://122.176.232.35:6003",
+    "http://122.176.232.35:7777",
     "http://210.212.165.119",
     "http://localhost:3000",
     "http://localhost:3001",
 ]
- 
+
 CSRF_TRUSTED_ORIGINS = [
-    "http://192.168.1.202:6004",
+    "http://192.168.1.116:7000",
+    "http://192.168.1.116:6003",
+    "http://92.168.1.116:7777",
+    "http://122.176.232.35:7000",
+    "http://122.176.232.35:6003",
+    "http://122.176.232.35:7777",
     "http://122.176.232.35:6003",
 
 ]
