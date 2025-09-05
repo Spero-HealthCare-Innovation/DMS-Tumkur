@@ -1,0 +1,28 @@
+name: Block Disallowed Merges
+
+on:
+  pull_request:
+
+jobs:
+  block-merges:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check disallowed source → target
+        run: |
+          SRC="${{ github.head_ref }}"
+          DEST="${{ github.base_ref }}"
+
+          echo "🔎 Checking merge: $SRC → $DEST"
+
+          if [[ "$SRC" == "Backend" && "$DEST" == "Testing" ]]; then
+            echo "❌ Merging Backend → Testing is not allowed!"
+            exit 1
+          # elif [[ "$SRC" == "main" && "$DEST" == "testing" ]]; then
+          #   echo "❌ Merging main → testing is not allowed!"
+          #   exit 1
+          # elif [[ "$SRC" == "development" && "$DEST" == "testing" ]]; then
+          #   echo "❌ Merging development → testing is not allowed!"
+          #   exit 1
+          else
+            echo "✅ Allowed merge: $SRC → $DEST"
+          fi
