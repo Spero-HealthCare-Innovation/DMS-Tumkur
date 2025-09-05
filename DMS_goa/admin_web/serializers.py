@@ -330,10 +330,10 @@ class WeatherAlertSerializer(serializers.ModelSerializer):
             return obj.disaster_id.disaster_name  # assuming `disaster_name` is a field in DMS_Disaster_Type
         return None
 
-# class Incident_Serializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = DMS_Incident
-#         fields = '__all__' 
+class Duplicate_Incident_Serializer(serializers.ModelSerializer):
+    class Meta:
+        model = DMS_Incident
+        fields = '__all__' 
 
 class NotifySerializer(serializers.ModelSerializer):
     class Meta:
