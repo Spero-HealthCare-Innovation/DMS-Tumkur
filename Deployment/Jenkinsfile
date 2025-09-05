@@ -37,13 +37,13 @@ pipeline {
                         if (!fileExists('.git')) {
                             echo "Cloning repository into ${TARGET_DIR}..."
                             checkout([$class: 'GitSCM',
-                                      branches: [[name: "${GIT_BRANCH}"]],
-                                      doGenerateSubmoduleConfigurations: false,
-                                      extensions: [[$class: 'CleanBeforeCheckout']],
-                                      userRemoteConfigs: [[
-                                          url: "${GIT_REPO_URL}",
-                                          credentialsId: 'dms_tumkuru'
-                                      ]]
+                                    branches: [[name: "${GIT_BRANCH}"]],
+                                    doGenerateSubmoduleConfigurations: false,
+                                    extensions: [[$class: 'CleanBeforeCheckout']],
+                                    userRemoteConfigs: [[
+                                        url: "${GIT_REPO_URL}",
+                                        credentialsId: 'dms_tumkuru'
+                                    ]]
                             ])
                         } else {
                             echo "Repository already exists. Pulling latest changes..."
@@ -51,13 +51,14 @@ pipeline {
                                 git config --global --add safe.directory \$(pwd)
                                 git fetch origin ${GIT_BRANCH}
                                 git reset --hard origin/${GIT_BRANCH}
-                                git clean -fd -e vvenv/
+                                git clean -fd -e vvenv/ -e logs/
                             """
                         }
                     }
                 }
             }
         }
+
 
         stage('Fix Permissions') {
             steps {
@@ -66,8 +67,7 @@ pipeline {
                         sudo chown -R jenkins:dmsgroup .
                         sudo chmod -R 775 .
                         sudo find . -type d -exec chmod g+s {} \\;
-                        # Also fix .git explicitly
-                        sudo chown -R jenkins:jenkins .git
+                        sudo chown -R jenkins:dmsgroup logs
                     '''
                 }
             }
