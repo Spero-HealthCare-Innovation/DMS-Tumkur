@@ -12,9 +12,9 @@ import {
   DialogActions,
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
-import loginBg from "../../assets/pune_login_bg.png";
-import PMCLogo from "../../assets/logo.png";
+import loginBg from "../../assets/Group 1000003336.png";
 import Spero from "../../assets/spero1.png";
+import EfkonImage from "../../assets/image (48).png";
 import { useNavigate } from "react-router-dom";
 import CachedIcon from "@mui/icons-material/Cached";
 
@@ -245,7 +245,7 @@ function Login() {
       } else if (group === "4") {
         console.log("GROUP 4 DETECTED - Navigating to /add-group");
         navigate("/add-group");
-      } 
+      }
       else if (group === "6") {
         navigate("/sop");
       }
@@ -336,28 +336,10 @@ function Login() {
               flexDirection: "column",
               justifyContent: "flex-start",
               alignItems: "center",
+              marginTop: 6,
             }}
           >
-            <Box
-              sx={{
-                mb: 1,
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <Box
-                component="img"
-                src={PMCLogo}
-                alt="Company Logo"
-                sx={{
-                  width: "70px",
-                  height: "auto",
-                  objectFit: "contain",
-                }}
-              />
-            </Box>
-            <Typography variant="h6" gutterBottom sx={{ color: "white" }}>
+            <Typography variant="h6" gutterBottom sx={{ color: "white",marginBottom: 4 }}>
               <b>User Login</b>
             </Typography>
 
@@ -456,9 +438,7 @@ function Login() {
               )}
             </Box>
 
-            {/* Captcha Section */}
             <Box sx={{ width: "100%", mb: 2 }}>
-              {/* Captcha Label (Typography) */}
               <Typography
                 sx={{
                   color: "white",
@@ -470,17 +450,15 @@ function Login() {
                 Captcha
               </Typography>
 
-              {/* Captcha Image and Input Row */}
               <Box sx={{ display: "flex", alignItems: "center" }}>
-                {/* Captcha Image Container */}
                 {!captchaLoading && !captchaError && (
                   <Box
                     sx={{
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
-                      height: "40px", // Ensures the image is vertically aligned
-                      mr: 1, // Adds space between the image and input field
+                      height: "40px",
+                      mr: 1,
                     }}
                   >
                     <Box
@@ -490,15 +468,14 @@ function Login() {
                       onError={() => setCaptchaError(true)}
                       sx={{
                         height: "85%",
-                        maxWidth: "100px", // Controls the size of the captcha image
+                        maxWidth: "100px",
                         objectFit: "contain",
-                        background: "transparent", // Ensures no background in the image container
+                        background: "transparent",
                       }}
                     />
                   </Box>
                 )}
 
-                {/* Captcha Input Field */}
                 <Box
                   sx={{
                     display: "flex",
@@ -519,7 +496,7 @@ function Login() {
                       style: {
                         fontSize: "0.75rem",
                         padding: "6px 10px",
-                        width: "100px", // Controls input box width
+                        width: "100px",
                       },
                     }}
                     sx={{
@@ -530,7 +507,6 @@ function Login() {
                     }}
                   />
 
-                  {/* Refresh Icon */}
                   <IconButton
                     onClick={fetchCaptcha}
                     size="small"
@@ -600,19 +576,23 @@ function Login() {
                   cursor: "pointer",
                 }}
               >
-                {/* Change Password? */}
               </Typography>
             </Box>
 
-            <Box
-              component="img"
-              src={Spero}
-              alt="Spero Logo"
-              sx={{
-                width: "100px",
-                // mt: 5,
-              }}
-            />
+            <Box sx={{ display: "flex", alignItems: "center", gap: 14, marginTop: 8 }}>
+              <Box
+                component="img"
+                src={EfkonImage}
+                alt="Spero Logo"
+                sx={{ width: "100px" }}
+              />
+              <Box
+                component="img"
+                src={Spero}
+                alt="Spero Logo"
+                sx={{ width: "90px" }}
+              />
+            </Box>
           </Box>
         </Box>
         <Dialog
