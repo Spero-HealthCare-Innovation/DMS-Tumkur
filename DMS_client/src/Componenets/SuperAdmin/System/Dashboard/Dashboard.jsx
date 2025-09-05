@@ -700,7 +700,7 @@ series.ticks.template.setAll({
             elevation={3}
             sx={{
               borderRadius: "16px",
-              p: 2,
+              p: 1,
               mt: 1,
               backgroundColor: "rgba(112, 144, 176, 0.12)",
             }}
@@ -724,7 +724,7 @@ series.ticks.template.setAll({
                 {/* <Switch defaultChecked size="small" sx={{ mr: 1, zIndex: "100" }} /> */}
               </Box>
 
-              <Box ref={chartRef} sx={{ width: "300px", height: "250px", marginTop: "-3.6rem", marginBottom: "-3rem" }} />
+              <Box ref={chartRef} sx={{ width: "300px", height: "240px", marginTop: "-3.6rem", marginBottom: "-3rem" }} />
             </Box>
           </Paper>
         </Grid>
@@ -783,7 +783,7 @@ series.ticks.template.setAll({
           <Paper
             elevation={3}
             sx={{
-              p: 2.3,
+              p: 2,
               mt: 1,
               display: "flex",
               flexDirection: "column",
@@ -1092,6 +1092,7 @@ series.ticks.template.setAll({
                 sx={{
                   p: 1,
                   ml: 5,
+                  mt:-1,
                   display: "flex",
                   flexDirection: "column",
                   gap: 2,

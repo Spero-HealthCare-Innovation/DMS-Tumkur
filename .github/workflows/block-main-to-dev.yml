@@ -14,8 +14,8 @@ jobs:
 
           echo "🔎 Checking merge: $SRC → $DEST"
 
-          if [[ "$SRC" == "Development" && "$DEST" == "Testing" ]]; then
-            echo "❌ Merging Development → Testing is not allowed!"
+          if [[ "$SRC" == "Backend" && "$DEST" == "Testing" ]]; then
+            echo "❌ Merging Backend → Testing is not allowed!"
             exit 1
           # elif [[ "$SRC" == "main" && "$DEST" == "testing" ]]; then
           #   echo "❌ Merging main → testing is not allowed!"
