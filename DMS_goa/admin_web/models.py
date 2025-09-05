@@ -1008,7 +1008,7 @@ class Merge_Call_Incident(models.Model):
     merge_inc_modified_by = models.CharField(max_length=255, null=True, blank=True)
     merge_inc_modified_date = models.DateTimeField(null=True, blank=True)
     
-    responder_scope = models.ManyToManyField('DMS_Responder',blank=True)
+    responder_scope = models.ManyToManyField('DMS_Responder',blank=True ,related_name='merge_responder_scope')
     alert_id = models.ForeignKey(Weather_alerts,on_delete=models.CASCADE,null=True,blank=True)
     caller_id = models.ForeignKey(DMS_Caller,on_delete=models.CASCADE,null=True,blank=True,related_name="incident_caller")
     notify_id = models.ForeignKey('DMS_Notify',on_delete=models.CASCADE,null=True,blank=True)
@@ -1027,7 +1027,11 @@ class Merge_Call_Incident(models.Model):
     ward = models.ForeignKey('DMS_Ward',on_delete=models.CASCADE,null=True,blank=True)
     tahsil = models.ForeignKey(DMS_Tahsil,on_delete=models.CASCADE,null=True,blank=True)
     district = models.ForeignKey(DMS_District,on_delete=models.CASCADE,null=True,blank=True)
-    ward_officer = models.JSONField(null=True,blank=True)
+    ward_officer = models.ManyToManyField(
+        'DMS_Ward',
+        blank=True,
+        related_name='ward_officer_scope'
+    )
     inc_is_deleted = models.BooleanField(default=False)
     clouser_status = models.BooleanField(default=False,null=True,blank=True)
     inc_added_by=models.CharField(max_length=255,null=True,blank=True)
