@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import axios from "axios";
 import * as turf from "@turf/turf";
+
 const AuthContext = createContext();
 export const useAuth = () => useContext(AuthContext);
 
@@ -405,6 +406,7 @@ export const AuthProvider = ({ children }) => {
   const [avgTimes, setAvgTimes] = useState(null);
   const [callTypes, setCallTypes] = useState([]);
   const [chiefComplaints, setChiefComplaints] = useState([]);
+  const [subChiefComplaints, setSubChiefComplaints] = useState({});
   const [filter, setFilter] = useState("total"); // default filter
 
    const fetchVehicles = async () => {
@@ -483,6 +485,20 @@ const fetchChiefComplaints = async (callTypeId = 1) => {
     setChiefComplaints(res.data.chief_complaints || []);
   } catch (error) {
     console.error("Error fetching chief complaints:", error);
+  }
+};
+
+const fetchSubChiefComplaints = async (pc_id) => {
+  try {
+    const res = await axios.get(
+      `http://192.168.1.116:6003/admin_web/sub_chief_complaints/${pc_id}/`
+    );
+    setSubChiefComplaints(prev => ({
+      ...prev,
+      [pc_id]: res.data.sub_chief_complaints || []
+    }));
+  } catch (error) {
+    console.error("Error fetching sub complaints:", error);
   }
 };
 
@@ -639,7 +655,9 @@ useEffect(() => {
             avgTimes,
             callTypes,
              chiefComplaints,
-  fetchChiefComplaints
+  fetchChiefComplaints,
+  fetchSubChiefComplaints,
+  subChiefComplaints,
       }}
     >
       {children}
