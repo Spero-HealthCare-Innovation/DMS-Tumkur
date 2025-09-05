@@ -2,10 +2,7 @@ import React, { useState, useLayoutEffect, useRef } from 'react'
 import { motion } from "framer-motion"
 import { Box, Typography, Paper, Grid, Switch, List, ListItem, ListItemText, Collapse, Tabs, Tab, FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 import * as am5 from "@amcharts/amcharts5";
-<<<<<<< HEAD
-=======
 import CircularProgress from '@mui/material/CircularProgress';
->>>>>>> Development
 import {
   BarChart,
   Bar,
@@ -180,10 +177,6 @@ const CustomTooltip = ({ active, payload, label }) => {
 };
 
 // Custom Bar Shape Component
-<<<<<<< HEAD
-const RoundedBar = (props) => {
-  const { fill, x, y, width, height } = props;
-=======
 const RoundedBar = ({ x, y, width, height, fill, value }) => {
   const minHeight = 4; // minimum height for 0 values
   let finalHeight = height;
@@ -194,7 +187,6 @@ const RoundedBar = ({ x, y, width, height, fill, value }) => {
     finalY = y - minHeight; // shift up so bar sits on baseline
   }
 
->>>>>>> Development
   return (
     <rect
       x={x}
@@ -241,11 +233,8 @@ function Dashboard() {
     callTypes,
     chiefComplaints,
     fetchChiefComplaints,
-<<<<<<< HEAD
-=======
     fetchSubChiefComplaints,
     subChiefComplaints,
->>>>>>> Development
   } = useAuth();
   const chartRef = useRef(null);
 
@@ -281,11 +270,6 @@ function Dashboard() {
     );
 
     series.labels.template.setAll({
-<<<<<<< HEAD
-      text: "{category}: {value}"  // shows count
-    });
-
-=======
       text: "{category}: {value}" , // shows count
        forceHidden: true
     });
@@ -295,7 +279,6 @@ series.ticks.template.setAll({
   forceHidden: true   // ✅ ticks hide
 });
 
->>>>>>> Development
     series.slices.template.setAll({
       tooltipText: "{category}: {value}",
       strokeOpacity: 0,
@@ -411,40 +394,6 @@ series.ticks.template.setAll({
     }
   };
 
-<<<<<<< HEAD
-// Chief Complaint change
-const handleChiefComplaintChange = (event) => {
-  setSelectedChiefComplaint(event.target.value);
-};
-
-
-
-// Custom color palette
-const colors1 = [
-  "#f78da7",
-  "#f9a26c",
-  "#fcd56c",
-  "#9ddfe5",
-  "#a3c9f9",
-  "#e3f48e",
-  "#d5a8f5",
-  "#77b3f9",
-  "#f78da7",
-  "#f9a26c",
-  "#fcd56c",
-  "#9ddfe5"
-];
-
-
-// Sample data for the chart
-const chartdata = chiefComplaints.map((item, index) => ({
-  name: item.name,
-  value: item.count,     // y-axis pe dikhega
-  color: colors1[index % colors1.length] // har bar ka color
-}));
-
-
-=======
   // Chief Complaint change
   const handleChiefComplaintChange = (event) => {
     setSelectedChiefComplaint(event.target.value);
@@ -474,7 +423,6 @@ const chartdata = chiefComplaints.map((item, index) => ({
     value: item.count,     // y-axis pe dikhega
     color: colors1[index % colors1.length] // har bar ka color
   }));
->>>>>>> Development
 
 
 
@@ -518,12 +466,6 @@ const chartdata = chiefComplaints.map((item, index) => ({
                     transition: "all 0.3s ease",
                     fontFamily: "Roboto",
                     fontWeight: 500,
-<<<<<<< HEAD
-                  },
-                  ".Mui-selected": {
-                    backgroundColor: "#5e3dea",
-                    color: "#fff",
-=======
 
                   "&:hover": {
         background: "linear-gradient(to bottom, #53bce1, rgb(19, 26, 28))",
@@ -534,7 +476,6 @@ const chartdata = chiefComplaints.map((item, index) => ({
                   ".Mui-selected": {
                     background: "linear-gradient(to bottom, #53bce1, rgb(19, 26, 28))",
                     color: "#fff !important",
->>>>>>> Development
                     borderRadius: "20px",
                   },
                 }}
@@ -622,13 +563,8 @@ const chartdata = chiefComplaints.map((item, index) => ({
 
               {/* Chief Complaint Dropdown */}
               <Select
-<<<<<<< HEAD
-               value={selectedChiefComplaint} 
-               onChange={handleChiefComplaintChange}  
-=======
                 value={selectedChiefComplaint}
                 onChange={handleChiefComplaintChange}
->>>>>>> Development
                 size="small"
                 displayEmpty
                 renderValue={(selected) => {
@@ -680,15 +616,9 @@ const chartdata = chiefComplaints.map((item, index) => ({
                 <MenuItem value="" disabled hidden>
                   Select Chief Complaint
                 </MenuItem>
-<<<<<<< HEAD
-                   {chiefComplaints.map((item, index) => (
-                <MenuItem  key={item.id} value={item.name}>{item.name}</MenuItem>
-                  ))}
-=======
                 {chiefComplaints.map((item, index) => (
                   <MenuItem key={item.id} value={item.name}>{item.name}</MenuItem>
                 ))}
->>>>>>> Development
               </Select>
             </Box>
 
@@ -781,29 +711,17 @@ const chartdata = chiefComplaints.map((item, index) => ({
                 Call Status
               </Typography>
 
-<<<<<<< HEAD
-              <Box display="flex" alignItems="center">
-=======
               <Box display="flex" alignItems="center" justifyContent="flex-end">
->>>>>>> Development
                 <Box sx={{ width: 14, height: 14, borderRadius: "50%", bgcolor: "rgba(255, 113, 139, 1)", mr: 1 }} />
                 <Typography sx={{ fontFamily: "Roboto", fontWeight: 400, fontSize: 11, mr: 1 }}>
                   Emergency
                 </Typography>
-<<<<<<< HEAD
-                <Switch defaultChecked size="small" sx={{ mr: 1, zIndex: "100" }} />
-=======
                 {/* <Switch defaultChecked size="small" sx={{ mr: 1, zIndex: "100" }} /> */}
->>>>>>> Development
                 <Box sx={{ width: 14, height: 14, borderRadius: "50%", bgcolor: "rgba(45, 200, 125, 1)", mr: 1 }} />
                 <Typography sx={{ fontFamily: "Roboto", fontWeight: 400, fontSize: 11, mr: 1 }}>
                   Non-Emergency
                 </Typography>
-<<<<<<< HEAD
-                <Switch defaultChecked size="small" sx={{ mr: 1, zIndex: "100" }} />
-=======
                 {/* <Switch defaultChecked size="small" sx={{ mr: 1, zIndex: "100" }} /> */}
->>>>>>> Development
               </Box>
 
               <Box ref={chartRef} sx={{ width: "300px", height: "250px", marginTop: "-3.6rem", marginBottom: "-3rem" }} />
@@ -865,11 +783,7 @@ const chartdata = chiefComplaints.map((item, index) => ({
           <Paper
             elevation={3}
             sx={{
-<<<<<<< HEAD
-              p: 2.6,
-=======
               p: 2.3,
->>>>>>> Development
               mt: 1,
               display: "flex",
               flexDirection: "column",
@@ -1015,10 +929,6 @@ const chartdata = chiefComplaints.map((item, index) => ({
                   p: 1,
                   ml: 5,
                   mt: 2,
-<<<<<<< HEAD
-
-=======
->>>>>>> Development
                   // Custom scrollbar styling
                   '&::-webkit-scrollbar': {
                     width: '8px',
@@ -1036,8 +946,6 @@ const chartdata = chiefComplaints.map((item, index) => ({
                   },
                 }}
               >
-<<<<<<< HEAD
-=======
                 {loading1 && (
                   <Box sx={{ display: 'flex', justifyContent: 'center', p: 2 }}>
                     <CircularProgress size={24} />
@@ -1050,14 +958,10 @@ const chartdata = chiefComplaints.map((item, index) => ({
                   </Alert>
                 )}
 
->>>>>>> Development
                 <List sx={{ p: 0 }}>
                   {chiefComplaints.map((item, index) => (
                     <React.Fragment key={item.id}>
                       <ListItem
-<<<<<<< HEAD
-                        onClick={() => handleClick(index)}
-=======
                         onClick={() => {
                           handleClick(index);
                           // Only fetch if not already expanded or data not loaded
@@ -1065,21 +969,16 @@ const chartdata = chiefComplaints.map((item, index) => ({
                             fetchSubChiefComplaints(item.id); // Use item.id (from your API response)
                           }
                         }}
->>>>>>> Development
                         sx={{
                           cursor: 'pointer',
                           backgroundColor: "#31373D",
                           borderRadius: 1,
                           mb: 0.5,
-<<<<<<< HEAD
-                          '&:hover': { backgroundColor: '#323030ff' },
-=======
                           '&:hover': {
                             backgroundColor: '#323030ff',
                             transform: 'translateX(2px)', // Subtle hover effect
                           },
                           transition: 'all 0.2s ease-in-out',
->>>>>>> Development
                           display: 'flex',
                           justifyContent: 'space-between',
                           alignItems: 'center',
@@ -1107,23 +1006,11 @@ const chartdata = chiefComplaints.map((item, index) => ({
                             variant="caption"
                             sx={{ color: '#010101ff', fontWeight: 'bold' }}
                           >
-<<<<<<< HEAD
-                            {item[filter] || 0} {/* today/last_month/total ke hisaab se */}
-=======
                             {item[filter] || 0}
->>>>>>> Development
                           </Typography>
                         </Box>
                       </ListItem>
 
-<<<<<<< HEAD
-                      {/* Sub complaints same as abhi */}
-                      <Collapse in={openIndex === index} timeout="auto" unmountOnExit>
-                        <List component="div" disablePadding>
-                          {item.sub?.map((subItem, subIndex) => (
-                            <ListItem
-                              key={subIndex}
-=======
                       {/* Enhanced Collapse with loading indicator */}
                       <Collapse in={openIndex === index} timeout="auto" unmountOnExit>
                         <List component="div" disablePadding>
@@ -1137,7 +1024,6 @@ const chartdata = chiefComplaints.map((item, index) => ({
                           {(subChiefComplaints[item.id] || []).map((subItem, subIndex) => (
                             <ListItem
                               key={subItem.id}
->>>>>>> Development
                               sx={{
                                 pl: 4,
                                 backgroundColor: '#31373D',
@@ -1145,15 +1031,11 @@ const chartdata = chiefComplaints.map((item, index) => ({
                                 mb: 0.3,
                                 mr: 1,
                                 cursor: 'pointer',
-<<<<<<< HEAD
-                                '&:hover': { backgroundColor: '#9a9494ff' },
-=======
                                 '&:hover': {
                                   backgroundColor: '#9a9494ff',
                                   transform: 'translateX(2px)',
                                 },
                                 transition: 'all 0.2s ease-in-out',
->>>>>>> Development
                                 display: 'flex',
                                 justifyContent: 'space-between',
                                 alignItems: 'center',
@@ -1174,18 +1056,12 @@ const chartdata = chiefComplaints.map((item, index) => ({
                                   backgroundColor: "#5e3dea",
                                   borderRadius: '8px',
                                   padding: '2px 6px',
-<<<<<<< HEAD
-                                  marginRight: "10",
-=======
->>>>>>> Development
                                 }}
                               >
                                 {subItem[filter] || 0}
                               </Typography>
                             </ListItem>
                           ))}
-<<<<<<< HEAD
-=======
 
                           {/* Show message if no sub-complaints */}
                           {openIndex === index &&
@@ -1202,32 +1078,19 @@ const chartdata = chiefComplaints.map((item, index) => ({
                                 No sub-complaints available
                               </Typography>
                             )}
->>>>>>> Development
                         </List>
                       </Collapse>
                     </React.Fragment>
                   ))}
                 </List>
-<<<<<<< HEAD
-
-=======
->>>>>>> Development
               </Paper>
             </Grid>
             <Grid item xs={12}>
               {/* Chart Section */}
-<<<<<<< HEAD
-=======
-
->>>>>>> Development
               <Paper
                 elevation={3}
                 sx={{
                   p: 1,
-<<<<<<< HEAD
-                  // mt: 1,
-=======
->>>>>>> Development
                   ml: 5,
                   display: "flex",
                   flexDirection: "column",
@@ -1243,42 +1106,6 @@ const chartdata = chiefComplaints.map((item, index) => ({
                   variant="subtitle1"
                   sx={{ fontWeight: 600, ...commonStyles1.heading, alignSelf: "flex-start" }}
                 >
-<<<<<<< HEAD
-                  Chief-Complaints
-                </Typography>
-                {/* Chart */}
-             <ResponsiveContainer width="100%" height={150}>
-  <BarChart data={chartdata} margin={{ top: 15, right: 20, left: 20, bottom: -10 }}>
-    <XAxis dataKey="name" stroke="#fff" tick={{ fill: "#fff", fontSize: 12 }} />
-    <YAxis hide />
-    <Tooltip content={<CustomTooltip />} />
-
-    {/* Bars */}
-    <Bar
-      dataKey="value"
-      shape={<RoundedBar />}
-      maxBarSize={30}
-      label={{ position: "top", fill: "#fff", fontSize: 12 }}
-    >
-      {chartdata.map((entry, index) => (
-        <Cell key={`cell-${index}`} fill={entry.color} cursor="pointer" />
-      ))}
-    </Bar>
-
-    {/* Line */}
-    <Line
-      type="monotone"
-      dataKey="value"
-      stroke="#ff6b81"
-      strokeWidth={2.5}
-      dot={{ r: 4, fill: "#fff", stroke: "#ff6b81", strokeWidth: 2 }}
-      activeDot={{ r: 6 }}
-    />
-  </BarChart>
-</ResponsiveContainer>
-
-              </Paper>
-=======
                   Chief-Complaints 
                   {/* ({filter === 'today' ? 'Today' : filter === 'last_month' ? 'Last Month' : 'Total'}) */}
                 </Typography>
@@ -1381,7 +1208,6 @@ const chartdata = chiefComplaints.map((item, index) => ({
                   <div>Chief Complaints: {JSON.stringify(chiefComplaints, null, 2)}</div>
                 </Box>
               )} */}
->>>>>>> Development
             </Grid>
 
           </Grid>
