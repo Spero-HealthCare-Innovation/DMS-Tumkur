@@ -652,7 +652,7 @@ function Add_group({ darkMode }) {
                         <StyledCardContent
                           sx={{ flex: 2, justifyContent: "center", ...fontsTableBody }}
                         >
-                          <Tooltip title={item.departmentID} arrow placement="top">
+                          <Tooltip title={item?.departmentID || ""} arrow placement="top">
                             <Typography
                               variant="subtitle2"
                               sx={{
@@ -662,26 +662,36 @@ function Add_group({ darkMode }) {
                                 maxWidth: 150,
                               }}
                             >
-                              {item.departmentID.length > 35 ? item.departmentID.slice(0, 35) + "..." : item.departmentID}
+                              {item?.departmentID
+                                ? item.departmentID.length > 35
+                                  ? item.departmentID.slice(0, 35) + "..."
+                                  : item.departmentID
+                                : "-"}
                             </Typography>
                           </Tooltip>
-
                         </StyledCardContent>
 
-                        <StyledCardContent
-                          sx={{ flex: 1.2, justifyContent: "center", ...fontsTableBody }}
-                        >
-                          <MoreHorizIcon
-                            onClick={(e) => handleOpen(e, item)}
-                            sx={{
-                              color: "rgb(95,200,236)",
-                              cursor: "pointer",
-                              fontSize: 28,
-                              justifyContent: "center",
-                              ...fontsTableBody,
-                            }}
-                          />
-                        </StyledCardContent>
+                        {(editGroup || deleteGroups) ? (
+                          <StyledCardContent
+                            sx={{ flex: 1.2, justifyContent: "center", ...fontsTableBody }}
+                          >
+                            <MoreHorizIcon
+                              onClick={(e) => handleOpen(e, item)}
+                              sx={{
+                                color: "rgb(95,200,236)",
+                                cursor: "pointer",
+                                fontSize: 28,
+                                justifyContent: "center",
+                                ...fontsTableBody,
+                              }}
+                            />
+                          </StyledCardContent>
+                        )
+                          :
+                          (
+                            <StyledCardContent sx={{ flex: 1.2, justifyContent: "center", ...fontsTableBody }}>-</StyledCardContent>
+                          )
+                        }
                       </EnquiryCardBody>
                     ))
                   )}

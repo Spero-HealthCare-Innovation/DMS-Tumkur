@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import axios from "axios";
 import * as turf from "@turf/turf";
+
 const AuthContext = createContext();
 export const useAuth = () => useContext(AuthContext);
 
@@ -50,7 +51,7 @@ export const AuthProvider = ({ children }) => {
   const [query, setQuery] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [selectedPosition, setSelectedPosition] = useState([
-    18.519566133802865, 73.85534807018765,
+    13.338263, 77.101410
   ]); // Default: Pune
   const [popupText, setPopupText] = useState("");
   const [commentText, setCommentText] = useState("");
@@ -88,7 +89,7 @@ export const AuthProvider = ({ children }) => {
     const refresh = localStorage.getItem("refresh_token");
 
     if (!refresh) {
-      console.warn("⚠️ No refresh token found.");
+      console.warn(" No refresh token found.");
       return;
     }
 
@@ -102,12 +103,12 @@ export const AuthProvider = ({ children }) => {
 
         localStorage.setItem("access_token", updatedToken);
         setNewToken(updatedToken);
-        console.log("✅ Access token refreshed");
+        console.log("Access token refreshed");
       } else {
-        console.warn("⚠️ No access token returned during refresh.");
+        console.warn(" No access token returned during refresh.");
       }
     } catch (error) {
-      console.error("❌ Error refreshing access token:", error);
+      console.error(" Error refreshing access token:", error);
     }
   };
 
@@ -286,7 +287,7 @@ export const AuthProvider = ({ children }) => {
     setSuggestions([]);
 
     try {
-      const geojsonRes = await fetch("/Boundaries/PUNEWARDS.geojson"); // ✅ make sure this path is correct
+      const geojsonRes = await fetch("/Boundaries/PUNEWARDS.geojson"); //  make sure this path is correct
       const geojson = await geojsonRes.json();
 
       const point = turf.point([position.lng, position.lat]);
@@ -306,7 +307,7 @@ export const AuthProvider = ({ children }) => {
         setDistrictName("");
       }
     } catch (err) {
-      console.error("❌ Error checking polygon match:", err);
+      console.error(" Error checking polygon match:", err);
     }
   };
 
@@ -362,7 +363,7 @@ export const AuthProvider = ({ children }) => {
     }
   }, [selectedDistrictId]);
 
-  // ✅ useEffect for selectedTehsilId change (fetch cities)
+  // useEffect for selectedTehsilId change (fetch cities)
   useEffect(() => {
     if (selectedTehsilId) {
       fetchCitysByTehshil(selectedTehsilId);
@@ -405,6 +406,7 @@ export const AuthProvider = ({ children }) => {
   const [avgTimes, setAvgTimes] = useState(null);
   const [callTypes, setCallTypes] = useState([]);
   const [chiefComplaints, setChiefComplaints] = useState([]);
+  const [subChiefComplaints, setSubChiefComplaints] = useState({});
   const [filter, setFilter] = useState("total"); // default filter
 
    const fetchVehicles = async () => {
@@ -467,7 +469,7 @@ export const AuthProvider = ({ children }) => {
 const fetchCallTypes = async () => {
   try {
     const res = await axios.get(
-      "http://192.168.1.116:6003/admin_web/call_type_count/"
+      `${port}/admin_web/call_type_count/`
     );
     setCallTypes(res.data.call_type_counts || []);
   } catch (error) {
@@ -475,15 +477,28 @@ const fetchCallTypes = async () => {
   }
 };
 
-
 const fetchChiefComplaints = async (callTypeId = 1) => {
   try {
     const res = await axios.get(
-      `http://192.168.1.116:6003/admin_web/chief_complaints/${callTypeId}/`
+      `${port}/admin_web/chief_complaints/${callTypeId}/`
     );
     setChiefComplaints(res.data.chief_complaints || []);
   } catch (error) {
     console.error("Error fetching chief complaints:", error);
+  }
+};
+
+const fetchSubChiefComplaints = async (pc_id) => {
+  try {
+    const res = await axios.get(
+      `http://192.168.1.116:6003/admin_web/sub_chief_complaints/${pc_id}/`
+    );
+    setSubChiefComplaints(prev => ({
+      ...prev,
+      [pc_id]: res.data.sub_chief_complaints || []
+    }));
+  } catch (error) {
+    console.error("Error fetching sub complaints:", error);
   }
 };
 
@@ -498,7 +513,6 @@ const fetchChiefComplaints = async (callTypeId = 1) => {
 
 
   // chief complaint
-
   const [disaster, setDisaster] = useState([]);
   const [selectedChiefComplaint, setselectedChiefComplaint] = useState(null);
   const [ChiefComplaint, setChiefComplaint] = useState([]);
@@ -549,7 +563,7 @@ useEffect(() => {
   };
 
   fetchSubChiefComplaint();
-}, [selectedChiefComplaint, port, token, newToken]); // ✅ Correct dependency
+}, [selectedChiefComplaint, port, token, newToken]); // Correct dependency
 
 
   return (
@@ -641,7 +655,9 @@ useEffect(() => {
             avgTimes,
             callTypes,
              chiefComplaints,
-  fetchChiefComplaints
+  fetchChiefComplaints,
+  fetchSubChiefComplaints,
+  subChiefComplaints,
       }}
     >
       {children}

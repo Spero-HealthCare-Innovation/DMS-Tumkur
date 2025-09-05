@@ -24,10 +24,10 @@ const FlyToLocation = ({ position, zoom }) => {
 };
  
 const MapView = ({ data }) => {
-  const position = [18.51956674674116, 73.85536020335581]; // Default location (Goa)
+  const position = [13.338263, 77.101410]; // Default location (Tumakuru)
   const [stateData, setStateData] = useState();
   const [triggeredData, setTriggeredData] = useState(null);
-  const [mapZoom, setMapZoom] = useState(11);
+  const [mapZoom, setMapZoom] = useState(12.3);
   const { BaseLayer, Overlay } = LayersControl;
  
   useEffect(() => {
@@ -35,7 +35,7 @@ const MapView = ({ data }) => {
   }, [data]);
  
   useEffect(() => {
-    fetch('/Boundaries/PUNEWARDS.geojson')
+    fetch('/Boundaries/TUMAKURU_WARD.geojson')
       .then(res => res.json())
       .then(data => setStateData(data));
   }, []);
@@ -49,9 +49,9 @@ const MapView = ({ data }) => {
   // Update zoom if triggeredData is available
   useEffect(() => {
     if (triggeredData?.latitude && triggeredData?.longitude) {
-      setMapZoom(13); // Zoom in on update
+      setMapZoom(14); // Zoom in on update
     } else {
-      setMapZoom(11); // Default zoom
+      setMapZoom(12.3); // Default zoom
     }
   }, [triggeredData]);
  
