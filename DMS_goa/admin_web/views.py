@@ -1617,6 +1617,12 @@ class duplicate_incident_API(APIView):
 
             duplicates = DMS_Incident.objects.filter(**filters)
             print("duplicates-----", duplicates)
+
+            if not duplicates.exists():
+                return Response(
+                    {"msg": "No duplicate incident found."},
+                    status=status.HTTP_200_OK,
+                )
             serializer = Duplicate_Incident_Serializer(duplicates, many=True)
             return Response(
                 {"msg": "Duplicate incident is found", "data": serializer.data},
@@ -1645,6 +1651,81 @@ class duplicate_incident_API(APIView):
         return Response({'status': True, 'message': 'Incident marked as duplicate successfully.'}, status=status.HTTP_200_OK)
 
         
+
+class update_incident_API(APIView):
+    renderer_classes = [UserRenderer]
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        inc_id = request.data.get('incident_id')
+        if not inc_id:
+            return Response({"error": "incident_id is required."}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            inc_obj = DMS_Incident.objects.get(
+                incident_id=inc_id,
+                inc_is_deleted=False,
+                clouser_status=False
+            )
+        except DMS_Incident.DoesNotExist:
+            return Response({"error": "Incident not found or already closed/deleted."}, status=status.HTTP_404_NOT_FOUND)
+
+        # 🔹 Save current incident state into Reopened_Incident for history
+        reopened = Reopened_Incident.objects.create(
+            incident_id=inc_obj.incident_id,
+            reopend_inc_added_by=str(request.user),  # who triggered update
+            location=inc_obj.location,
+            latitude=inc_obj.latitude,
+            longitude=inc_obj.longitude,
+            inc_type=inc_obj.inc_type,
+            disaster_type=inc_obj.disaster_type,
+            ward=inc_obj.ward,
+            tahsil=inc_obj.tahsil,
+            district=inc_obj.district,
+            ward_officer=inc_obj.ward_officer,
+            summary=inc_obj.summary_id,
+            caller_id=inc_obj.caller_id,
+            notify_id=inc_obj.notify_id,
+            alert_id=inc_obj.alert_id,
+            alert_type=inc_obj.alert_type,
+            comment_id=inc_obj.comment_id,
+            alert_code=inc_obj.alert_code,
+            alert_division=inc_obj.alert_division,
+            mode=inc_obj.mode,
+            time=inc_obj.time,
+            inc_is_deleted=inc_obj.inc_is_deleted,
+            clouser_status=inc_obj.clouser_status,
+            inc_added_by=inc_obj.inc_added_by,
+            inc_modified_by=inc_obj.inc_modified_by,
+            call_recieved_from=inc_obj.call_recieved_from,
+            call_type=inc_obj.call_type,
+            parent_complaint=inc_obj.parent_complaint,
+            forcefully_closed=inc_obj.forcefully_closed,
+        )
+
+        # handle ManyToMany (responder_scope)
+        if hasattr(inc_obj, "responder_scope"):
+            reopened.responder_scope.set(inc_obj.responder_scope.all())
+
+        # 🔹 Update only provided fields
+        updatable_fields = [
+            "responder_scope", "location", "latitude", "longitude",
+            "inc_type", "disaster_type", "ward", "tahsil",
+            "district", "ward_officer", "alert_type", "parent_complaint", "call_type"
+        ]
+
+        for field in updatable_fields:
+            if field in request.data:
+                setattr(inc_obj, field, request.data.get(field))
+
+        # inc_obj.save()
+
+        return Response(
+            {"msg": f"Incident {inc_obj.incident_id} updated successfully. Previous data stored in Reopened_Incident."},
+            status=status.HTTP_200_OK
+        )
+
+
 
 
 class dispatch_sop_Get_API(APIView):
@@ -3093,6 +3174,21 @@ class Caller_Details_get(APIView):
         instance = DMS_Caller.objects.filter(caller_is_deleted=False,caller_no=caller_no)
         serializer = DMS_caller_info_Serializer(instance, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class lat_long_get(APIView):
+    def get(self, request):
+        lat_long = DMS_lat_long_data.objects.all()
+        serializer = DMSlatlongSerializer(lat_long, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+class lat_long_post(APIView):
+    def post(self, request):
+        serializer = DMSlatlongSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 
