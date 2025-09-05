@@ -783,7 +783,7 @@ series.ticks.template.setAll({
           <Paper
             elevation={3}
             sx={{
-              p: 2.6,
+              p: 2.3,
               mt: 1,
               display: "flex",
               flexDirection: "column",
@@ -1107,7 +1107,8 @@ series.ticks.template.setAll({
                   variant="subtitle1"
                   sx={{ fontWeight: 600, ...commonStyles1.heading, alignSelf: "flex-start" }}
                 >
-                  Chief-Complaints ({filter === 'today' ? 'Today' : filter === 'last_month' ? 'Last Month' : 'Total'})
+                  Chief-Complaints 
+                  {/* ({filter === 'today' ? 'Today' : filter === 'last_month' ? 'Last Month' : 'Total'}) */}
                 </Typography>
 
                 {/* Loading State */}
@@ -1126,7 +1127,7 @@ series.ticks.template.setAll({
 
                 {/* Chart - Only show if we have data */}
                 {!loading1 && !error1 && chiefComplaints.length > 0 && (
-                  <ResponsiveContainer width="100%" height={150}>
+                  <ResponsiveContainer width="100%" height={145}>
                     <ComposedChart
                       data={chiefComplaints.map((item, index) => ({
                         name: item.name,
