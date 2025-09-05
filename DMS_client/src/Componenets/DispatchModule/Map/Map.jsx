@@ -102,7 +102,7 @@ const Map = () => {
         title="Windy 4"
         width="100%"
         height="100%"
-        src="https://embed.windy.com/embed2.html?lat=18.53&lon=73.82&zoom=10&overlay=temp&menu=&message=true&calendar=now&pressure=true&type=map&location=coordinates"
+        src="https://embed.windy.com/embed2.html?lat=13.33&lon=77.10&zoom=10&overlay=temp&menu=&message=true&calendar=now&pressure=true&type=map&location=coordinates"
         frameBorder="0"
       ></iframe>
     </div>
@@ -111,7 +111,7 @@ const Map = () => {
         title="Windy 1"
         width="100%"
         height="100%"
-        src="https://embed.windy.com/embed2.html?lat=18.53&lon=73.82&zoom=10&overlay=rain&menu=&message=true&calendar=now&pressure=true&type=map&location=coordinates"
+        src="https://embed.windy.com/embed2.html?lat=13.33&lon=77.10&zoom=10&overlay=rain&menu=&message=true&calendar=now&pressure=true&type=map&location=coordinates"
         frameBorder="0"
       ></iframe>
     </div>
@@ -121,7 +121,7 @@ const Map = () => {
         title="Windy 2"
         width="100%"
         height="100%"
-        src="https://embed.windy.com/embed2.html?lat=18.53&lon=73.82&zoom=8&overlay=rainAccu&calendar=next3d&menu=&message=true&pressure=true&type=map&location=coordinates"
+        src="https://embed.windy.com/embed2.html?lat=13.33&lon=77.10&zoom=8&overlay=rainAccu&calendar=next3d&menu=&message=true&pressure=true&type=map&location=coordinates"
         frameBorder="0"
       ></iframe>
     </div>
@@ -131,7 +131,7 @@ const Map = () => {
         title="Windy 3"
         width="100%"
         height="100%"
-        src="https://embed.windy.com/embed2.html?lat=18.53&lon=73.82&zoom=8&overlay=satellite&menu=&message=true&calendar=now&pressure=true&type=map&location=coordinates"
+        src="https://embed.windy.com/embed2.html?lat=13.33&lon=77.10&zoom=8&overlay=satellite&menu=&message=true&calendar=now&pressure=true&type=map&location=coordinates"
         frameBorder="0"
       ></iframe>
     </div>

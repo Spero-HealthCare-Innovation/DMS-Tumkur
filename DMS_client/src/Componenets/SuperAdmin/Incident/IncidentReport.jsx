@@ -472,12 +472,12 @@ function IncidentReport({ darkMode, fromDate, toDate, onChange, onDownload }) {
                                             }}
                                         >
                                             <Typography variant="subtitle2">
-                                                Disaster Name
+                                                Chief Compaints
                                             </Typography>
                                         </StyledCardContent>
                                         <StyledCardContent
                                             sx={{
-                                                flex: 1.6,
+                                                flex: 1,
                                                 borderRight: "1px solid black",
                                                 justifyContent: "center",
                                                 ...fontsTableHeading,
@@ -489,7 +489,7 @@ function IncidentReport({ darkMode, fromDate, toDate, onChange, onDownload }) {
                                         </StyledCardContent>
                                         <StyledCardContent
                                             sx={{
-                                                flex: 1.6,
+                                                flex: 1,
                                                 borderRight: "1px solid black",
                                                 justifyContent: "center",
                                                 ...fontsTableHeading,
@@ -501,7 +501,7 @@ function IncidentReport({ darkMode, fromDate, toDate, onChange, onDownload }) {
                                         </StyledCardContent>
                                         <StyledCardContent
                                             sx={{
-                                                flex: 1.6,
+                                                flex: 2,
                                                 // borderRight: "1px solid black",
                                                 justifyContent: "center",
                                                 ...fontsTableHeading,
@@ -614,14 +614,14 @@ function IncidentReport({ darkMode, fromDate, toDate, onChange, onDownload }) {
                                             <StyledCardContent sx={{ flex: 2, justifyContent: "center", ...fontsTableBody }}>
                                                 <Typography variant="subtitle2" sx={{ fontSize: "12px" }}>{item.disaster_name}</Typography>
                                             </StyledCardContent>
-                                            <StyledCardContent sx={{ flex: 2, justifyContent: "center", ...fontsTableBody }}>
+                                            <StyledCardContent sx={{ flex: 1, justifyContent: "center", ...fontsTableBody }}>
                                                 <Typography variant="subtitle2" sx={{ fontSize: "12px" }}>{item.incident_type}</Typography>
                                             </StyledCardContent>
-                                            <StyledCardContent sx={{ flex: 2, justifyContent: "center", ...fontsTableBody }}>
+                                            <StyledCardContent sx={{ flex: 1.5, justifyContent: "center", ...fontsTableBody }}>
                                                 <Typography variant="subtitle2" sx={{ fontSize: "12px" }}>{item.alert_type}</Typography>
                                             </StyledCardContent>
                                             <Tooltip title={item.responder} arrow placement="top">
-                                                <StyledCardContent sx={{ flex: 2, justifyContent: "center", ...fontsTableBody }}>
+                                                <StyledCardContent sx={{ flex: 2.5, justifyContent: "center", ...fontsTableBody }}>
                                                     <Typography variant="subtitle2" sx={{ fontSize: "12px" }}>{item.responder || 'N/A'}</Typography>
                                                 </StyledCardContent>
                                             </Tooltip>
