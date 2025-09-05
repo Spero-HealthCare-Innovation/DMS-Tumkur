@@ -778,3 +778,9 @@ class DMSFilesSerializer(serializers.ModelSerializer):
     class Meta:
         model = DMS_Files
         fields = '__all__'
+        
+        
+class DMS_caller_info_Serializer(serializers.ModelSerializer):
+    class Meta:
+        model = DMS_Caller
+        fields =  ['caller_pk_id','caller_no','caller_name']

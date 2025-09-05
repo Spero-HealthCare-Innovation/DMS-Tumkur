@@ -3093,12 +3093,11 @@ class VehicleTheft_delete(APIView):
 
 
 
-
- 
-
-
-
-
+class Caller_Details_get(APIView):
+    def get(self,request,caller_no):
+        instance = DMS_Caller.objects.filter(caller_is_deleted=False,caller_no=caller_no)
+        serializer = DMS_caller_info_Serializer(instance, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 
