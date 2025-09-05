@@ -1585,7 +1585,68 @@ class dispatch_close_API(APIView):
         else:
             return Response({"error": "Invalid request or insufficient permissions."}, status=status.HTTP_200_OK)
         
-    
+
+
+
+class duplicate_incident_API(APIView):
+    renderer_classes = [UserRenderer]
+    permission_classes = [IsAuthenticated]
+
+    def get(self,request):
+        inc_type = request.GET.get('inc_type', None)
+        disaster_type = request.GET.get('disaster_type', None)
+        location = request.GET.get('location', None)
+        ward = request.GET.get('ward', None)
+        district = request.GET.get('district', None)
+        tahsil = request.GET.get('tahsil', None)
+        caller_no = request.GET.get('caller_no', None)
+
+        if location and inc_type and ward and district and tahsil:
+            filters = {
+                "location__iexact": location,
+                "inc_type": inc_type,
+                "ward": ward,
+                "district": district,
+                "tahsil": tahsil,
+                "caller_id__caller_no__iexact": caller_no,
+                "clouser_status": False,
+                "inc_duplicate": False,
+            }
+            if disaster_type:  # only add if passed
+                filters["disaster_type"] = disaster_type
+
+            duplicates = DMS_Incident.objects.filter(**filters)
+            print("duplicates-----", duplicates)
+            serializer = Duplicate_Incident_Serializer(duplicates, many=True)
+            return Response(
+                {"msg": "Duplicate incident is found", "data": serializer.data},
+                status=status.HTTP_200_OK,
+            )
+        else:
+            return Response(
+                {"error": "Location, incident type, ward, district, and tahsil parameters are required."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+
+    def post(self, request):
+        incident_id = request.GET.get('incident_id')
+
+        if not incident_id:
+            return Response({'status': False, 'message': 'incident Id is required.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            record = DMS_Incident.objects.get(incident_id=incident_id, inc_is_deleted=False, inc_duplicate=False, clouser_status = False)
+            record.inc_duplicate = True
+            record.save(update_fields=['inc_duplicate'])
+        except Weather_alerts.DoesNotExist:
+            return Response({'status': False, 'message': 'Record not found.'}, status=status.HTTP_404_NOT_FOUND)
+
+        return Response({'status': True, 'message': 'Incident marked as duplicate successfully.'}, status=status.HTTP_200_OK)
+
+        
+
+
 class dispatch_sop_Get_API(APIView):
     renderer_classes = [UserRenderer]
     permission_classes = [IsAuthenticated]
