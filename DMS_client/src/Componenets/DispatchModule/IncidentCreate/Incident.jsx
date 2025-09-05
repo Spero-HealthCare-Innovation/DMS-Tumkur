@@ -59,8 +59,8 @@ const Incident = ({ darkMode }) => {
   console.log(districtName, "fetching from map District");
   // Ward API
   const [ward, setWard] = useState([]);
-  const [wardOfficer, setWardOfficer] = useState([]);
   const [selectedWard, setSelectedWard] = useState("");
+  const [wardOfficer, setWardOfficer] = useState([]);
   const [selectedWardOfficer, setSelectedWardOfficer] = useState([]);
 
   //responder modal
@@ -320,9 +320,8 @@ const Incident = ({ darkMode }) => {
     sopId.includes(r.res_id)
   );
 
-  // ✅ Button click pe modal open
   const handleOpenModal = () => {
-    setActiveResponder(selectedResponders[0]); // default tab first responder
+    setActiveResponder(selectedResponders[0]);
     setOpenModal(true);
   };
 
@@ -370,9 +369,9 @@ const Incident = ({ darkMode }) => {
     const vehicleIds = Object.keys(assignedMap).filter(
       (key) => assignedMap[key]
     );
-    if (vehicleIds.length === 0) {
-      newErrors.assignAmbulance = "At least one vehicle must be assigned";
-    }
+    // if (vehicleIds.length === 0) {
+    //   newErrors.assignAmbulance = "At least one vehicle must be assigned";
+    // }
 
     // Agar koi bhi error hai to wahi return kar do
     if (Object.keys(newErrors).length > 0) {
@@ -444,6 +443,9 @@ const Incident = ({ darkMode }) => {
         setQuery("");
         setLattitude("");
         setLongitude("");
+        setselectedcallType("");
+        setselectedChiefComplaint("");
+        setselectedSubchiefComplaint("");
 
         setTimeout(() => {
           navigate("/sop");
@@ -650,8 +652,8 @@ const Incident = ({ darkMode }) => {
                       sx={inputStyle}
                       value={selectedcallType}
                       onChange={(e) => setselectedcallType(e.target.value)}
-                      // error={!!errors.disaster_type}
-                      // helperText={errors.disaster_type}
+                    // error={!!errors.disaster_type}
+                    // helperText={errors.disaster_type}
                     >
                       <MenuItem disabled value="">
                         Select Call Type
@@ -681,9 +683,9 @@ const Incident = ({ darkMode }) => {
                         setselectedChiefComplaint(value); // update context state
                         fetchResponderScope(value); // call API with selected chief complaint
                       }}
-                      // onChange={(e) => setselectedChiefComplaint(e.target.value)}
-                      // error={!!errors.disaster_type}
-                      // helperText={errors.disaster_type}
+                    // onChange={(e) => setselectedChiefComplaint(e.target.value)}
+                    // error={!!errors.disaster_type}
+                    // helperText={errors.disaster_type}
                     >
                       <MenuItem disabled value="">
                         Select Chief Complaint
@@ -708,8 +710,8 @@ const Incident = ({ darkMode }) => {
                       onChange={(e) =>
                         setselectedSubchiefComplaint(e.target.value)
                       }
-                      // error={!!errors.disaster_type}
-                      // helperText={errors.disaster_type}
+                    // error={!!errors.disaster_type}
+                    // helperText={errors.disaster_type}
                     >
                       <MenuItem disabled value="">
                         Sub Chief Complaint
@@ -823,16 +825,16 @@ const Incident = ({ darkMode }) => {
                     id="district-select"
                     value={
                       districtName &&
-                      districts.find(
-                        (d) =>
-                          d.dis_name.toLowerCase() ===
-                          districtName.toLowerCase()
-                      )
+                        districts.find(
+                          (d) =>
+                            d.dis_name.toLowerCase() ===
+                            districtName.toLowerCase()
+                        )
                         ? districts.find(
-                            (d) =>
-                              d.dis_name.toLowerCase() ===
-                              districtName.toLowerCase()
-                          ).dis_id
+                          (d) =>
+                            d.dis_name.toLowerCase() ===
+                            districtName.toLowerCase()
+                        ).dis_id
                         : selectedDistrictId || ""
                     }
                     label="District"
@@ -855,15 +857,15 @@ const Incident = ({ darkMode }) => {
                   variant="outlined"
                   value={
                     tehsilName &&
-                    Tehsils.find(
-                      (t) =>
-                        t.tah_name.toLowerCase() === tehsilName.toLowerCase()
-                    )
+                      Tehsils.find(
+                        (t) =>
+                          t.tah_name.toLowerCase() === tehsilName.toLowerCase()
+                      )
                       ? Tehsils.find(
-                          (t) =>
-                            t.tah_name.toLowerCase() ===
-                            tehsilName.toLowerCase()
-                        ).tah_id
+                        (t) =>
+                          t.tah_name.toLowerCase() ===
+                          tehsilName.toLowerCase()
+                      ).tah_id
                       : selectedTehsilId || ""
                   }
                   onChange={(e) => setSelectedTehsilId(e.target.value)}
@@ -933,23 +935,23 @@ const Incident = ({ darkMode }) => {
                     onChange={handleCheckboxChangeWardOfficer}
                     renderValue={(selected) =>
                       wardOfficer
-                        .filter((officer) => selected.includes(officer.emp_id))
-                        .map((officer) => officer.emp_name)
+                        .filter((officer) => selected.includes(officer.officer_id))
+                        .map((officer) => officer.officer_name)
                         .join(", ")
                     }
                   >
                     {wardOfficer.map((wardOff) => (
-                      <MenuItem key={wardOff.emp_id} value={wardOff.emp_id}>
+                      <MenuItem key={wardOff.officer_id} value={wardOff.officer_id}>
                         <Checkbox
-                          checked={selectedWardOfficer.includes(wardOff.emp_id)}
+                          checked={selectedWardOfficer.includes(wardOff.officer_id)}
                         />
-                        <ListItemText primary={wardOff.emp_name} />
+                        <ListItemText primary={wardOff.officer_name} />
                       </MenuItem>
                     ))}
                   </Select>
                 </FormControl>
               </Grid>
-              
+
               <Grid item xs={12}>
                 <TextField
                   select
@@ -1106,10 +1108,10 @@ const Incident = ({ darkMode }) => {
                       {alertType === 1
                         ? "High"
                         : alertType === 2
-                        ? "Medium"
-                        : alertType === 2
-                        ? "Low"
-                        : "-"}
+                          ? "Medium"
+                          : alertType === 2
+                            ? "Low"
+                            : "-"}
                     </Typography>
                   </Box>
                   {/* <Box>
@@ -1362,6 +1364,9 @@ const Incident = ({ darkMode }) => {
       {openModal && (
         <ResponderModal
           open={openModal}
+          wardOfficer={wardOfficer}
+          selectedWardOfficer={selectedWardOfficer}
+          setSelectedWardOfficer={setSelectedWardOfficer}
           responderList={selectedResponders}
           responder={activeResponder}
           lattitude={lattitude}
