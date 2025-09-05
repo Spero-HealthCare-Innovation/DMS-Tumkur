@@ -3034,7 +3034,7 @@ class VehicleTheft_get(APIView):
         # instance = Unclaimed_Bodies.objects.filter(is_deleted=False)
         serializer = Vehicle_Theftsserializer(instance, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
-
+ 
 
 class VehicleTheft_idwiseget(APIView):
     def get(self,request,id):
