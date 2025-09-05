@@ -400,7 +400,7 @@ const AddDepartment = ({ darkMode, flag, setFlag, setSelectedIncident }) => {
 
     // Field validations
     setDepartmentError(false);
-    setDepartmentErrorMsg("");
+    // setDepartmentErrorMsg("");
     setStateError(false);
     setDistrictError(false);
     setTehsilError(false);
@@ -956,7 +956,7 @@ const AddDepartment = ({ darkMode, flag, setFlag, setSelectedIncident }) => {
                         >
                           <StyledCardContent
                             sx={{
-                              flex: 0.8,
+                              flex: 0.3,
                               justifyContent: "center",
                             }}
                           >

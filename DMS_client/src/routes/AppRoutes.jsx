@@ -26,8 +26,8 @@ const AddEmployee = lazy(() => import("../Componenets/SuperAdmin/System/Employee
 const Map = lazy(() => import("../Componenets/DispatchModule/Map/Map"));
 const MultiScreen = lazy(() => import("../Page/multiscreen"));
 const ClosureDetail = lazy(() => import("../Componenets/SuperAdmin/Closure/ClosureDetail"));
-const MissingPerson = lazy(() => import("../Componenets/SuperAdmin/System/Bolo/MissingPerson"));
 const UnclaimedBody = lazy(() => import("../Componenets/SuperAdmin/System/Bolo/UnclaimedBody"));
+const MissingPerson = lazy(() => import("../Componenets/SuperAdmin/System/Bolo/MissingPerson"));
 import CloseIcon from "@mui/icons-material/Close";
 import SmartToyIcon from "@mui/icons-material/SmartToy";
 
@@ -141,11 +141,19 @@ const AppRoutes = ({ darkMode, setIsLoggedIn }) => {
           }
         />
 
-        <Route
-          path="/add-employee"
+         <Route
+          path="/Missing-Person"
           element={
-            <PrivateRoute>
+            <PrivateRoute>  
               <MissingPerson darkMode={darkMode} />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/Unclaimed-Body"
+          element={
+            <PrivateRoute>  
+              <UnclaimedBody darkMode={darkMode} />
             </PrivateRoute>
           }
         />
@@ -166,14 +174,7 @@ const AppRoutes = ({ darkMode, setIsLoggedIn }) => {
           }
         />
 
-        <Route
-          path="/Unclaimed-Body"
-          element={
-            <PrivateRoute>
-              <UnclaimedBody darkMode={darkMode} />
-            </PrivateRoute>
-          }
-        />
+         
         <Route
           path="/create-incident"
           element={
