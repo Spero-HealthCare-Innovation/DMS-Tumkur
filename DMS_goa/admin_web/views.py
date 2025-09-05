@@ -1349,7 +1349,10 @@ class closure_Post_api(APIView):
         try:
             inccc = request.data.get('incident_id')
             dpt = request.data.get('responder')
-            vehicle_no=request.data.get('vehicle_no')
+            vehicle_no= request.data.get('vehicle_no')
+            audio = request.data.get('audio') if request.data.get('audio') else None
+            video = request.data.get('video') if request.data.get('video') else None
+            image = request.data.get('image') if request.data.get('image') else None
 
             vehicl_dtls = Vehical.objects.get(veh_id=vehicle_no)
             inc_dtl = DMS_Incident.objects.get(incident_id=inccc)
@@ -1372,7 +1375,10 @@ class closure_Post_api(APIView):
                 closure_added_by=request.data.get('closure_added_by'),
                 closure_modified_by=request.data.get('closure_modified_by'),
                 closure_modified_date=request.data.get('closure_modified_date'),
-                closure_remark=request.data.get('closure_remark')
+                closure_remark=request.data.get('closure_remark'),
+                audio = audio,
+                video = video,
+                image = image
             )
             inc_vh = incident_vehicles.objects.filter(incident_id=inc_dtl, veh_id=vehicl_dtls, status=1)
             if inc_vh.exists():
@@ -3109,7 +3115,7 @@ class VehicleTheft_get(APIView):
         # instance = Unclaimed_Bodies.objects.filter(is_deleted=False)
         serializer = Vehicle_Theftsserializer(instance, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
-
+ 
 
 class VehicleTheft_idwiseget(APIView):
     def get(self,request,id):
@@ -3168,12 +3174,11 @@ class VehicleTheft_delete(APIView):
 
 
 
-
- 
-
-
-
-
+class Caller_Details_get(APIView):
+    def get(self,request,caller_no):
+        instance = DMS_Caller.objects.filter(caller_is_deleted=False,caller_no=caller_no)
+        serializer = DMS_caller_info_Serializer(instance, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 

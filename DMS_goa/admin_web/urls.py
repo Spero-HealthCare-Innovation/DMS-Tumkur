@@ -116,6 +116,8 @@ urlpatterns = [
     path('ward_get/<int:tah_id>/', Ward_get_API.as_view(), name='ward_get'),
     path('ward_officer_get/<int:ward_id>/', Ward_Officer_get_API.as_view(), name='ward_officer_get'),
     
+    path('caller_details/<str:caller_no>/', Caller_Details_get.as_view(), name='caller_details'),
+    
     
     
     #===================================Mohin==================================================
