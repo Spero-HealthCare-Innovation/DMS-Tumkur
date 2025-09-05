@@ -1676,7 +1676,7 @@ class update_incident_API(APIView):
         except DMS_Incident.DoesNotExist:
             return Response({"error": "Incident not found or already closed/deleted."}, status=status.HTTP_404_NOT_FOUND)
 
-        # 🔹 Save current state into Reopened_Incident (history)
+        # 🔹 Create history entry (without M2M fields first)
         reopened = Reopened_Incident.objects.create(
             incident_id=inc_obj,
             reopend_inc_added_by=str(request.user),
@@ -1688,7 +1688,6 @@ class update_incident_API(APIView):
             ward=inc_obj.ward,
             tahsil=inc_obj.tahsil,
             district=inc_obj.district,
-            # ward_officer=inc_obj.ward_officer,
             summary=inc_obj.summary,
             caller_id=inc_obj.caller_id,
             notify_id=inc_obj.notify_id,
@@ -1709,25 +1708,20 @@ class update_incident_API(APIView):
             forcefully_closed=inc_obj.forcefully_closed,
         )
 
-        # Copy ManyToMany (responder_scope) into history
+        # 🔹 Copy ManyToMany fields to Reopened_Incident
         if hasattr(inc_obj, "responder_scope"):
             reopened.responder_scope.set(inc_obj.responder_scope.all())
+        if hasattr(inc_obj, "ward_officer"):
+            reopened.ward_officer.set(inc_obj.ward_officer.all())
 
-        # 🔹 Normal updatable fields (direct assignment)
-        normal_fields = [
-            "location", "latitude", "longitude",
-            "inc_type", "alert_type"
-        ]
-        # "ward_officer", 
+        # 🔹 Normal fields (excluding M2M!)
+        normal_fields = ["location", "latitude", "longitude", "inc_type", "alert_type"]
         for field in normal_fields:
             if field in request.data:
                 setattr(inc_obj, field, request.data.get(field))
 
-        # 🔹 ForeignKey fields (_id assignment)
-        fk_fields = [
-            "disaster_type", "ward", "tahsil", "district",
-            "summary", "parent_complaint", "call_type"
-        ]
+        # 🔹 ForeignKey fields
+        fk_fields = ["disaster_type", "ward", "tahsil", "district", "summary", "parent_complaint", "call_type"]
         for field in fk_fields:
             if field in request.data:
                 setattr(inc_obj, f"{field}_id", request.data.get(field))
@@ -1737,12 +1731,23 @@ class update_incident_API(APIView):
             responder_ids = request.data.get("responder_scope", [])
             inc_obj.responder_scope.set(responder_ids)
 
+        if "ward_officer" in request.data:
+            officer_ids = request.data.get("ward_officer", [])
+            inc_obj.ward_officer.set(officer_ids)
+
+        # 🔹 Update reopen status & count
+        inc_obj.inc_reopened = True
+        if inc_obj.inc_reopen_count:
+            inc_obj.inc_reopen_count += 1
+        else:
+            inc_obj.inc_reopen_count = 1
         inc_obj.save()
 
         return Response(
             {"msg": f"Incident {inc_obj.incident_id} updated successfully. Previous data stored in Reopened_Incident."},
             status=status.HTTP_200_OK
         )
+
 
 
 
