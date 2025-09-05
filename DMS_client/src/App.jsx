@@ -11,18 +11,10 @@ import Departmentsidebar from "./Componenets/SuperAdmin/Sidebar/DepartmentSideba
 function App() {
   const [darkMode, setDarkMode] = useState(true);
   const [userGroup, setUserGroup] = useState("");
-<<<<<<< HEAD
-  console.log(userGroup, 'userGroup');
-=======
->>>>>>> Development
   const location = useLocation();
 
   useEffect(() => {
     const storedGroup = localStorage.getItem("user_group");
-<<<<<<< HEAD
-    console.log("Stored group from localStorage:", storedGroup);
-=======
->>>>>>> Development
     setUserGroup(storedGroup);
   }, [location]);
 
@@ -55,32 +47,12 @@ function App() {
       <div
         style={{
           display: "flex",
-<<<<<<< HEAD
-=======
           flexDirection: "column",
->>>>>>> Development
           minHeight: "100vh",
           backgroundColor: darkMode ? "black" : "#f5f5f5",
           transition: "background-color 0.5s ease-in-out",
         }}
       >
-<<<<<<< HEAD
-        <div style={{ flex: 1 }}>
-          {!isAuthRoute && userGroup !== null && (
-            <>
-              <Navbar
-                darkMode={darkMode}
-                toggleDarkMode={() => setDarkMode((prev) => !prev)}
-              />
-              {(userGroup === "1") && <Departmentsidebar darkMode={darkMode} />}
-            </>
-          )}
-          <div>
-            <AppRoutes darkMode={darkMode} />
-          </div>
-          {!isAuthRoute && userGroup !== null && <Footer darkMode={darkMode} />}
-        </div>
-=======
         {/* Navbar (fixed at top) */}
         {!isAuthRoute && userGroup !== null && (
           <div style={{ position: "sticky", top: 0, zIndex: 1100 }}>
@@ -105,7 +77,6 @@ function App() {
             <Footer darkMode={darkMode} />
           </div>
         )}
->>>>>>> Development
       </div>
     </ThemeProvider>
   );
