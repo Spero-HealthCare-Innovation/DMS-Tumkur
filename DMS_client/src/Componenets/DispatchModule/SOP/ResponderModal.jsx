@@ -48,7 +48,18 @@ export default function ResponderModal({
   const statusMap = { 1: "Free", 2: "Busy", 3: "Maintenance" };
   const port = import.meta.env.VITE_APP_API_KEY;
 
-  const [selectedResponder, setSelectedResponder] = useState(responder?.res_id || "");
+  // const [selectedResponder, setSelectedResponder] = useState(responder?.res_id || "");
+  const [selectedResponder, setSelectedResponder] = useState(responder?.res_id);
+
+  useEffect(() => {
+    if (open) {
+      setSelectedResponder("all");
+
+      fetchBaseLocations();
+      fetchVehicles("", "");
+    }
+  }, [open]);
+
   const [baseLocationList, setBaseLocationList] = useState([]);
   const [selectedBaseLocation, setSelectedBaseLocation] = useState("");
   const [vehicleNo, setVehicleNo] = useState("");
@@ -167,6 +178,35 @@ export default function ResponderModal({
     }
   }, [selectedResponder, wardOfficer, selectedWardOfficer]);
 
+  useEffect(() => {
+    if (selectedResponder === 4 && wardOfficer.length > 0) {
+      const preSelected = selectedWardOfficer || [];
+      setLocalSelectedWardOfficer(preSelected);
+
+      // 🔹 Sync vehicles of pre-selected officers
+      let updatedAssigned = { ...assignedVehicles };
+      wardOfficer.forEach((officer) => {
+        if (preSelected.includes(officer.officer_id)) {
+          officer.veh_data.forEach((v) => {
+            updatedAssigned[v.veh_id] = true;
+          });
+        }
+      });
+      setAssignedVehicles(updatedAssigned);
+
+      // 🔹 Also update tableData so vehicle checkboxes reflect the same
+      setTableData((prev) =>
+        prev.map((row) => ({
+          ...row,
+          assigned: updatedAssigned[row.veh_id] || row.assigned,
+        }))
+      );
+    } else {
+      setLocalSelectedWardOfficer([]);
+    }
+  }, [selectedResponder, wardOfficer, selectedWardOfficer]);
+
+
   // Checkbox change handler for ward officers
   const handleWardOfficerCheckbox = (officer) => (e) => {
     const checked = e.target.checked;
@@ -175,8 +215,8 @@ export default function ResponderModal({
       ? [...localSelectedWardOfficer, officer.officer_id]
       : localSelectedWardOfficer.filter((id) => id !== officer.officer_id);
 
-    setLocalSelectedWardOfficer(newSelectedWard);  
-    setSelectedWardOfficer(newSelectedWard);       
+    setLocalSelectedWardOfficer(newSelectedWard);
+    setSelectedWardOfficer(newSelectedWard);
 
     setAssignedVehicles((prev) => {
       const updated = { ...prev };
@@ -185,7 +225,15 @@ export default function ResponderModal({
       });
       return updated;
     });
+
+    setTableData((prev) =>
+      prev.map((row) => ({
+        ...row,
+        assigned: officer.veh_data.some((v) => v.veh_id === row.veh_id) ? checked : row.assigned,
+      }))
+    );
   };
+
 
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="lg">

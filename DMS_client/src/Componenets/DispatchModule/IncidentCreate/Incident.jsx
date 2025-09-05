@@ -369,9 +369,9 @@ const Incident = ({ darkMode }) => {
     const vehicleIds = Object.keys(assignedMap).filter(
       (key) => assignedMap[key]
     );
-    if (vehicleIds.length === 0) {
-      newErrors.assignAmbulance = "At least one vehicle must be assigned";
-    }
+    // if (vehicleIds.length === 0) {
+    //   newErrors.assignAmbulance = "At least one vehicle must be assigned";
+    // }
 
     // Agar koi bhi error hai to wahi return kar do
     if (Object.keys(newErrors).length > 0) {
