@@ -199,8 +199,10 @@ urlpatterns = [
     path('VehicleTheft_put/<int:id>/',VehicleTheft_put.as_view(), name='VehicleTheft_put'),
     path('VehicleTheft_delete/<int:id>/',VehicleTheft_delete.as_view(), name='VehicleTheft_delete'),
 
+    path('lat_long_get/',lat_long_get.as_view(), name='lat_long_get'),
+    path('lat_long_post/',lat_long_post.as_view(), name='lat_long_post'),
 
-
+  
 
 ]
 

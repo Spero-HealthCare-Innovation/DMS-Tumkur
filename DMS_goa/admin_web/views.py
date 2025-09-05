@@ -943,21 +943,29 @@ class Manual_Call_Incident_api(APIView):
         print("Request data:", data)
         caller_fields = ['caller_no', 'caller_name', 'caller_added_by', 'caller_modified_by','call_recieved_from']
         comments_fields = ['comments', 'comm_added_by', 'comm_modified_by']
-
+        
         incident_data = {field: data.get(field) for field in incident_fields}
         caller_data = {field: data.get(field) for field in caller_fields}
         comments_data = {field: data.get(field) for field in comments_fields}
         
-        print("Incident data:", incident_data)
-        print("Caller data:", caller_data)
-        print("Comments data:", comments_data)
+        caller_instance = None
+        if caller_data.get("caller_no"):
+            caller_instance = DMS_Caller.objects.filter(caller_no=caller_data["caller_no"]).first()
 
-       
-        caller_serializer = Manual_call_data_Serializer(data=caller_data)
-        if not caller_serializer.is_valid():
-            return Response({"caller_errors": caller_serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
-        caller_instance = caller_serializer.save()
-        print("Caller instance saveddd:", caller_instance)
+        if caller_instance:
+            caller_serializer = Manual_call_data_Serializer(
+                caller_instance, data=caller_data, partial=True
+            )
+            if not caller_serializer.is_valid():
+                return Response({"caller_errors": caller_serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+            caller_instance = caller_serializer.save()
+            print("Caller updated:", caller_instance)
+        else:
+            caller_serializer = Manual_call_data_Serializer(data=caller_data)
+            if not caller_serializer.is_valid():
+                return Response({"caller_errors": caller_serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+            caller_instance = caller_serializer.save()
+            print("Caller created:", caller_instance)
         
         incident_data['caller_id'] = caller_instance.pk
         print("Updated incident data with caller_id:", incident_data['caller_id'])
@@ -979,12 +987,10 @@ class Manual_Call_Incident_api(APIView):
         
         uploaded_files = []
         if request.FILES:
-            # Get all uploaded files under the key `files`
             files = request.FILES.getlist("files")  
             for f in files:
-                # Create a new row for each file with SAME incident_id
                 file_obj = DMS_Files.objects.create(
-                    incident_id=incident_instance,   # 🔗 link all files to same incident
+                    incident_id=incident_instance,   
                     file=f,
                     added_by=incident_instance.inc_added_by,
                     modified_by=incident_instance.inc_modified_by
@@ -3194,6 +3200,21 @@ class Caller_Details_get(APIView):
         instance = DMS_Caller.objects.filter(caller_is_deleted=False,caller_no=caller_no)
         serializer = DMS_caller_info_Serializer(instance, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class lat_long_get(APIView):
+    def get(self, request):
+        lat_long = DMS_lat_long_data.objects.all()
+        serializer = DMSlatlongSerializer(lat_long, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+class lat_long_post(APIView):
+    def post(self, request):
+        serializer = DMSlatlongSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 
