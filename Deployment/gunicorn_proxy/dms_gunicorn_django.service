@@ -6,10 +6,10 @@ After=network.target
 [Service]
 User=jenkins
 Group=www-data
-WorkingDirectory=/var/www/html/DMS_Tumkur/DMS_goa
-ExecStart=/var/www/html/DMS_Tumkur/vvenv/bin/gunicorn \
-    --error-logfile /var/www/html/DMS_Tumkur/Deployment/logs/error.log \
-    --access-logfile /var/www/html/DMS_Tumkur/Deployment/logs/access.log \
+WorkingDirectory=/var/www/html/DMS_goa/DMS_goa
+ExecStart=/var/www/html/DMS_goa/vvenv/bin/gunicorn \
+    --error-logfile /var/www/html/DMS_goa/Deployment/logs/error.log \
+    --access-logfile /var/www/html/DMS_goa/Deployment/logs/access.log \
     --workers 3 \
     --timeout 300 \
     --capture-output \
