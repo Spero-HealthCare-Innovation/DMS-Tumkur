@@ -1,4 +1,4 @@
-import React, { use, useEffect, useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
   Paper,
   Grid,
@@ -29,6 +29,7 @@ import {
   TableCell,
   CircularProgress,
   Tooltip,
+  Popper,
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import SearchIcon from "@mui/icons-material/Search";
@@ -41,7 +42,7 @@ import {
 import { styled } from "@mui/material/styles";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useLocation } from "react-router-dom";
-import { useState } from "react";
+
 import { useNavigate } from "react-router-dom";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
@@ -63,93 +64,395 @@ import {
 } from "../../../../CommonStyle/Style";
 import { useAuth } from "../../../../Context/ContextAPI";
 import axios from "axios";
-import { select } from "framer-motion/client";
-import { motion } from "framer-motion";
 
-const VehicleTheft = ({ darkMode, flag, setFlag, setSelectedIncident }) => {
-  const [anchorEl, setAnchorEl] = useState(null);
-  console.log(anchorEl, "anchorEl");
-
-  const port = import.meta.env.VITE_APP_API_KEY;
-  const { newToken } = useAuth();
-  const Department = localStorage.getItem("user_Department");
-  const token = localStorage.getItem("access_token");
-  const {
-    states,
-    districts,
-    Tehsils,
-    Citys,
-    selectedStateId,
-    setSelectedStateId,
-    setSelectedDistrictId,
-    selectedDistrictId,
-    selectedTehsilId,
-    setSelectedTehsilId,
-    selectedCityID,
-    setSelectedCityId,
-  } = useAuth();
-
+const VehicleTheft = ({ darkMode }) => {
   const theme = useTheme();
   const isDarkMode = theme.palette.mode === "dark";
   const selectStyles = getCustomSelectStyles(isDarkMode);
-  const open = Boolean(anchorEl);
 
-  const navigate = useNavigate();
-  const userName = localStorage.getItem("userId");
-  console.log(userName, "userName");
+  const port = import.meta.env.VITE_APP_API_KEY;
 
-  //add vhicle theft
+  const token = localStorage.getItem("access_token");
+
+  // Table & form states
+  const [vehicleList, setVehicleList] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState(1);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [searchQuery, setSearchQuery] = useState("");
+  const {
+    newToken,
+    popupText,
+    query,
+    handleSearchChange,
+    suggestions,
+    handleSelectSuggestion,
+    location,
+    setlocation,
+    latitude,
+    longitude,
+    setLattitude,
+    setLongitude,
+    setQuery,
+  } = useAuth();
+
   const [vehicleRtoNo, setVehicleRtoNo] = useState("");
   const [vehicleChassiNo, setVehicleChassiNo] = useState("");
   const [vehicleColor, setVehicleColor] = useState("");
   const [vehicleModel, setVehicleModel] = useState("");
   const [file, setFile] = useState(null);
-  const [scheduledDateTime, setScheduledDateTime] = useState("");
-  const [contactNo, setContactNo] = useState("");
+  const [existingFile, setExistingFile] = useState(null);
+  const [contactNumber, setContactNumber] = useState("");
   const [address, setAddress] = useState("");
-
-  const [vehicleList, setVehicleList] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [page, setPage] = useState(1);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
-
-  const [selectedItem, setSelectedItem] = useState(null);
-  const [selectedDisasterId, setSelectedDisasterId] = useState("");
-  const [departmentName, setDepartmentName] = useState("");
-  const [departments, setDepartments] = useState([]);
-  const [allEditData, setAllEditData] = useState([]);
-  const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
-  const [deleteDepId, setDeleteDepId] = useState(null);
-
-  const [isEditMode, setIsEditMode] = useState(false);
+  const [scheduledDateTime, setScheduledDateTime] = useState("");
   const [editId, setEditId] = useState(null);
-  const [deptId, setDeptId] = useState(null);
-  const [deptFetchId, setDeptFetchId] = useState(null);
-  console.log(deptFetchId, "deptFetchId");
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
-  const [snackbarMessage, setSnackbarMessage] = useState("");
-  const [snackbarSeverity, setSnackbarSeverity] = useState("success");
-  const [showSuccessAlert, setShowSuccessAlert] = useState(false);
-  const [disasterList, setDisasterList] = useState([]);
 
-  const [stateError, setStateError] = useState(false);
-  const [districtError, setDistrictError] = useState(false);
-  const [tehsilError, setTehsilError] = useState(false);
-  const [cityError, setCityError] = useState(false);
-  const [disasterError, setDisasterError] = useState(false);
-  const [departmentError, setDepartmentError] = useState(false);
-  const [departmentErrorMsg, setDepartmentErrorMsg] = useState("");
-  const [snackbarmsgAddDept, setSnackbarMessageAdded] = useState("");
-  const [snackbarupdate, setSnackbarMessageUpdated] = useState("");
-  const [filteredResults, setFilteredResults] = useState([]);
+  const [rtoNo, setRtoNo] = useState("");
+  const [chassisNo, setChassisNo] = useState("");
 
-  const [isNewEntry, setIsNewEntry] = useState(false);
-  const [activeTab, setActiveTab] = useState("");
-  const [editRowId, setEditRowId] = useState(null);
-  const [error, setError] = useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [selectedItem, setSelectedItem] = useState(null);
+  const [snackbar, setSnackbar] = useState({
+    open: false,
+    message: "",
+    severity: "success",
+  });
+  const [errors, setErrors] = useState({});
+
+  // Permissions
+  const [canAddUnclaimed, setCanAddUnclaimed] = useState(false);
+  const [canDeleteUnclaimed, setCanDeleteUnclaimed] = useState(false);
+  const [canEditUnclaimed, setCanEditUnclaimed] = useState(false);
+
+  const [editRowId, setEditRowId] = useState(null); // missing
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false); // missing
+  const [itemToDelete, setItemToDelete] = useState(null);
+
+  const open = Boolean(anchorEl);
+
+  // Filtered & paginated data
+  const filteredVehicles = useMemo(() => {
+    const query = searchQuery.toLowerCase();
+    return vehicleList.filter(
+      (v) =>
+        v.rto_no?.toLowerCase().includes(query) ||
+        v.chassi_no?.toLowerCase().includes(query) ||
+        v.vehicle_model?.toLowerCase().includes(query)
+    );
+  }, [vehicleList, searchQuery]);
+
+  const paginatedData = useMemo(() => {
+    const start = (page - 1) * rowsPerPage;
+    return filteredVehicles.slice(start, start + rowsPerPage);
+  }, [filteredVehicles, page, rowsPerPage]);
+
+  // Snackbar helper
+  const handleCloseSnackbar = () => setSnackbar({ ...snackbar, open: false });
+
+  // Search handler
+  const handleSearch = (e) => setSearchQuery(e.target.value);
+
+  // Open popover
+  const handleOpen = (event, item) => {
+    setAnchorEl(event.currentTarget);
+    setSelectedItem(item);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+    setSelectedItem(null);
+  };
+
+  const handleAddVehicleTheft = () => {
+    resetForm();
+    setEditId(null);
+    setSnackbar({
+      open: true,
+      message: "Fill the form to add a new vehicle theft",
+      severity: "info",
+    });
+  };
+
+  // Validate form
+  const validateForm = () => {
+    const temp = {};
+
+    // RTO
+    if (!vehicleRtoNo.trim()) {
+      temp.vehicleRtoNo = "RTO No is required";
+    }
+
+    // Chassis
+    if (!vehicleChassiNo.trim()) {
+      temp.vehicleChassiNo = "Chassi No is required";
+    }
+
+    // Color
+    if (!vehicleColor.trim()) {
+      temp.vehicleColor = "Color is required";
+    }
+
+    // Model
+    if (!vehicleModel.trim()) {
+      temp.vehicleModel = "Model is required";
+    }
+
+    // Contact number
+    if (!contactNumber.trim()) {
+      temp.contactNumber = "Contact number is required";
+    } else if (!/^\d{10}$/.test(contactNumber.trim())) {
+      temp.contactNumber = "Enter a valid 10-digit number";
+    }
+
+    // Date/time
+    if (!scheduledDateTime) {
+      temp.scheduledDateTime = "Scheduled date & time required";
+    } else if (new Date(scheduledDateTime) < new Date()) {
+      temp.scheduledDateTime = "Date & time cannot be in the past";
+    }
+
+    // File
+    if (!file && !existingFile) {
+      temp.file = "File upload is required";
+    } else if (file) {
+      const allowedTypes = ["image/jpeg", "image/png", "application/pdf"];
+      if (!allowedTypes.includes(file.type)) {
+        temp.file = "Only JPG, PNG, or PDF files are allowed";
+      } else if (file.size > 2 * 1024 * 1024) {
+        // 2MB size limit
+        temp.file = "File size must be under 2MB";
+      }
+    }
+
+    setErrors(temp);
+    return Object.keys(temp).length === 0;
+  };
+
+
+  
+  // Fetch all vehicles
+  const fetchVehiclesTheft = async (filters = {}) => {
+    try {
+      setLoading(true);
+      const res = await axios.get(`${port}/admin_web/VehicleTheft_get/`, {
+        headers: { Authorization: `Bearer ${token || newToken}` },
+        params: {
+          ...(filters.rto_no ? { rto_no: filters.rto_no } : {}),
+          ...(filters.chassi_no ? { chassi_no: filters.chassi_no } : {}),
+        },
+      });
+      setVehicleList(res.data || []);
+    } catch (err) {
+      console.error("Error fetching vehicles:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchVehiclesTheft();
+
+    const storedPermissions = JSON.parse(
+      localStorage.getItem("permissions") || "[]"
+    );
+    if (!storedPermissions.length) return;
+
+    const boloModule = storedPermissions[0].modules_submodule.find(
+      (m) => m.moduleName === "BOLO"
+    );
+    const unclaimedSub = boloModule?.selectedSubmodules.find(
+      (s) => s.submoduleName === "Unclaimed Vehicles"
+    );
+    unclaimedSub?.selectedActions.forEach((act) => {
+      if (act.actionName === "Add") setCanAddUnclaimed(true);
+      if (act.actionName === "Edit") setCanEditUnclaimed(true);
+      if (act.actionName === "Delete") setCanDeleteUnclaimed(true);
+    });
+  }, []);
+
+  // Save vehicle
+  const saveUnclaimedVehicle = async () => {
+    if (!validateForm()) {
+      setSnackbar({
+        open: true,
+        message: "Fix errors before saving",
+        severity: "error",
+      });
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("rto_no", vehicleRtoNo.trim());
+    formData.append("chassi_no", vehicleChassiNo.trim());
+    formData.append("vehicle_color", vehicleColor.trim());
+    formData.append("vehicle_model", vehicleModel.trim());
+    formData.append("contact_number", contactNumber.trim());
+
+    // ✅ Append only if present
+    if (latitude) formData.append("latitude", latitude);
+    if (longitude) formData.append("longitude", longitude);
+    if (popupText || location || address) {
+      formData.append("address", popupText || location || address);
+    }
+    if (file) formData.append("file_upload", file);
+
+    formData.append("scheduled_datetime", scheduledDateTime);
+
+    try {
+      const url = editId
+        ? `${port}/admin_web/VehicleTheft_put/${editId}/`
+        : `${port}/admin_web/VehicleTheft_post/`;
+      const method = editId ? "PUT" : "POST";
+
+      const res = await fetch(url, {
+        method,
+        headers: { Authorization: `Bearer ${token || newToken}` },
+        body: formData,
+      });
+
+      // ✅ Better error handling
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => ({}));
+        throw new Error(errorData?.detail || "Failed to save vehicle");
+      }
+
+      const successMessage = editId ? "Vehicle updated" : "Vehicle added";
+
+      await fetchVehiclesTheft();
+      resetForm(); // ✅ now fully resets popupText, location, lat/lng too
+
+      setSnackbar({
+        open: true,
+        message: successMessage,
+        severity: "success",
+      });
+    } catch (err) {
+      setSnackbar({
+        open: true,
+        message: err.message || "Error saving vehicle",
+        severity: "error",
+      });
+    }
+  };
+
+  const resetForm = () => {
+    setVehicleRtoNo("");
+    setVehicleChassiNo("");
+    setVehicleColor("");
+    setVehicleModel("");
+    setScheduledDateTime("");
+    setContactNumber("");
+
+    setAddress("");
+    setLattitude("");
+    setLongitude("");
+
+    setFile(null);
+    setExistingFile(null);
+
+    setEditId(null);
+    setEditRowId(null);
+    setErrors({});
+  };
+
+  // const handleEdit = (item) => {
+
+  //   setEditRowId(item.id);
+  //   setEditId(item.id);
+  //   setVehicleRtoNo(item.rto_no);
+  //   setVehicleChassiNo(item.chassi_no);
+  //   setVehicleColor(item.vehicle_color);
+  //   setVehicleModel(item.vehicle_model);
+  //   setScheduledDateTime(item.scheduled_datetime);
+
+  //   setExistingFile({ name: item.file_upload_name, url: item.file_upload_url });
+  //   handleClose();
+  // };
+
+  const handleEdit = async (item) => {
+    try {
+      setEditId(item.id);
+      setEditRowId(item.id); // highlight row
+      const res = await axios.get(
+        `${port}/admin_web/VehicleTheft_put/${item.id}/`,
+        {
+          headers: { Authorization: `Bearer ${token || newToken}` },
+        }
+      );
+
+      if (res.data) {
+        const v = res.data;
+        setVehicleRtoNo(v.rto_no || "");
+        setVehicleChassiNo(v.chassi_no || "");
+        setVehicleColor(v.vehicle_color || "");
+        setVehicleModel(v.vehicle_model || "");
+        setContactNumber(v.contact_no || "");
+        setQuery(v.address || "");
+        setLattitude(v.latitude || "");
+        setLongitude(v.longitude || "");
+        setScheduledDateTime(v.scheduled_datetime || "");
+        setAddress(v.address || "");
+
+        setExistingFile(v.file_upload || null);
+
+        // ✅ Success message from API response
+        setSnackbar({
+          open: true,
+          message: res.data.message || "Vehicle details loaded successfully",
+          severity: "success",
+        });
+      }
+      setErrors({});
+      handleClose();
+    } catch (err) {
+      setSnackbar({
+        open: true,
+        message:
+          err.response?.data?.message ||
+          err.response?.data?.detail ||
+          "Failed to fetch vehicle details",
+        severity: "error",
+      });
+    }
+  };
+
+  const handleDelete = async (item) => {
+    try {
+      await axios.delete(`${port}/admin_web/VehicleTheft_delete/${item.id}/`, {
+        headers: { Authorization: `Bearer ${token || newToken}` },
+      });
+      setSnackbar({
+        open: true,
+        message: "Vehicle deleted",
+        severity: "success",
+      });
+      fetchVehiclesTheft();
+      handleClose();
+    } catch (err) {
+      setSnackbar({
+        open: true,
+        message: "Error deleting vehicle",
+        severity: "error",
+      });
+    }
+  };
+
+  // Submit handler
+  const handleFilterSubmit = () => {
+    fetchVehiclesTheft({
+      rto_no: rtoNo.trim(),
+      chassi_no: chassisNo.trim(),
+    });
+  };
+
+  // Reset handler
+  const handleReset = () => {
+    setRtoNo("");
+    setChassisNo("");
+    fetchVehiclesTheft(); // default call
+  };
 
   const labelColor = darkMode ? "#5FECC8" : "#1976d2";
-  const borderColor = darkMode ? "#7F7F7F" : "#ccc";
+  const borderColor = darkMode ? "#7F7F7F" : "#000000ff";
   const fontFamily = "Roboto, sans-serif";
   const textColor = darkMode ? "#ffffff" : "#000000";
   const bgColor = darkMode ? "202328" : "#ffffff";
@@ -162,604 +465,17 @@ const VehicleTheft = ({ darkMode, flag, setFlag, setSelectedIncident }) => {
     ? "rgba(255, 255, 255, 0.16)"
     : "rgba(0, 0, 0, 0.04)";
 
-  const [searchQuery, setSearchQuery] = useState("");
-  const [suggestions, setSuggestions] = useState([]);
-  const [snackbar, setSnackbar] = useState({
-    open: false,
-    message: "",
-    severity: "success", // or "error"
-  });
-
-  const searchData = [
-    ...departments.map((dep) => ({ label: dep.dep_name, type: "Department" })),
-    ...states.map((st) => ({ label: st.state_name, type: "State" })),
-    ...districts.map((dist) => ({
-      label: dist.district_name,
-      type: "District",
-    })),
-    ...Tehsils.map((teh) => ({ label: teh.tehsil_name, type: "Tehsil" })),
-    ...Citys.map((city) => ({ label: city.city_name, type: "City" })),
-  ];
-
-  const handleSearch = (e) => {
-    const value = e.target.value;
-    setSearchQuery(value);
-
-    if (!value) {
-      setSuggestions([]);
-      setFilteredResults([]); // Clear the results if input is empty
-      return;
-    }
-
-    const filtered = searchData.filter((item) =>
-      item.label.toLowerCase().includes(value.toLowerCase())
-    );
-
-    setSuggestions(filtered);
-    setFilteredResults(filtered); // ← Show matched results directly
-  };
-
-  const handleOpen = (event, item) => {
-    setAnchorEl(event.currentTarget);
-    setSelectedItem(item);
-  };
-
-  //   const handleClose = () => {
-  //     setAnchorEl(null);
-  //     setSelectedItem(null);
-  //   };
-
-  const saveVehicleTheft = () => {
-    const payload = {
-      vehicleRtoNo,
-      vehicleChassiNo,
-      vehicleColor,
-      vehicleModel,
-      contactNo,
-      address,
-      scheduledDateTime,
-      file: file ? file.name : null,
-    };
-
-    setVehicleList((prev) => [...prev, payload]);
-
-    // Reset form
-    handleClose();
-  };
-
-  const handleClose = () => {
-    setVehicleRtoNo("");
-    setVehicleChassiNo("");
-    setVehicleColor("");
-    setVehicleModel("");
-    setFile(null);
-    setScheduledDateTime("");
-    setContactNo("");
-    setAddress("");
-  };
-
-  const handleEdit = async (selectedItem) => {
-    const depId = selectedItem.dep_id;
-    console.log("Editing Department ID:", depId);
-    setDeptFetchId(depId);
-    setEditRowId(depId); // Set selected row for border
-    // setSelectedItem(selectedItem); // if used for Popover
-
-    try {
-      const res = await axios.get(
-        `${port}/admin_web/Department_get_idwise/${depId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token || newToken}`,
-          },
-        }
-      );
-      console.log(
-        `Fetching ID Wise Data`,
-        res.data[0].dep_name,
-        res.data[0].state_id,
-        res.data[0].dis_id,
-        res.data[0].tah_id,
-        res.data[0].cit_id,
-        res.data[0].disaster_id
-      );
-      setIsEditMode(true); // This enables buttons that depend on isEditMode
-      setAllEditData(res.data);
-      console.log("dddddd", res.data);
-
-      setDepartmentName(res.data[0].dep_name || "");
-      setSelectedStateId(res.data[0].state_id || "");
-    } catch (err) {
-      console.error("Error fetching department data:", err);
-
-      setError(err);
-    }
-  };
-
-  const handleUpdate = async () => {
-    const payload = {
-      dep_name: departmentName,
-      state_id: selectedStateId,
-      dis_id: selectedDistrictId,
-      tah_id: selectedTehsilId,
-      cit_id: selectedCityID,
-      disaster_id: selectedDisasterId,
-      dep_modified_by: userName,
-    };
-
-    try {
-      const response = await fetch(
-        `${port}/admin_web/department_put/${deptFetchId}/`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token || newToken}`,
-          },
-          body: JSON.stringify(payload),
-        }
-      );
-
-      if (response.ok) {
-        const resData = await response.json();
-        console.log("Updated Department:", resData);
-
-        // Refresh department list
-        await fetchDepartments();
-
-        // Show snackbar
-        setSnackbarMessageUpdated("Department updated successfully!");
-
-        // Clear form
-        setDepartmentName("");
-        setSelectedStateId("");
-        setSelectedDistrictId("");
-        setSelectedTehsilId("");
-        setSelectedCityId("");
-        setSelectedDisasterId("");
-
-        // Exit edit mode
-        setIsEditMode(false);
-        setEditId(null);
-
-        // Auto hide snackbar
-        setTimeout(() => setShowSuccessAlert(false), 3000);
-      } else {
-        const errorData = await response.json();
-        console.error("Update failed:", errorData);
-        snackbarMessage("Failed to update department.");
-      }
-    } catch (err) {
-      console.error("Update error:", err);
-    }
-  };
-
-  const handleCloseSnackbar = () => {
-    setSnackbar({ ...snackbar, open: false });
-  };
-  // Set District after districts are loaded
-  useEffect(() => {
-    if (isEditMode && selectedStateId && allEditData.length > 0) {
-      const disId = allEditData[0]?.dis_id;
-      if (districts.find((d) => d.dis_id === disId)) {
-        setSelectedDistrictId(disId);
-      }
-    }
-  }, [districts, selectedStateId]);
-
-  useEffect(() => {
-    if (isEditMode && selectedDistrictId && allEditData.length > 0) {
-      const tahId = allEditData[0]?.tah_id;
-      if (Tehsils.find((t) => t.tah_id === tahId)) {
-        setSelectedTehsilId(tahId);
-      }
-    }
-  }, [Tehsils, selectedDistrictId]);
-
-  useEffect(() => {
-    if (isEditMode && selectedTehsilId && allEditData.length > 0) {
-      const citId = allEditData[0]?.cit_id;
-      if (Citys.find((c) => c.cit_id === citId)) {
-        setSelectedCityId(citId);
-      }
-    }
-  }, [Citys, selectedTehsilId]);
-
-  useEffect(() => {
-    if (isEditMode && allEditData.length > 0) {
-      const disasterId = allEditData[0]?.disaster_id;
-      const foundDisaster = disasterList.find(
-        (d) => d.disaster_id === disasterId
-      );
-      if (foundDisaster) {
-        setSelectedDisasterId(disasterId);
-      }
-    }
-  }, [isEditMode, allEditData, disasterList]);
-
-  useEffect(() => {
-    setPage(1);
-  }, [searchQuery]);
-
-  const filteredDepartments = useMemo(() => {
-    if (!searchQuery) return departments;
-    const query = searchQuery.toLowerCase();
-
-    return departments.filter(
-      (item) =>
-        item.dep_name?.toLowerCase().includes(query) ||
-        item.state_name?.toLowerCase().includes(query) ||
-        item.dst_name?.toLowerCase().includes(query) ||
-        item.tah_name?.toLowerCase().includes(query) ||
-        item.city_name?.toLowerCase().includes(query)
-    );
-  }, [departments, searchQuery]);
-
-  const paginatedData = useMemo(() => {
-    if (!filteredDepartments?.length) return [];
-
-    const start = (page - 1) * rowsPerPage;
-    const end = start + rowsPerPage;
-    return filteredDepartments.slice(start, end);
-  }, [page, rowsPerPage, filteredDepartments]);
-
-  const fetchDepartments = async () => {
-    try {
-      setLoading(true);
-      const response = await fetch(`${port}/admin_web/Department_get/`, {
-        headers: {
-          Authorization: `Bearer ${token || newToken}`,
-        },
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        setDepartments(data);
-        console.log("Departments fetched:", data);
-      } else {
-        const errorText = await response.text();
-        console.error(
-          "Failed to fetch departments:",
-          response.status,
-          errorText
-        );
-      }
-    } catch (error) {
-      console.error("Error fetching departments:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // Call on component mount
-  useEffect(() => {
-    fetchDepartments();
-  }, []);
-
-  const saveDepartment = async (e) => {
-    if (e) e.preventDefault(); // Prevent form refresh
-
-    // Field validations
-    setDepartmentError(false);
-    setDepartmentErrorMsg("");
-    setStateError(false);
-    setDistrictError(false);
-    setTehsilError(false);
-    setCityError(false);
-    setDisasterError(false);
-    let isValid = true;
-
-    if (!departmentName.trim()) {
-      setDepartmentError(true);
-      // setDepartmentErrorMsg("Department name is required.");
-      isValid = false;
-    }
-
-    if (!selectedStateId) {
-      setStateError(true);
-      isValid = false;
-    }
-
-    if (!selectedDistrictId) {
-      setDistrictError(true);
-      isValid = false;
-    }
-
-    if (!selectedTehsilId) {
-      setTehsilError(true);
-      isValid = false;
-    }
-
-    if (!selectedCityID) {
-      setCityError(true);
-      isValid = false;
-    }
-
-    if (!selectedDisasterId) {
-      setDisasterError(true);
-      isValid = false;
-    }
-
-    if (!isValid) return; // Stop submission if any validation fails
-
-    const payload = {
-      dep_name: departmentName,
-      state_id: selectedStateId,
-      dis_id: selectedDistrictId,
-      tah_id: selectedTehsilId,
-      cit_id: selectedCityID,
-      disaster_id: selectedDisasterId,
-      dep_modified_by: userName,
-      dep_added_by: userName,
-    };
-
-    console.log("Payload before POST:", payload);
-
-    try {
-      const response = await fetch(`${port}/admin_web/department_post/`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token || newToken}`,
-        },
-        body: JSON.stringify(payload),
-      });
-
-      if (response.ok) {
-        const resData = await response.json();
-        console.log("Department saved:", resData);
-
-        await fetchDepartments(); // Refresh department list
-        setSnackbarMessageAdded("Department added successfully!");
-        setShowSuccessAlert(true);
-        setTimeout(() => setShowSuccessAlert(false), 3000);
-
-        // ✅ Clear form fields
-        setDepartmentName("");
-        setSelectedDisasterId("");
-        setSelectedStateId("");
-        setSelectedDistrictId("");
-        setSelectedTehsilId("");
-        setSelectedCityId("");
-
-        // ✅ Clear errors
-        setDepartmentError(false);
-        setDepartmentErrorMsg("");
-        setStateError(false);
-        setDistrictError(false);
-        setTehsilError(false);
-        setCityError(false);
-        setDisasterError(false);
-
-        setDeptId(null);
-      } else {
-        const errorData = await response.json();
-        if (
-          errorData?.detail === "Department with this dep_name already exists."
-        ) {
-          setDepartmentError(true);
-          // setDepartmentErrorMsg("Department name already exists.");
-        } else {
-          console.error("Failed to save department:", errorData);
-        }
-      }
-    } catch (error) {
-      console.error("Error posting department:", error);
-    }
-  };
-
-  useEffect(() => {
-    const fetchDisasters = async () => {
-      try {
-        const response = await fetch(
-          `${port}/admin_web/DMS_Disaster_Type_Get/`,
-          {
-            headers: {
-              Authorization: `Bearer ${token || newToken}`,
-            },
-          }
-        );
-        if (response.ok) {
-          const data = await response.json();
-          setDisasterList(data);
-        } else {
-          console.error("Failed to fetch disaster types");
-        }
-      } catch (error) {
-        console.error("Error fetching disasters:", error);
-      }
-    };
-
-    fetchDisasters();
-  }, []);
-
-  const handleDelete = async () => {
-    try {
-      const res = await axios.delete(
-        `${port}/admin_web/department_delete/${deleteDepId}/`,
-        {
-          headers: {
-            Authorization: `Bearer ${token || newToken}`,
-          },
-        }
-      );
-
-      console.log("Delete success:", res.data);
-      setDepartments((prev) =>
-        prev.filter((item) => item.dep_id !== deleteDepId)
-      );
-      setSnackbarMessage("Department deleted successfully.");
-      setSnackbarSeverity("success");
-      setSnackbarOpen(true);
-      setOpenDeleteDialog(false);
-      setDeleteDepId(null);
-      handleClose(); // close popover
-    } catch (err) {
-      console.error("Error deleting department:", err);
-      setSnackbarMessage("Failed to delete department. Please try again.");
-      setSnackbarSeverity("error");
-      setSnackbarOpen(true);
-      setOpenDeleteDialog(false);
-    }
-  };
-
-  const handleAddNewDepartment = () => {
-    // Clear all form fields
-    setDepartmentName("");
-    setSelectedDisasterId("");
-    setSelectedStateId("");
-
-    setSelectedDistrictId("");
-    setSelectedTehsilId("");
-    setSelectedCityId("");
-
-    // Clear validation errors
-    setDepartmentError(false);
-    setDepartmentErrorMsg("");
-    setStateError(false);
-    setDistrictError(false);
-    setTehsilError(false);
-    setCityError(false);
-    setDisasterError(false);
-
-    // Exit edit mode and reset edit ID
-    setIsEditMode(false);
-    setEditId(null);
-    setDeptId(null); // if used
-    setIsNewEntry(true);
-  };
-
-  const validateForm = () => {
-    let isValid = true;
-
-    if (!departmentName.trim()) {
-      setDepartmentError(true);
-      setDepartmentErrorMsg("Please enter department name");
-      isValid = false;
-    }
-
-    if (!selectedStateId) {
-      setStateError(true);
-      isValid = false;
-    }
-
-    if (!selectedDistrictId) {
-      setDistrictError(true);
-      isValid = false;
-    }
-
-    if (!selectedTehsilId) {
-      setTehsilError(true);
-      isValid = false;
-    }
-
-    if (!selectedCityID) {
-      setCityError(true);
-      isValid = false;
-    }
-
-    if (!selectedDisasterId) {
-      setDisasterError(true);
-      isValid = false;
-    }
-
-    return isValid;
-  };
-
-  useEffect(() => {
-    if (selectedStateId && isNewEntry) {
-      // fetchDistricts(selectedStateId);
-    }
-  }, [selectedStateId, isNewEntry]);
-
-  // localStorage se check karne ke liye function
-  const hasPermission = (moduleName, submoduleName, actionName) => {
-    const stored = localStorage.getItem("permissions");
-    console.log("Stored permissions:", stored);
-
-    if (!stored) {
-      console.log("No permissions found in localStorage.");
-      return false;
-    }
-
-    const permissions = JSON.parse(stored);
-    console.log("Parsed permissions:", permissions);
-
-    // Module find karo
-    const module = permissions[0]?.modules_submodule.find(
-      (m) => m.moduleName === moduleName
-    );
-    console.log(`Looking for module "${moduleName}":`, module);
-    if (!module) {
-      console.log(`Module "${moduleName}" not found.`);
-      return false;
-    }
-
-    // Submodule find karo
-    const submodule = module.selectedSubmodules.find(
-      (s) => s.submoduleName === submoduleName
-    );
-    console.log(`Looking for submodule "${submoduleName}":`, submodule);
-    if (!submodule) {
-      console.log(`Submodule "${submoduleName}" not found.`);
-      return false;
-    }
-
-    // Action find karo
-    const hasAction = submodule.selectedActions.some(
-      (a) => a.actionName === actionName
-    );
-    console.log(`Checking action "${actionName}":`, hasAction);
-
-    return hasAction;
-  };
-
-  const [newDepartment, setNewDepartment] = useState(false);
-  const [deleteDepartments, setDeleteDepartments] = useState(false);
-  const [editDepartment, setEditDepartment] = useState(false);
-
-  useEffect(() => {
-    const storedPermissions = JSON.parse(localStorage.getItem("permissions"));
-
-    if (storedPermissions && storedPermissions.length > 0) {
-      const modules = storedPermissions[0].modules_submodule;
-      console.log("modules_submodule:", modules);
-
-      const systemUserModule = modules.find(
-        (mod) => mod.moduleName === "System User"
-      );
-
-      if (systemUserModule) {
-        const addDepartmentSubmodule = systemUserModule.selectedSubmodules.find(
-          (sub) => sub.submoduleName === "Add Department"
-        );
-
-        if (addDepartmentSubmodule) {
-          addDepartmentSubmodule.selectedActions?.forEach((act) => {
-            if (act.actionName === "Add New Department") {
-              setNewDepartment(true);
-            }
-            if (act.actionName === "Delete") {
-              setDeleteDepartments(true);
-            }
-            if (act.actionName === "Edit") {
-              setEditDepartment(true);
-            }
-          });
-        }
-      }
-    }
-  }, []);
-
   return (
     <Box sx={{ p: 2, marginLeft: "3rem" }}>
       <Snackbar
-        open={Boolean(snackbarmsgAddDept)}
-        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+        open={snackbar.open}
         autoHideDuration={3000}
-        onClose={() => setSnackbarMessageAdded(null)}
-        message={snackbarmsgAddDept}
-      />
+        onClose={handleCloseSnackbar}
+      >
+        <Alert onClose={handleCloseSnackbar} severity={snackbar.severity}>
+          {snackbar.message}
+        </Alert>
+      </Snackbar>
       <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
         <Box
           sx={{
@@ -781,10 +497,10 @@ const VehicleTheft = ({ darkMode, flag, setFlag, setSelectedIncident }) => {
                 marginLeft: "1em",
               }}
             >
-              List of Vehicle Theft
+              List of Vehicles Theft
             </Typography>
             <TextField
-              placeholder="Search by name"
+              placeholder="Search by RTO No, Chassis No, Model"
               value={searchQuery}
               onChange={handleSearch}
               size="small"
@@ -800,7 +516,7 @@ const VehicleTheft = ({ darkMode, flag, setFlag, setSelectedIncident }) => {
                       size="small"
                       onClick={() => {
                         setSearchQuery("");
-                        setFilteredResults([]);
+                        // setFilteredResults([]);
                       }}
                     >
                       <CloseIcon fontSize="small" sx={{ color: "gray" }} />
@@ -819,7 +535,7 @@ const VehicleTheft = ({ darkMode, flag, setFlag, setSelectedIncident }) => {
                   py: 0.2,
                 },
                 "& .MuiOutlinedInput-notchedOutline": {
-                  borderColor: darkMode ? "#444" : "#ccc",
+                  borderColor: darkMode ? "#444" : "#000000ff",
                 },
                 "& input": {
                   color: darkMode ? "#fff" : "#000",
@@ -831,8 +547,6 @@ const VehicleTheft = ({ darkMode, flag, setFlag, setSelectedIncident }) => {
           </Box>{" "}
         </Box>
       </Box>
-
-  
 
       <Grid container spacing={2}>
         <Grid item xs={12} md={7}>
@@ -846,71 +560,92 @@ const VehicleTheft = ({ darkMode, flag, setFlag, setSelectedIncident }) => {
               boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
             }}
           >
+            <Grid container spacing={2} alignItems="center" mb={2}>
+              {/* Vehicle RTO No */}
+              <Grid item xs={12} sm={4}>
+                <TextField
+                  label="Vehicle RTO No"
+                  name="rtoNo"
+                  size="small"
+                  fullWidth
+                  value={rtoNo}
+                  onChange={(e) => setRtoNo(e.target.value)}
+                  sx={{
+                    "& .MuiInputBase-root": { height: 40, borderRadius: 2 },
+                    "& .MuiInputLabel-root": { fontSize: "0.85rem" },
+                  }}
+                />
+              </Grid>
 
-  <Grid container spacing={2} alignItems="center"  mb={2}>
-    {/* Vehicle RTO No */}
-    <Grid item xs={12} sm={4}>
-      <TextField
-        label="Vehicle RTO No"
-        name="rtoNo"
-        size="small"
-        fullWidth
-        sx={{
-          "& .MuiInputBase-root": { height: 40, borderRadius: 2 },
-          "& .MuiInputLabel-root": { fontSize: "0.85rem" },
-        }}
-      />
-    </Grid>
+              {/* Vehicle Chassis No */}
+              <Grid item xs={12} sm={4}>
+                <TextField
+                  label="Vehicle Chassis No"
+                  name="chassisNo"
+                  size="small"
+                  fullWidth
+                  value={chassisNo}
+                  onChange={(e) => setChassisNo(e.target.value)}
+                  sx={{
+                    "& .MuiInputBase-root": { height: 40, borderRadius: 2 },
+                    "& .MuiInputLabel-root": { fontSize: "0.85rem" },
+                  }}
+                />
+              </Grid>
 
-    {/* Vehicle Chassis No */}
-    <Grid item xs={12} sm={4}>
-      <TextField
-        label="Vehicle Chassis No"
-        name="chassisNo"
-        size="small"
-        fullWidth
-        sx={{
-          "& .MuiInputBase-root": { height: 40, borderRadius: 2 },
-          "& .MuiInputLabel-root": { fontSize: "0.85rem" },
-        }}
-      />
-    </Grid>
+              {/* Buttons */}
+              <Grid item xs={12} sm={4}>
+                <Box display="flex" gap={1} justifyContent="flex-end">
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={handleFilterSubmit} // ✅ connect handler
+                    sx={{
+                      minHeight: 40,
+                      fontSize: "0.8rem",
+                      borderRadius: 2,
+                      textTransform: "none",
+                    }}
+                  >
+                    Submit
+                  </Button>
+                  <Button
+                    variant="outlined"
+                    color="secondary"
+                    onClick={handleReset} // ✅ connect handler
+                    sx={{
+                      minHeight: 40,
+                      fontSize: "0.8rem",
+                      borderRadius: 2,
+                      textTransform: "none",
+                    }}
+                  >
+                    Reset
+                  </Button>
+                </Box>
+              </Grid>
+            </Grid>
 
-    {/* Buttons */}
-    <Grid item xs={12} sm={4}>
-      <Box display="flex" gap={1} justifyContent="flex-end">
-        <Button
-          variant="contained"
-          color="primary"
-          sx={{
-            minHeight: 40,
-            fontSize: "0.8rem",
-            borderRadius: 2,
-            textTransform: "none",
-          }}
-        >
-          Submit
-        </Button>
-        <Button
-          variant="outlined"
-          color="secondary"
-          sx={{
-            minHeight: 40,
-            fontSize: "0.8rem",
-            borderRadius: 2,
-            textTransform: "none",
-          }}
-        >
-          Reset
-        </Button>
-      </Box>
-    </Grid>
-  </Grid>
-
-
-            <TableContainer>
-              <Table>
-                <TableHead>
+            <TableContainer
+              sx={{
+                maxHeight: "50vh",
+                "&::-webkit-scrollbar": { width: 6 },
+                "&::-webkit-scrollbar-thumb": {
+                  backgroundColor: darkMode ? "#5FC8EC" : "#888",
+                  borderRadius: 3,
+                },
+              }}
+            >
+              <Table stickyHeader size="small">
+                <TableHead
+                  sx={{
+                    position: "sticky",
+                    top: 0,
+                    zIndex: 2,
+                    background:
+                      "linear-gradient(to bottom, #5FC8EC, rgb(214,223,225))",
+                  }}
+                >
                   <TableRow>
                     <TableHeadingCard
                       sx={{
@@ -918,87 +653,90 @@ const VehicleTheft = ({ darkMode, flag, setFlag, setSelectedIncident }) => {
                         display: "flex",
                         width: "100%",
                         borderRadius: 2,
-                        position: "sticky",
-                        top: 0, // 👈 header fix ho jayega
-                        zIndex: 1,
-                        bgcolor:
-                          "linear-gradient(to bottom, #5FC8EC, rgb(214, 223, 225))",
                       }}
                     >
+                      {/* ID */}
                       <StyledCardContent
-                        sx={{
-                          flex: 0.8,
-                          minWidth: 60,
-                          borderRight: "1px solid black",
-                          justifyContent: "center",
-                        }}
+                        sx={{ flex: 0.4, justifyContent: "center" }}
                       >
-                        <Typography variant="subtitle2" sx={fontsTableHeading}>
-                          Sr. No
+                        <Typography variant="caption" sx={fontsTableHeading}>
+                          ID
                         </Typography>
                       </StyledCardContent>
+
+                      {/* RTO No */}
                       <StyledCardContent
                         sx={{
-                          flex: 2.5,
-                          minWidth: 150,
-                          borderRight: "1px solid black",
+                          flex: 1,
                           justifyContent: "center",
+                          borderLeft: "1px solid #000000ff",
                         }}
                       >
-                        <Typography variant="subtitle2" sx={fontsTableHeading}>
-                          Vehical RTO No
+                        <Typography
+                          variant="caption"
+                          sx={fontsTableHeading}
+                          noWrap
+                        >
+                          RTO No
                         </Typography>
                       </StyledCardContent>
+
+                      {/* Chassis No */}
                       <StyledCardContent
                         sx={{
                           flex: 1.5,
-                          minWidth: 120,
-                          borderRight: "1px solid black",
                           justifyContent: "center",
+                          borderLeft: "1px solid #000000ff",
                         }}
                       >
-                        <Typography variant="subtitle2" sx={fontsTableHeading}>
-                          Vehical Chassis No
+                        <Typography
+                          variant="caption"
+                          sx={fontsTableHeading}
+                          noWrap
+                        >
+                          Chassis No
                         </Typography>
                       </StyledCardContent>
+
+                      {/* Model */}
                       <StyledCardContent
                         sx={{
-                          flex: 1,
-                          minWidth: 100,
-                          borderRight: "1px solid black",
+                          flex: 0.8,
                           justifyContent: "center",
+                          borderLeft: "1px solid #000000ff",
                         }}
                       >
-                        <Typography variant="subtitle2" sx={fontsTableHeading}>
-                          Color
-                        </Typography>
-                      </StyledCardContent>
-                      <StyledCardContent
-                        sx={{
-                          flex: 1,
-                          minWidth: 100,
-                          borderRight: "1px solid black",
-                          justifyContent: "center",
-                        }}
-                      >
-                        <Typography variant="subtitle2" sx={fontsTableHeading}>
+                        <Typography variant="caption" sx={fontsTableHeading}>
                           Model
                         </Typography>
                       </StyledCardContent>
-                      {/* <StyledCardContent sx={{ flex: 1.5, minWidth: 120, borderRight: "1px solid black", justifyContent: "center" }}>
-        <Typography variant="subtitle2" sx={fontsTableHeading}>Contact No</Typography>
-      </StyledCardContent>
-      <StyledCardContent sx={{ flex: 2, minWidth: 150, borderRight: "1px solid black", justifyContent: "center" }}>
-        <Typography variant="subtitle2" sx={fontsTableHeading}>Address</Typography>
-      </StyledCardContent> */}
+
+                      {/* Datetime */}
                       <StyledCardContent
                         sx={{
-                          flex: 0.7,
-                          minWidth: 60,
+                          flex: 1.2,
                           justifyContent: "center",
+                          borderLeft: "1px solid #000000ff",
                         }}
                       >
-                        <Typography variant="subtitle2" sx={fontsTableHeading}>
+                        <Typography
+                          variant="caption"
+                          sx={fontsTableHeading}
+                          noWrap
+                        >
+                          Datetime
+                        </Typography>
+                      </StyledCardContent>
+
+                      {/* Action */}
+                      <StyledCardContent
+                        sx={{
+                          flex: 0.5,
+                          justifyContent: "center",
+                          borderLeft: "1px solid #000000ff",
+                        }}
+                      >
+                        <Typography variant="caption" sx={fontsTableHeading}>
                           Action
                         </Typography>
                       </StyledCardContent>
@@ -1006,290 +744,139 @@ const VehicleTheft = ({ darkMode, flag, setFlag, setSelectedIncident }) => {
                   </TableRow>
                 </TableHead>
 
-                <TableBody
-                  sx={{
-                    display: "block",
-                    maxHeight: "50vh",
-                    overflowY: "auto",
-                    scrollBehavior: "smooth",
-                    width: "100%",
-                    "&::-webkit-scrollbar": {
-                      width: "6px",
-                    },
-                    "&::-webkit-scrollbar-thumb": {
-                      backgroundColor: darkMode ? "#5FC8EC" : "#888",
-                      borderRadius: 3,
-                    },
-                    "&::-webkit-scrollbar-thumb:hover": {
-                      backgroundColor: darkMode ? "#5FC8EC" : "#555",
-                    },
-                  }}
-                >
-                  {" "}
+                <TableBody>
                   {loading ? (
                     <TableRow>
-                      <TableCell colSpan={6} align="center">
-                        <CircularProgress size={30} sx={{ color: "#5FC8EC" }} />
+                      <TableCell colSpan={8} align="center" sx={{ py: 4 }}>
+                        <CircularProgress size={28} sx={{ color: "#5FC8EC" }} />
                       </TableCell>
                     </TableRow>
-                  ) : (
-                    paginatedData
-                      // .slice((page - 1) * rowsPerPage, page * rowsPerPage)
-                      .map((item, index) => (
-                        <TableDataCardBody
-                          key={index}
-                          sx={{
-                            bgcolor: "rgb(53 53 53)",
-                            borderRadius: 2,
-                            color: textColor,
-                            display: "flex",
-                            width: "100%",
-                            border:
-                              item.dep_id === editRowId
-                                ? "2px solid #5FC8EC"
-                                : "1px solid transparent",
-
-                            transition: "all 0.3s ease",
-                          }}
+                  ) : paginatedData.length > 0 ? (
+                    paginatedData.map((item, index) => (
+                      <TableDataCardBody
+                        key={index}
+                        sx={{
+                          bgcolor: "rgb(53 53 53)",
+                          borderRadius: 2,
+                          color: textColor,
+                          display: "flex",
+                          width: "100%",
+                          border:
+                            item.id === editRowId
+                              ? "2px solid #5FC8EC"
+                              : "1px solid transparent",
+                          transition: "all 0.3s ease",
+                        }}
+                      >
+                        {/* ID */}
+                        <StyledCardContent
+                          sx={{ flex: 0.4, justifyContent: "center" }}
                         >
-                          <StyledCardContent
-                            sx={{
-                              flex: 0.8,
-                              justifyContent: "center",
-                            }}
-                          >
-                            <Typography variant="subtitle2" sx={fontsTableBody}>
-                              {(page - 1) * rowsPerPage + index + 1}
-                            </Typography>
-                          </StyledCardContent>
+                          <Typography variant="caption" sx={fontsTableBody}>
+                            {(page - 1) * rowsPerPage + index + 1}
+                          </Typography>
+                        </StyledCardContent>
 
-                          <StyledCardContent
-                            sx={{
-                              flex: 2.5,
-                              justifyContent: "center",
-                              alignItems: "center",
-                              display: "flex",
-                              minWidth: 0,
-                            }}
+                        {/* RTO No */}
+                        <StyledCardContent
+                          sx={{ flex: 1, justifyContent: "center" }}
+                        >
+                          <Typography
+                            variant="caption"
+                            sx={fontsTableBody}
+                            noWrap
                           >
-                            <Tooltip
-                              title={item.dep_name || "No Department Name"}
-                              arrow
-                              placement="top"
-                            >
-                              <Typography
-                                variant="subtitle2"
-                                sx={{
-                                  overflow: "hidden",
-                                  textOverflow: "ellipsis",
-                                  whiteSpace: "nowrap",
-                                  maxWidth: 150,
-                                  ...fontsTableBody,
-                                }}
-                              >
-                                {item.dep_name && item.dep_name.length > 35
-                                  ? item.dep_name.slice(0, 35) + "..."
-                                  : item.dep_name || "No Department Name"}
-                              </Typography>
-                            </Tooltip>
-                          </StyledCardContent>
+                            {item.rto_no}
+                          </Typography>
+                        </StyledCardContent>
 
-                          {/* <StyledCardContent
-                            sx={{
-                              flex: 1.5,
-                              justifyContent: "center",
-                              ...fontsTableBody,
-                            }}
+                        {/* Chassis No */}
+                        <StyledCardContent
+                          sx={{ flex: 1.5, justifyContent: "center" }}
+                        >
+                          <Typography
+                            variant="caption"
+                            sx={fontsTableBody}
+                            noWrap
                           >
-                            <Typography variant="subtitle2">
-                              {item.disaster}
-                            </Typography>
-                          </StyledCardContent> */}
-                          <StyledCardContent
-                            sx={{
-                              flex: 0.8,
-                              justifyContent: "center",
-                            }}
-                          >
-                            <Typography variant="subtitle2" sx={fontsTableBody}>
-                              {item.state_name}
-                            </Typography>
-                          </StyledCardContent>
-                          <StyledCardContent
-                            sx={{
-                              flex: 0.8,
-                              justifyContent: "center",
-                            }}
-                          >
-                            <Typography variant="subtitle2" sx={fontsTableBody}>
-                              {item.dst_name}
-                            </Typography>
-                          </StyledCardContent>
+                            {item.chassi_no}
+                          </Typography>
+                        </StyledCardContent>
 
-                          {/* <StyledCardContent
-                            sx={{
-                              flex: 0.8,
-                              justifyContent: "center",
-                              ...fontsTableBody,
-                            }}
-                          >
-                            <Typography variant="subtitle2">
-                              {item.tah_name}
-                            </Typography>
-                          </StyledCardContent> */}
-                          {/* <StyledCardContent
-                            sx={{
-                              flex: 1.3,
-                              justifyContent: "center ",
-                              ...fontsTableBody,
-                            }}
-                          >
-                            <Typography variant="subtitle2">
-                              {item.city_name}
-                            </Typography>
-                          </StyledCardContent> */}
-                          <StyledCardContent
-                            sx={{
-                              flex: 0.3,
-                              justifyContent: "center",
-                            }}
-                          >
-                            <MoreHorizIcon
-                              onClick={(e) => handleOpen(e, item)}
-                              sx={{
-                                color: "white",
-                                cursor: "pointer",
-                                // fontSize: 35,
-                                justifyContent: "center",
-                                fontSize: 14,
-                                ...fontsTableBody,
-                              }}
-                            />
-                          </StyledCardContent>
+                        {/* Model */}
+                        <StyledCardContent
+                          sx={{ flex: 0.8, justifyContent: "center" }}
+                        >
+                          <Typography variant="caption" sx={fontsTableBody}>
+                            {item.vehicle_model}
+                          </Typography>
+                        </StyledCardContent>
 
-                          {(editDepartment || deleteDepartments) && (
-                            <Popover
-                              open={open}
-                              anchorEl={anchorEl}
-                              onClose={handleClose}
-                              anchorOrigin={{
-                                vertical: "center",
-                                horizontal: "right",
-                              }}
-                              transformOrigin={{
-                                vertical: "center",
-                                horizontal: "left",
-                              }}
-                              PaperProps={{
-                                sx: {
-                                  p: 2,
-                                  display: "flex",
-                                  flexDirection: "column",
-                                  gap: 1.5,
-                                  borderRadius: 2,
-                                  minWidth: 120,
-                                },
-                              }}
-                            >
-                              {editDepartment && (
-                                <Button
-                                  fullWidth
-                                  variant="outlined"
-                                  color="warning"
-                                  startIcon={
-                                    <EditOutlined
-                                      sx={{
-                                        fontSize: "14px",
-                                        alignItems: "center",
-                                      }}
-                                    />
-                                  }
-                                  onClick={() => handleEdit(selectedItem)}
-                                  sx={{
-                                    textTransform: "none",
-                                    fontSize: "14px",
-                                  }}
+                        {/* Datetime */}
+                        <StyledCardContent
+                          sx={{ flex: 1.2, justifyContent: "center" }}
+                        >
+                          {(() => {
+                            const formatted = new Date(
+                              item.scheduled_datetime
+                            ).toLocaleString("en-IN", {
+                              day: "2-digit",
+                              month: "2-digit",
+                              year: "numeric",
+                              hour: "2-digit",
+                              minute: "2-digit",
+                              hour12: true,
+                            });
+                            const [date, time] = formatted.split(",");
+                            return (
+                              <>
+                                <Typography
+                                  variant="caption"
+                                  sx={fontsTableBody}
+                                  noWrap
                                 >
-                                  Edit
-                                </Button>
-                              )}
-
-                              {deleteDepartments && (
-                                <Button
-                                  fullWidth
-                                  variant="outlined"
-                                  color="error"
-                                  startIcon={
-                                    <DeleteOutline
-                                      sx={{
-                                        fontSize: "14px",
-                                        alignItems: "center",
-                                      }}
-                                    />
-                                  }
-                                  onClick={() => {
-                                    setDeleteDepId(selectedItem.dep_id);
-                                    setOpenDeleteDialog(true);
-                                  }}
-                                  sx={{
-                                    textTransform: "none",
-                                    fontSize: "14px",
-                                  }}
+                                  {date}
+                                </Typography>
+                                <Typography
+                                  variant="caption"
+                                  sx={fontsTableBody}
+                                  noWrap
                                 >
-                                  Delete
-                                </Button>
-                              )}
-                            </Popover>
-                          )}
+                                  {"," + time}
+                                </Typography>
+                              </>
+                            );
+                          })()}
+                        </StyledCardContent>
 
-                          <Snackbar
-                            open={snackbarOpen}
-                            autoHideDuration={3000}
-                            onClose={() => setSnackbarOpen(false)}
-                            anchorOrigin={{
-                              vertical: "bottom",
-                              horizontal: "center",
+                        {/* Action */}
+                        <StyledCardContent
+                          sx={{ flex: 0.5, justifyContent: "center" }}
+                        >
+                          <MoreHorizIcon
+                            onClick={(e) => handleOpen(e, item)}
+                            sx={{
+                              color: "white",
+                              cursor: "pointer",
+                              fontSize: 14,
                             }}
-                          >
-                            <Alert
-                              onClose={() => setSnackbarOpen(false)}
-                              severity={snackbarSeverity}
-                              variant="filled"
-                              sx={{ width: "100%" }}
-                            >
-                              {snackbarMessage}
-                            </Alert>
-                          </Snackbar>
-                        </TableDataCardBody>
-                      ))
+                          />
+                        </StyledCardContent>
+                      </TableDataCardBody>
+                    ))
+                  ) : (
+                    <TableRow>
+                      <TableCell
+                        colSpan={8}
+                        align="center"
+                        sx={{ py: 3, color: "gray" }}
+                      >
+                        No records found
+                      </TableCell>
+                    </TableRow>
                   )}
                 </TableBody>
               </Table>
-              <Dialog
-                open={openDeleteDialog}
-                onClose={() => setOpenDeleteDialog(false)}
-                maxWidth="xs"
-                fullWidth
-              >
-                <DialogTitle>Confirm Deletion</DialogTitle>
-                <DialogContent>
-                  <Typography>
-                    Are you sure you want to delete this department?
-                  </Typography>
-                </DialogContent>
-                <DialogActions>
-                  <Button onClick={() => setOpenDeleteDialog(false)}>
-                    Cancel
-                  </Button>
-                  <Button
-                    onClick={handleDelete}
-                    color="error"
-                    variant="contained"
-                  >
-                    Delete
-                  </Button>
-                </DialogActions>
-              </Dialog>
             </TableContainer>
 
             <Box
@@ -1360,18 +947,17 @@ const VehicleTheft = ({ darkMode, flag, setFlag, setSelectedIncident }) => {
                 </Box>
 
                 <Box>
-                  {page}/ {Math.ceil(filteredDepartments.length / rowsPerPage)}
+                  {page}/ {Math.ceil(filteredVehicles.length / rowsPerPage)}
                 </Box>
 
                 <Box
                   onClick={() =>
-                    page <
-                      Math.ceil(filteredDepartments.length / rowsPerPage) &&
+                    page < Math.ceil(filteredVehicles.length / rowsPerPage) &&
                     setPage(page + 1)
                   }
                   sx={{
                     cursor:
-                      page < Math.ceil(filteredDepartments.length / rowsPerPage)
+                      page < Math.ceil(filteredVehicles.length / rowsPerPage)
                         ? "pointer"
                         : "not-allowed",
                     userSelect: "none",
@@ -1395,41 +981,60 @@ const VehicleTheft = ({ darkMode, flag, setFlag, setSelectedIncident }) => {
               transition: "all 0.3s ease-in-out",
             }}
           >
-            {newDepartment && (
-              <Box
-                display="flex"
-                justifyContent={{ xs: "center", md: "flex-end" }}
-                alignItems="center"
-                mb={2}
-                flexWrap="wrap"
-              >
-                {hasPermission("BOLO", "Vehicle Theft", "Add") && (
-                  <Button
-                    variant="contained"
-                    startIcon={<AddCircleOutline />}
-                    disabled={!isEditMode}
-                    onClick={handleAddNewDepartment}
-                    sx={{
-                      backgroundColor: "rgba(223,76,76, 0.8)",
-                      color: "#fff",
-                      fontWeight: 600,
-                      fontFamily: "Roboto",
-                      textTransform: "none",
-                      px: 1,
-                      py: 1,
-                      fontSize: { xs: "0.75rem", sm: "0.875rem" },
-                      "&:hover": {
-                        backgroundColor: "rgba(223,76,76, 0.8)",
-                      },
-                    }}
-                  >
-                    Add New Record
-                  </Button>
-                )}
-              </Box>
-            )}
+            {/* 🔹 Title */}
+            {/* 🔹 Title */}
 
             <Grid container spacing={2}>
+              <Grid item xs={12} sm={6}>
+                <Typography
+                  variant="h6"
+                  gutterBottom
+                  sx={{
+                    // fontWeight: 600,
+                    mb: 2,
+                    color: "#14c1ecff", // ✅ uses theme text color
+                    textAlign: { xs: "center", md: "left" }, // ✅ center on mobile, left on desktop
+                    letterSpacing: 0.5,
+                  }}
+                >
+                  {editId
+                    ? "Edit Vehicle Theft Details"
+                    : " Vehicle Theft Details"}
+                </Typography>
+              </Grid>
+
+              <Grid item xs={12} sm={6}>
+                {canAddUnclaimed && (
+                  <Box
+                    display="flex"
+                    justifyContent={{ xs: "center", md: "flex-end" }}
+                    alignItems="center"
+                    mb={2}
+                    flexWrap="wrap"
+                  >
+                    <Button
+                      variant="contained"
+                      startIcon={<AddCircleOutline />}
+                      onClick={handleAddVehicleTheft}
+                      disabled={!editId} // ✅ disabled unless in edit mode
+                      sx={{
+                        backgroundColor: editId
+                          ? "rgba(76, 175, 80, 0.9)"
+                          : "rgba(200, 200, 200, 0.5)",
+                        color: "#fff",
+                        textTransform: "none",
+                        "&:hover": {
+                          backgroundColor: editId
+                            ? "rgba(76, 175, 80, 1)"
+                            : "rgba(200, 200, 200, 0.5)",
+                        },
+                      }}
+                    >
+                      Add New Vehicle Theft
+                    </Button>
+                  </Box>
+                )}
+              </Grid>
               {/* Vehicle RTO No */}
               <Grid item xs={12} sm={6}>
                 <TextField
@@ -1438,6 +1043,8 @@ const VehicleTheft = ({ darkMode, flag, setFlag, setSelectedIncident }) => {
                   placeholder="Vehicle RTO No"
                   value={vehicleRtoNo}
                   onChange={(e) => setVehicleRtoNo(e.target.value)}
+                  error={!!errors.vehicleRtoNo}
+                  helperText={errors.vehicleRtoNo}
                   sx={selectStyles}
                 />
               </Grid>
@@ -1450,6 +1057,8 @@ const VehicleTheft = ({ darkMode, flag, setFlag, setSelectedIncident }) => {
                   placeholder="Vehicle Chassi No"
                   value={vehicleChassiNo}
                   onChange={(e) => setVehicleChassiNo(e.target.value)}
+                  error={!!errors.vehicleChassiNo}
+                  helperText={errors.vehicleChassiNo}
                   sx={selectStyles}
                 />
               </Grid>
@@ -1462,6 +1071,8 @@ const VehicleTheft = ({ darkMode, flag, setFlag, setSelectedIncident }) => {
                   placeholder="Vehicle Color"
                   value={vehicleColor}
                   onChange={(e) => setVehicleColor(e.target.value)}
+                  error={!!errors.vehicleColor}
+                  helperText={errors.vehicleColor}
                   sx={selectStyles}
                 />
               </Grid>
@@ -1474,28 +1085,143 @@ const VehicleTheft = ({ darkMode, flag, setFlag, setSelectedIncident }) => {
                   placeholder="Vehicle Model"
                   value={vehicleModel}
                   onChange={(e) => setVehicleModel(e.target.value)}
+                  error={!!errors.vehicleModel}
+                  helperText={errors.vehicleModel}
                   sx={selectStyles}
+                />
+              </Grid>
+
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  fullWidth
+                  size="small"
+                  placeholder="Contact Number"
+                  value={contactNumber}
+                  onChange={(e) => setContactNumber(e.target.value)}
+                  error={!!errors.contactNumber}
+                  helperText={errors.contactNumber}
+                  sx={selectStyles}
+                />
+              </Grid>
+              {/* Location (Address) */}
+              <Grid item xs={12} md={6} sm={6}>
+                <Autocomplete
+                  fullWidth
+                  freeSolo
+                  size="small"
+                  options={suggestions.map((item) => item.address.label)}
+                  inputValue={query || ""}
+                  onInputChange={(event, newValue) => {
+                    setQuery(newValue);
+                    setErrors((prev) => ({
+                      ...prev,
+                      location: undefined,
+                    }));
+                    if (event)
+                      handleSearchChange({ target: { value: newValue } });
+                  }}
+                  onChange={(event, newValue) => {
+                    setQuery(newValue || "");
+                    setErrors((prev) => ({
+                      ...prev,
+                      location: undefined,
+                    }));
+                    const selected = suggestions.find(
+                      (s) => s.address.label === newValue
+                    );
+                    if (selected) handleSelectSuggestion(selected);
+                  }}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      placeholder="Enter Address"
+                      sx={{ ...selectStyles, mt: 0.5, fontFamily }}
+                      error={!!errors.location}
+                      helperText={errors.location}
+                    />
+                  )}
+                  PaperComponent={({ children }) => (
+                    <Paper
+                      sx={{
+                        backgroundColor: bgColor,
+                        color: "#fff",
+                        border: "1px solid #ccc",
+                        borderRadius: 1,
+                        maxHeight: 220,
+                        overflowY: "auto",
+                        boxShadow: "0 8px 24px rgba(0,0,0,0.1)",
+                        "&::-webkit-scrollbar": {
+                          width: "6px",
+                        },
+                        "&::-webkit-scrollbar-thumb": {
+                          backgroundColor: "#0288d1",
+                          borderRadius: "4px",
+                        },
+                        "&::-webkit-scrollbar-thumb:hover": {
+                          backgroundColor: "#56c8f2",
+                        },
+                      }}
+                    >
+                      {children}
+                    </Paper>
+                  )}
+                  PopperComponent={(props) => (
+                    <Popper {...props} placement="bottom-start" />
+                  )}
                 />
               </Grid>
 
               {/* Upload File */}
               <Grid item xs={12} sm={6}>
                 <Button
-                  variant="outlined"
+                  variant="contained"
                   component="label"
                   fullWidth
                   sx={selectStyles}
                 >
-                  Upload File
+                  {file ? "Change File" : "Upload File"}
                   <input
                     type="file"
                     hidden
+                    accept="image/*,.pdf"
                     onChange={(e) => setFile(e.target.files[0])}
                   />
                 </Button>
-                {file && (
-                  <Typography variant="body2" sx={{ mt: 1 }}>
-                    {file.name}
+
+                {/* Display file name */}
+                {(file || existingFile) && (
+                  <Box
+                    mt={1}
+                    display="flex"
+                    alignItems="center"
+                    justifyContent="space-between"
+                  >
+                    <Typography variant="body2" sx={{ color: "#fff" }}>
+                      {file
+                        ? file.name
+                        : existingFile.name || existingFile.split("/").pop()}
+                      {/* ✅ new file → name, else existing → name/url last part */}
+                    </Typography>
+
+                    {/* Show cancel button only if new file selected */}
+                    {file && (
+                      <Button
+                        size="small"
+                        color="error"
+                        onClick={() => setFile(null)}
+                      >
+                        Cancel
+                      </Button>
+                    )}
+                  </Box>
+                )}
+
+                {errors.file && (
+                  <Typography
+                    variant="caption"
+                    sx={{ color: "#fff" }} // ✅ white text
+                  >
+                    {errors.file}
                   </Typography>
                 )}
               </Grid>
@@ -1509,30 +1235,8 @@ const VehicleTheft = ({ darkMode, flag, setFlag, setSelectedIncident }) => {
                   value={scheduledDateTime}
                   onChange={(e) => setScheduledDateTime(e.target.value)}
                   InputLabelProps={{ shrink: true }}
-                  sx={selectStyles}
-                />
-              </Grid>
-
-              {/* Contact No */}
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  fullWidth
-                  size="small"
-                  placeholder="Contact No"
-                  value={contactNo}
-                  onChange={(e) => setContactNo(e.target.value)}
-                  sx={selectStyles}
-                />
-              </Grid>
-
-              {/* Address */}
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  fullWidth
-                  size="small"
-                  placeholder="Address"
-                  value={address}
-                  onChange={(e) => setAddress(e.target.value)}
+                  error={!!errors.scheduledDateTime}
+                  helperText={errors.scheduledDateTime}
                   sx={selectStyles}
                 />
               </Grid>
@@ -1542,24 +1246,77 @@ const VehicleTheft = ({ darkMode, flag, setFlag, setSelectedIncident }) => {
                 <Button
                   variant="contained"
                   color="primary"
-                  onClick={saveVehicleTheft}
-                  sx={{ textTransform: "none", fontWeight: 600 }}
+                  onClick={saveUnclaimedVehicle} // ✅ validation first
                 >
-                  Submit
-                </Button>
-                <Button
-                  variant="outlined"
-                  color="error"
-                  onClick={handleClose}
-                  sx={{ textTransform: "none", fontWeight: 600 }}
-                >
-                  Close
+                  {editId ? "Update" : "Submit"}
                 </Button>
               </Grid>
             </Grid>
           </Paper>
         </Grid>
       </Grid>
+
+      <Dialog
+        open={deleteDialogOpen}
+        onClose={() => setDeleteDialogOpen(false)}
+      >
+        <DialogTitle>Confirm Delete</DialogTitle>
+        <DialogContent>
+          <Typography>
+            Are you sure you want to delete this vehicle? This action cannot be
+            undone.
+          </Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            onClick={() => setDeleteDialogOpen(false)}
+            color="primary"
+            variant="outlined"
+          >
+            Cancel
+          </Button>
+          <Button
+            onClick={() => {
+              handleDelete(itemToDelete);
+              setDeleteDialogOpen(false);
+            }}
+            color="error"
+            variant="contained"
+          >
+            Delete
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* popover for actions */}
+      <Popover
+        open={open}
+        anchorEl={anchorEl}
+        onClose={handleClose}
+        anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+        transformOrigin={{ vertical: "top", horizontal: "left" }}
+      >
+        <Box sx={{ p: 1, display: "flex", flexDirection: "column", gap: 1 }}>
+          {canEditUnclaimed && (
+            <Button size="small" onClick={() => handleEdit(selectedItem)}>
+              Edit
+            </Button>
+          )}
+          {canDeleteUnclaimed && (
+            <Button
+              size="small"
+              color="error"
+              onClick={() => {
+                setItemToDelete(selectedItem);
+                setDeleteDialogOpen(true); // open confirmation dialog
+                handleClose(); // close popover
+              }}
+            >
+              Delete
+            </Button>
+          )}
+        </Box>
+      </Popover>
     </Box>
   );
 };
