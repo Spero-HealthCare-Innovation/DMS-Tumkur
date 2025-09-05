@@ -549,18 +549,18 @@ class DMS_Incident(models.Model):
     comment_id = models.ForeignKey('DMS_Comments',on_delete=models.CASCADE,null=True,blank=True)
     alert_code = models.CharField(max_length=255,null=True,blank=True)
     alert_division=enum.EnumField(division_enum,null=True,blank=True)
-    # inc_datetime = models.DateTimeField(auto_now=True)
+    inc_datetime = models.DateTimeField(auto_now=True)
     mode = models.IntegerField(null=True,blank=True)
     time = models.TimeField(null=True,blank=True)
     ward = models.ForeignKey('DMS_Ward',on_delete=models.CASCADE,null=True,blank=True)
-    # ward_officer = models.ManyToManyField(
-    #     'DMS_Ward',
-    #     blank=True,
-    #     related_name='ward_officer_scopes'
-    # )
+    ward_officer = models.ManyToManyField(
+        'DMS_Ward',
+        blank=True,
+        related_name='ward_officer_scopes'
+    )
     tahsil = models.ForeignKey(DMS_Tahsil,on_delete=models.CASCADE,null=True,blank=True)
     district = models.ForeignKey(DMS_District,on_delete=models.CASCADE,null=True,blank=True)
-    ward_officer = models.JSONField(null=True,blank=True)
+    # ward_officer = models.JSONField(null=True,blank=True)
     inc_is_deleted = models.BooleanField(default=False)
     clouser_status = models.BooleanField(default=False,null=True,blank=True)
     inc_added_by=models.CharField(max_length=255,null=True,blank=True)

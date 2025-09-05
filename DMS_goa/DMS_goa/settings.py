@@ -21,6 +21,7 @@ import os
 # BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = Path(__file__).resolve().parent.parent
 MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
 
@@ -259,10 +260,10 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "http://localhost:5174",
     "http://localhost:5175",
-    "http://192.168.1.202:7001",
-    "http://192.168.1.202:6004",
-    "http://92.168.1.202:7778",
-    "http://192.168.1.202:9001",
+    "http://192.168.1.116:7000",
+    "http://192.168.1.116:6003",
+    "http://192.168.1.116:7777",
+    "http://192.168.1.116:9000",
     "http://122.176.232.35:7000",
     "http://210.212.165.119",
     "http://localhost:3000",
@@ -270,7 +271,7 @@ CORS_ALLOWED_ORIGINS = [
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    "http://92.168.1.202:6003",
+    "http://192.168.1.116:6003",
     "http://122.176.232.35:6003",
 
 ]
