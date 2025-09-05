@@ -52,6 +52,8 @@ urlpatterns = [
 
 
 
+    path('update_inc/',update_incident_API.as_view(),name='update_inc'),
+
     path('duplicate_inc/',duplicate_incident_API.as_view(),name='duplicate_inc'),
     path('mark_duplicate_inc/',duplicate_incident_API.as_view(),name='mark_duplicate_inc'),
 
