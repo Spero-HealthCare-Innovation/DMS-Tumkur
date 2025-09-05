@@ -3181,6 +3181,21 @@ class Caller_Details_get(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
+class lat_long_get(APIView):
+    def get(self, request):
+        lat_long = DMS_lat_long_data.objects.all()
+        serializer = DMSlatlongSerializer(lat_long, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+class lat_long_post(APIView):
+    def post(self, request):
+        serializer = DMSlatlongSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
 
 
 
