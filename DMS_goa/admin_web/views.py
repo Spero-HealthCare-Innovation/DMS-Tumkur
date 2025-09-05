@@ -1349,7 +1349,10 @@ class closure_Post_api(APIView):
         try:
             inccc = request.data.get('incident_id')
             dpt = request.data.get('responder')
-            vehicle_no=request.data.get('vehicle_no')
+            vehicle_no= request.data.get('vehicle_no')
+            audio = request.data.get('audio') if request.data.get('audio') else None
+            video = request.data.get('video') if request.data.get('video') else None
+            image = request.data.get('image') if request.data.get('image') else None
 
             vehicl_dtls = Vehical.objects.get(veh_id=vehicle_no)
             inc_dtl = DMS_Incident.objects.get(incident_id=inccc)
@@ -1372,7 +1375,10 @@ class closure_Post_api(APIView):
                 closure_added_by=request.data.get('closure_added_by'),
                 closure_modified_by=request.data.get('closure_modified_by'),
                 closure_modified_date=request.data.get('closure_modified_date'),
-                closure_remark=request.data.get('closure_remark')
+                closure_remark=request.data.get('closure_remark'),
+                audio = audio,
+                video = video,
+                image = image
             )
             inc_vh = incident_vehicles.objects.filter(incident_id=inc_dtl, veh_id=vehicl_dtls, status=1)
             if inc_vh.exists():
