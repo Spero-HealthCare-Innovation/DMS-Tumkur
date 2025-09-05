@@ -921,33 +921,40 @@ series.ticks.template.setAll({
             </Grid>
             <Grid item xs={12} md={7}>
               {/* Enhanced List Section */}
-              <Paper
-                elevation={3}
-                sx={{
-                  width: 280,
-                  maxHeight: 195,
-                  overflowY: "auto",
-                  borderRadius: 2,
-                  p: 1,
-                  ml: 5,
-                  mt: 2,
-                  // Custom scrollbar styling
-                  '&::-webkit-scrollbar': {
-                    width: '8px',
-                  },
-                  '&::-webkit-scrollbar-track': {
-                    backgroundColor: '#696767ff',
-                    borderRadius: '4px',
-                  },
-                  '&::-webkit-scrollbar-thumb': {
-                    backgroundColor: '#888',
-                    borderRadius: '4px',
-                    '&:hover': {
-                      backgroundColor: '#555',
-                    },
-                  },
-                }}
-              >
+            <Paper
+  elevation={3}
+  sx={{
+    width: 280,
+    height: 216,   // 👈 fixed height
+    overflowY: "auto",
+    borderRadius: 2,
+    p: 1,
+    ml: 5,
+    mt: 2,
+    '&::-webkit-scrollbar': {
+      width: '8px',
+    },
+    '&::-webkit-scrollbar-track': {
+      backgroundColor: '#696767ff',
+      borderRadius: '4px',
+    },
+    '&::-webkit-scrollbar-thumb': {
+      backgroundColor: '#888',
+      borderRadius: '4px',
+      '&:hover': {
+        backgroundColor: '#555',
+      },
+    },
+  }}
+>
+
+                 <Typography
+                  variant="subtitle1"
+                  sx={{ fontWeight: 600, ...commonStyles1.heading, alignSelf: "flex-start" }}
+                >
+                  Chief-Complaints List
+                  {/* ({filter === 'today' ? 'Today' : filter === 'last_month' ? 'Last Month' : 'Total'}) */}
+                </Typography>
                 {loading1 && (
                   <Box sx={{ display: 'flex', justifyContent: 'center', p: 2 }}>
                     <CircularProgress size={24} />
@@ -1110,7 +1117,7 @@ series.ticks.template.setAll({
                   variant="subtitle1"
                   sx={{ fontWeight: 600, ...commonStyles1.heading, alignSelf: "flex-start" }}
                 >
-                  Chief-Complaints 
+                  Chief-Complaints Graph
                   {/* ({filter === 'today' ? 'Today' : filter === 'last_month' ? 'Last Month' : 'Total'}) */}
                 </Typography>
 
