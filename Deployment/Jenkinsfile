@@ -62,6 +62,7 @@ pipeline {
             }
         }
 
+
         stage('Fix Permissions') {
             steps {
                 dir("${TARGET_DIR}") {
@@ -69,10 +70,12 @@ pipeline {
                         sudo chown -R jenkins:dmsgroup .
                         sudo chmod -R 775 .
                         sudo find . -type d -exec chmod g+s {} \\;
+                        sudo chown -R jenkins:dmsgroup logs
                     '''
                 }
             }
         }
+
 
 
         stage('Check Files') {

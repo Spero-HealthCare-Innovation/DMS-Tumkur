@@ -930,6 +930,12 @@ from .serializers import (
 
 class Manual_Call_Incident_api(APIView):
     def post(self, request, *args, **kwargs):
+<<<<<<< HEAD
+=======
+        responder_data = request.data.get("responder_data", [])
+        
+        print("Responder data:", responder_data)
+>>>>>>> Development
         data = request.data
         incident_fields = [
             'inc_type', 'disaster_type', 'alert_type', 'location', 'summary',
@@ -937,6 +943,7 @@ class Manual_Call_Incident_api(APIView):
             'inc_added_by', 'inc_modified_by', 'incident_id', 'inc_id', 'time', 'mode',
             'ward','district','ward_officer','tahsil','call_recieved_from','call_type','parent_complaint'
         ]
+<<<<<<< HEAD
         caller_fields = ['caller_no', 'caller_name', 'caller_added_by', 'caller_modified_by','call_recieved_from']
         comments_fields = ['comments', 'comm_added_by', 'comm_modified_by']
 
@@ -954,10 +961,73 @@ class Manual_Call_Incident_api(APIView):
         if not incident_serializer.is_valid():
             return Response({"incident_errors": incident_serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
         incident_instance = incident_serializer.save()
+=======
+        print("Request data:", data)
+        caller_fields = ['caller_no', 'caller_name', 'caller_added_by', 'caller_modified_by','call_recieved_from']
+        comments_fields = ['comments', 'comm_added_by', 'comm_modified_by']
+        
+        incident_data = {field: data.get(field) for field in incident_fields}
+        caller_data = {field: data.get(field) for field in caller_fields}
+        comments_data = {field: data.get(field) for field in comments_fields}
+        
+        caller_instance = None
+        if caller_data.get("caller_no"):
+            caller_instance = DMS_Caller.objects.filter(caller_no=caller_data["caller_no"]).first()
+
+        if caller_instance:
+            caller_serializer = Manual_call_data_Serializer(
+                caller_instance, data=caller_data, partial=True
+            )
+            if not caller_serializer.is_valid():
+                return Response({"caller_errors": caller_serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+            caller_instance = caller_serializer.save()
+            print("Caller updated:", caller_instance)
+        else:
+            caller_serializer = Manual_call_data_Serializer(data=caller_data)
+            if not caller_serializer.is_valid():
+                return Response({"caller_errors": caller_serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+            caller_instance = caller_serializer.save()
+            print("Caller created:", caller_instance)
+        
+        incident_data['caller_id'] = caller_instance.pk
+        print("Updated incident data with caller_id:", incident_data['caller_id'])
+        incident_serializer = Manual_call_incident_dispatch_Serializer(data=incident_data)
+        print("Incident serializer valid:", incident_serializer.is_valid())
+        if not incident_serializer.is_valid():
+            print("Incident serializer errors:", incident_serializer.errors)
+            return Response({"incident_errors": incident_serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+        print("Incident serializer data:", incident_serializer.validated_data)
+        incident_instance = incident_serializer.save()
+        print("Incident instance saved:", incident_instance)
+        
+>>>>>>> Development
         base_code = incident_instance.incident_id
         alert_code = f"CALL-{base_code}"
         incident_instance.alert_code = alert_code
         incident_instance.save()
+<<<<<<< HEAD
+=======
+        print("Alert code set:", alert_code)
+        
+        
+        uploaded_files = []
+        if request.FILES:
+            files = request.FILES.getlist("files")  
+            for f in files:
+                file_obj = DMS_Files.objects.create(
+                    incident_id=incident_instance,   
+                    file=f,
+                    added_by=incident_instance.inc_added_by,
+                    modified_by=incident_instance.inc_modified_by
+                )
+                uploaded_files.append({
+                    "file_id": file_obj.pk_id,
+                    "incident_id": incident_instance.incident_id,
+                    "file_url": request.build_absolute_uri(file_obj.file.url) if file_obj.file else None
+                })
+                print(f"File uploaded: {file_obj.file.name} for incident_id={incident_instance.incident_id}")
+
+>>>>>>> Development
 
         vehicle_list = data.get("vehicle", [])
         if vehicle_list:
@@ -1075,13 +1145,21 @@ class Manual_Call_Incident_api(APIView):
 
         # Final response
         return Response({
+<<<<<<< HEAD
             "message": "Manual call, caller, comment, weather alert, DMS notify created successfully and external API called.",
+=======
+            "message": "Manual call, caller, comment, weather alert, DMS notify created successfully,files uploaded and external API called.",
+>>>>>>> Development
             "incident": incident_serializer.data,
             "caller": caller_serializer.data,
             "comments": comments_serializer.data,
             "weather_alert": weather_alert_serializer.data,
             "dms_notify": dms_notify_serializer.data,
             "external_api_response": external_api_result,
+<<<<<<< HEAD
+=======
+            "uploaded_files": uploaded_files,
+>>>>>>> Development
 
             "response": {
                 # "call_received_from": caller_instance.call_recieved_from.value if caller_instance.call_recieved_from else None,
@@ -1310,7 +1388,14 @@ class closure_Post_api(APIView):
         try:
             inccc = request.data.get('incident_id')
             dpt = request.data.get('responder')
+<<<<<<< HEAD
             vehicle_no=request.data.get('vehicle_no')
+=======
+            vehicle_no= request.data.get('vehicle_no')
+            audio = request.data.get('audio') if request.data.get('audio') else None
+            video = request.data.get('video') if request.data.get('video') else None
+            image = request.data.get('image') if request.data.get('image') else None
+>>>>>>> Development
 
             vehicl_dtls = Vehical.objects.get(veh_id=vehicle_no)
             inc_dtl = DMS_Incident.objects.get(incident_id=inccc)
@@ -1333,7 +1418,14 @@ class closure_Post_api(APIView):
                 closure_added_by=request.data.get('closure_added_by'),
                 closure_modified_by=request.data.get('closure_modified_by'),
                 closure_modified_date=request.data.get('closure_modified_date'),
+<<<<<<< HEAD
                 closure_remark=request.data.get('closure_remark')
+=======
+                closure_remark=request.data.get('closure_remark'),
+                audio = audio,
+                video = video,
+                image = image
+>>>>>>> Development
             )
             inc_vh = incident_vehicles.objects.filter(incident_id=inc_dtl, veh_id=vehicl_dtls, status=1)
             if inc_vh.exists():
@@ -1540,7 +1632,168 @@ class dispatch_close_API(APIView):
         else:
             return Response({"error": "Invalid request or insufficient permissions."}, status=status.HTTP_200_OK)
         
+<<<<<<< HEAD
     
+=======
+
+
+
+class duplicate_incident_API(APIView):
+    renderer_classes = [UserRenderer]
+    permission_classes = [IsAuthenticated]
+
+    def get(self,request):
+        inc_type = request.GET.get('inc_type', None)
+        disaster_type = request.GET.get('disaster_type', None)
+        location = request.GET.get('location', None)
+        ward = request.GET.get('ward', None)
+        district = request.GET.get('district', None)
+        tahsil = request.GET.get('tahsil', None)
+        caller_no = request.GET.get('caller_no', None)
+
+        if location and inc_type and ward and district and tahsil:
+            filters = {
+                "location__iexact": location,
+                "inc_type": inc_type,
+                "ward": ward,
+                "district": district,
+                "tahsil": tahsil,
+                "caller_id__caller_no__iexact": caller_no,
+                "clouser_status": False,
+                "inc_duplicate": False,
+            }
+            if disaster_type:  # only add if passed
+                filters["disaster_type"] = disaster_type
+
+            duplicates = DMS_Incident.objects.filter(**filters)
+            print("duplicates-----", duplicates)
+
+            if not duplicates.exists():
+                return Response(
+                    {"msg": "No duplicate incident found."},
+                    status=status.HTTP_200_OK,
+                )
+            serializer = Duplicate_Incident_Serializer(duplicates, many=True)
+            return Response(
+                {"msg": "Duplicate incident is found", "data": serializer.data},
+                status=status.HTTP_200_OK,
+            )
+        else:
+            return Response(
+                {"error": "Location, incident type, ward, district, and tahsil parameters are required."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+
+    def post(self, request):
+        incident_id = request.GET.get('incident_id')
+
+        if not incident_id:
+            return Response({'status': False, 'message': 'incident Id is required.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            record = DMS_Incident.objects.get(incident_id=incident_id, inc_is_deleted=False, inc_duplicate=False, clouser_status = False)
+            record.inc_duplicate = True
+            record.save(update_fields=['inc_duplicate'])
+        except Weather_alerts.DoesNotExist:
+            return Response({'status': False, 'message': 'Record not found.'}, status=status.HTTP_404_NOT_FOUND)
+
+        return Response({'status': True, 'message': 'Incident marked as duplicate successfully.'}, status=status.HTTP_200_OK)
+
+        
+
+class update_incident_API(APIView):
+    renderer_classes = [UserRenderer]
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        inc_id = request.data.get('incident_id')
+        if not inc_id:
+            return Response({"error": "incident_id is required."}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            inc_obj = DMS_Incident.objects.get(
+                incident_id=inc_id,
+                inc_is_deleted=False,
+                clouser_status=False
+            )
+        except DMS_Incident.DoesNotExist:
+            return Response({"error": "Incident not found or already closed/deleted."}, status=status.HTTP_404_NOT_FOUND)
+
+        # 🔹 Save current state into Reopened_Incident (history)
+        reopened = Reopened_Incident.objects.create(
+            incident_id=inc_obj,
+            reopend_inc_added_by=str(request.user),
+            location=inc_obj.location,
+            latitude=inc_obj.latitude,
+            longitude=inc_obj.longitude,
+            inc_type=inc_obj.inc_type,
+            disaster_type=inc_obj.disaster_type,
+            ward=inc_obj.ward,
+            tahsil=inc_obj.tahsil,
+            district=inc_obj.district,
+            # ward_officer=inc_obj.ward_officer,
+            summary=inc_obj.summary,
+            caller_id=inc_obj.caller_id,
+            notify_id=inc_obj.notify_id,
+            alert_id=inc_obj.alert_id,
+            alert_type=inc_obj.alert_type,
+            comment_id=inc_obj.comment_id,
+            alert_code=inc_obj.alert_code,
+            alert_division=inc_obj.alert_division,
+            mode=inc_obj.mode,
+            time=inc_obj.time,
+            inc_is_deleted=inc_obj.inc_is_deleted,
+            clouser_status=inc_obj.clouser_status,
+            inc_added_by=inc_obj.inc_added_by,
+            inc_modified_by=inc_obj.inc_modified_by,
+            call_recieved_from=inc_obj.call_recieved_from,
+            call_type=inc_obj.call_type,
+            parent_complaint=inc_obj.parent_complaint,
+            forcefully_closed=inc_obj.forcefully_closed,
+        )
+
+        # Copy ManyToMany (responder_scope) into history
+        if hasattr(inc_obj, "responder_scope"):
+            reopened.responder_scope.set(inc_obj.responder_scope.all())
+
+        # 🔹 Normal updatable fields (direct assignment)
+        normal_fields = [
+            "location", "latitude", "longitude",
+            "inc_type", "alert_type"
+        ]
+        # "ward_officer", 
+        for field in normal_fields:
+            if field in request.data:
+                setattr(inc_obj, field, request.data.get(field))
+
+        # 🔹 ForeignKey fields (_id assignment)
+        fk_fields = [
+            "disaster_type", "ward", "tahsil", "district",
+            "summary", "parent_complaint", "call_type"
+        ]
+        for field in fk_fields:
+            if field in request.data:
+                setattr(inc_obj, f"{field}_id", request.data.get(field))
+
+        # 🔹 ManyToMany fields
+        if "responder_scope" in request.data:
+            responder_ids = request.data.get("responder_scope", [])
+            inc_obj.responder_scope.set(responder_ids)
+
+        inc_obj.save()
+
+        return Response(
+            {"msg": f"Incident {inc_obj.incident_id} updated successfully. Previous data stored in Reopened_Incident."},
+            status=status.HTTP_200_OK
+        )
+
+
+
+
+
+
+>>>>>>> Development
 class dispatch_sop_Get_API(APIView):
     renderer_classes = [UserRenderer]
     permission_classes = [IsAuthenticated]
@@ -2584,7 +2837,10 @@ class GisAnaIncidentFilterAPIView(APIView):
         end_date = request.query_params.get("end_date", None)
         call_type = request.query_params.get("call_type", None)
         parent_complaint = request.query_params.get("parent_complaint", None)
+<<<<<<< HEAD
         sub_parent_call = request.query_params.get("sub_parent_call", None)
+=======
+>>>>>>> Development
 
         # Base queryset
         queryset = DMS_Incident.objects.filter(inc_is_deleted=False, inc_type=1)  # sirf emergency calls
@@ -2605,10 +2861,13 @@ class GisAnaIncidentFilterAPIView(APIView):
         # Chief complaint filter
         if parent_complaint:
             queryset = queryset.filter(parent_complaint=parent_complaint)
+<<<<<<< HEAD
             
         # Sub chief complaint filter
         if sub_parent_call:
             queryset = queryset.filter(disaster_type=sub_parent_call)
+=======
+>>>>>>> Development
 
         # Response format
         data = []
@@ -2928,7 +3187,11 @@ class VehicleTheft_get(APIView):
         # instance = Unclaimed_Bodies.objects.filter(is_deleted=False)
         serializer = Vehicle_Theftsserializer(instance, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+<<<<<<< HEAD
 
+=======
+ 
+>>>>>>> Development
 
 class VehicleTheft_idwiseget(APIView):
     def get(self,request,id):
@@ -2984,3 +3247,43 @@ class VehicleTheft_delete(APIView):
         instance.is_deleted = True
         instance.save()
         return Response({"message": "record soft deleted successfully."}, status=status.HTTP_200_OK)
+<<<<<<< HEAD
+=======
+
+
+
+class Caller_Details_get(APIView):
+    def get(self,request,caller_no):
+        instance = DMS_Caller.objects.filter(caller_is_deleted=False,caller_no=caller_no)
+        serializer = DMS_caller_info_Serializer(instance, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class lat_long_get(APIView):
+    def get(self, request):
+        lat_long = DMS_lat_long_data.objects.all()
+        serializer = DMSlatlongSerializer(lat_long, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+class lat_long_post(APIView):
+    def post(self, request):
+        serializer = DMSlatlongSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+>>>>>>> Development

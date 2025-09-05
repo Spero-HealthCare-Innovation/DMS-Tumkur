@@ -903,4 +903,20 @@ class VehicalDashboardCount(APIView):
         }
 
         return Response(data)
+<<<<<<< HEAD
+=======
+
+
+class pcr_report_get(APIView):
+    def get(self,request):
+        incident_id = request.GET.get('incident_id')
+        instance = PcrReport.objects.all()
+        
+        if incident_id:
+            instance = instance.filter(incident_id=incident_id)
+
+        serializer = pcr_reportserializer(instance, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+>>>>>>> Development
  

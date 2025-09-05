@@ -84,4 +84,19 @@ class incident_veh_serializer(serializers.ModelSerializer):
 class vehicle_serializer(serializers.ModelSerializer):
     class Meta:
         model = Vehical
+<<<<<<< HEAD
         fields = "__all__"
+=======
+        fields = "__all__"
+
+class pcr_reportserializer(serializers.ModelSerializer):
+    status = serializers.SerializerMethodField()
+    class Meta:
+        model = PcrReport
+        fields = ['pcr_id','incident_id','status','acknowledge_time','start_from_base_time','at_scene_time','from_scene_time','back_to_base_time','abandoned_time']
+
+    def get_status(self, obj):
+            if obj.status:
+                return obj.status.name 
+            return None
+>>>>>>> Development

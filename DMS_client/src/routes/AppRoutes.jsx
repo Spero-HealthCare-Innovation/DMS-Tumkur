@@ -1,6 +1,16 @@
 import { Routes, Route, Navigate } from "react-router-dom";
+<<<<<<< HEAD
 import { lazy, Suspense } from "react";
 import { CircularProgress, Box, Typography } from "@mui/material";
+=======
+import React, { useState } from "react";
+import { lazy, Suspense } from "react";
+import {
+  CircularProgress, Box, Typography, IconButton, Modal, Slide, Grow,
+} from "@mui/material";
+import { IconButton as MuiIconButton } from "@mui/material";
+import ChatIcon from "@mui/icons-material/Chat";
+>>>>>>> Development
 import PrivateRoute from "./PrivateRoute";
 import Incident from "../Componenets/DispatchModule/IncidentCreate/Incident";
 import SopRegister from "../Componenets/SuperAdmin/SOP/SopRegister";
@@ -9,8 +19,14 @@ import ProtectedLoginRoute from "../Componenets/Login/ProtectedLoginRoute";
 import IncidentReport from "../Componenets/SuperAdmin/Incident/IncidentReport";
 import Permission from "../Componenets/SuperAdmin/System/Permission/Permission";
 import Dashboard from "../Componenets/SuperAdmin/System/Dashboard/Dashboard";
+<<<<<<< HEAD
 const VehicleTheft = lazy(() =>import("../Componenets/SuperAdmin/System/Bolo/VehicleTheft"));
 const UnclaimedVehicles = lazy(() =>import("../Componenets/SuperAdmin/System/Bolo/Unclaimed_Vehicles"));
+=======
+import ChatModal from "../Componenets/DispatchModule/ChatModal/ChatModal";
+const VehicleTheft = lazy(() => import("../Componenets/SuperAdmin/System/Bolo/VehicleTheft"));
+const UnclaimedVehicles = lazy(() => import("../Componenets/SuperAdmin/System/Bolo/Unclaimed_Vehicles"));
+>>>>>>> Development
 const Login = lazy(() => import("../Componenets/Login/Login"));
 const Sop = lazy(() => import("../Componenets/DispatchModule/SOP/Sop"));
 const AlertPanel = lazy(() => import("../Componenets/DispatchModule/AlertPanel/AlertPanel"));
@@ -22,6 +38,11 @@ const MultiScreen = lazy(() => import("../Page/multiscreen"));
 const ClosureDetail = lazy(() => import("../Componenets/SuperAdmin/Closure/ClosureDetail"));
 const MissingPerson = lazy(() => import("../Componenets/SuperAdmin/System/Bolo/MissingPerson"));
 const UnclaimedBody = lazy(() => import("../Componenets/SuperAdmin/System/Bolo/UnclaimedBody"));
+<<<<<<< HEAD
+=======
+import CloseIcon from "@mui/icons-material/Close";
+import SmartToyIcon from "@mui/icons-material/SmartToy";
+>>>>>>> Development
 
 const Loader = () => (
   <Box
@@ -56,6 +77,13 @@ const Unauthorized = () => (
 );
 
 const AppRoutes = ({ darkMode, setIsLoggedIn }) => {
+<<<<<<< HEAD
+=======
+
+  const userGroup = localStorage.getItem("user_group");
+  const [open, setOpen] = useState(false);
+
+>>>>>>> Development
   return (
     <Suspense fallback={<Loader />}>
       <Routes>
@@ -129,7 +157,11 @@ const AppRoutes = ({ darkMode, setIsLoggedIn }) => {
           }
         />
 
+<<<<<<< HEAD
          <Route
+=======
+        <Route
+>>>>>>> Development
           path="/add-employee"
           element={
             <PrivateRoute>
@@ -154,7 +186,11 @@ const AppRoutes = ({ darkMode, setIsLoggedIn }) => {
           }
         />
 
+<<<<<<< HEAD
           <Route
+=======
+        <Route
+>>>>>>> Development
           path="/Unclaimed-Body"
           element={
             <PrivateRoute>
@@ -212,7 +248,11 @@ const AppRoutes = ({ darkMode, setIsLoggedIn }) => {
             </PrivateRoute>
           }
         />
+<<<<<<< HEAD
          <Route
+=======
+        <Route
+>>>>>>> Development
           path="/Dashboard"
           element={
             <PrivateRoute>
@@ -222,6 +262,43 @@ const AppRoutes = ({ darkMode, setIsLoggedIn }) => {
         />
         <Route path="*" element={<Unauthorized />} />
       </Routes>
+<<<<<<< HEAD
+=======
+
+      {/* <>
+        <IconButton
+          sx={{
+            position: "fixed",
+            bottom: 80,
+            right: 20,
+            bgcolor: "white",
+            boxShadow: 3,
+            "&:hover": { bgcolor: "grey.200" },
+          }}
+          onClick={() => setOpen(!open)}
+        >
+          <SmartToyIcon fontSize="large" sx={{ color: "#1976d2" }} />
+        </IconButton>
+
+        <Grow in={open}>
+          <Box
+            sx={{
+              position: "fixed",
+              bottom: 150,
+              right: 20,
+              bgcolor: "white",
+              borderRadius: 2,
+              boxShadow: 3,
+              width: 300,
+              height: 400,
+            }}
+          >
+            <ChatModal handleClose={() => setOpen(false)} />
+          </Box>
+        </Grow>
+      </> */}
+
+>>>>>>> Development
     </Suspense>
   );
 };

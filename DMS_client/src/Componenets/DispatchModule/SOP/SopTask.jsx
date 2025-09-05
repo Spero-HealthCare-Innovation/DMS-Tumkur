@@ -858,7 +858,11 @@ function SopTask({
                               )
                               :
                               (
+<<<<<<< HEAD
                                 <>-</>
+=======
+                                <></>
+>>>>>>> Development
                               )
                             }
 
@@ -881,7 +885,11 @@ function SopTask({
                                 </IconButton>
                               </Tooltip>
                             ) : (
+<<<<<<< HEAD
                               <>-</>
+=======
+                              <></>
+>>>>>>> Development
                             )}
                           </StyledCardContent>
                         </EnquiryCardBody>

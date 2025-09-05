@@ -12,11 +12,17 @@ import {
   DialogActions,
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
+<<<<<<< HEAD
 // import loginBg from "../../assets/Bg_login1.png";
 import loginBg from "../../assets/pune_login_bg.png";
 // import PMCLogo from "../../assets/PMC.png";
 import PMCLogo from "../../assets/logo.png";
 import Spero from "../../assets/spero1.png";
+=======
+import loginBg from "../../assets/Group 1000003336.png";
+import Spero from "../../assets/spero1.png";
+import EfkonImage from "../../assets/image (48).png";
+>>>>>>> Development
 import { useNavigate } from "react-router-dom";
 import CachedIcon from "@mui/icons-material/Cached";
 
@@ -247,7 +253,15 @@ function Login() {
       } else if (group === "4") {
         console.log("GROUP 4 DETECTED - Navigating to /add-group");
         navigate("/add-group");
+<<<<<<< HEAD
       } else {
+=======
+      }
+      else if (group === "6") {
+        navigate("/sop");
+      }
+      else {
+>>>>>>> Development
         console.warn("Unhandled user group:", group);
         navigate("/not-authorized");
       }
@@ -334,6 +348,7 @@ function Login() {
               flexDirection: "column",
               justifyContent: "flex-start",
               alignItems: "center",
+<<<<<<< HEAD
             }}
           >
             <Box
@@ -356,6 +371,12 @@ function Login() {
               />
             </Box>
             <Typography variant="h6" gutterBottom sx={{ color: "white" }}>
+=======
+              marginTop: 6,
+            }}
+          >
+            <Typography variant="h6" gutterBottom sx={{ color: "white",marginBottom: 4 }}>
+>>>>>>> Development
               <b>User Login</b>
             </Typography>
 
@@ -454,9 +475,13 @@ function Login() {
               )}
             </Box>
 
+<<<<<<< HEAD
             {/* Captcha Section */}
             <Box sx={{ width: "100%", mb: 2 }}>
               {/* Captcha Label (Typography) */}
+=======
+            <Box sx={{ width: "100%", mb: 2 }}>
+>>>>>>> Development
               <Typography
                 sx={{
                   color: "white",
@@ -468,17 +493,26 @@ function Login() {
                 Captcha
               </Typography>
 
+<<<<<<< HEAD
               {/* Captcha Image and Input Row */}
               <Box sx={{ display: "flex", alignItems: "center" }}>
                 {/* Captcha Image Container */}
+=======
+              <Box sx={{ display: "flex", alignItems: "center" }}>
+>>>>>>> Development
                 {!captchaLoading && !captchaError && (
                   <Box
                     sx={{
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
+<<<<<<< HEAD
                       height: "40px", // Ensures the image is vertically aligned
                       mr: 1, // Adds space between the image and input field
+=======
+                      height: "40px",
+                      mr: 1,
+>>>>>>> Development
                     }}
                   >
                     <Box
@@ -488,15 +522,24 @@ function Login() {
                       onError={() => setCaptchaError(true)}
                       sx={{
                         height: "85%",
+<<<<<<< HEAD
                         maxWidth: "100px", // Controls the size of the captcha image
                         objectFit: "contain",
                         background: "transparent", // Ensures no background in the image container
+=======
+                        maxWidth: "100px",
+                        objectFit: "contain",
+                        background: "transparent",
+>>>>>>> Development
                       }}
                     />
                   </Box>
                 )}
 
+<<<<<<< HEAD
                 {/* Captcha Input Field */}
+=======
+>>>>>>> Development
                 <Box
                   sx={{
                     display: "flex",
@@ -517,7 +560,11 @@ function Login() {
                       style: {
                         fontSize: "0.75rem",
                         padding: "6px 10px",
+<<<<<<< HEAD
                         width: "100px", // Controls input box width
+=======
+                        width: "100px",
+>>>>>>> Development
                       },
                     }}
                     sx={{
@@ -528,7 +575,10 @@ function Login() {
                     }}
                   />
 
+<<<<<<< HEAD
                   {/* Refresh Icon */}
+=======
+>>>>>>> Development
                   <IconButton
                     onClick={fetchCaptcha}
                     size="small"
@@ -598,6 +648,7 @@ function Login() {
                   cursor: "pointer",
                 }}
               >
+<<<<<<< HEAD
                 {/* Change Password? */}
               </Typography>
             </Box>
@@ -611,6 +662,25 @@ function Login() {
                 // mt: 5,
               }}
             />
+=======
+              </Typography>
+            </Box>
+
+            <Box sx={{ display: "flex", alignItems: "center", gap: 14, marginTop: 8 }}>
+              <Box
+                component="img"
+                src={EfkonImage}
+                alt="Spero Logo"
+                sx={{ width: "100px" }}
+              />
+              <Box
+                component="img"
+                src={Spero}
+                alt="Spero Logo"
+                sx={{ width: "90px" }}
+              />
+            </Box>
+>>>>>>> Development
           </Box>
         </Box>
         <Dialog

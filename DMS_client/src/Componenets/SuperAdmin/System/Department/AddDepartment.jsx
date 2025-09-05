@@ -1027,6 +1027,7 @@ const AddDepartment = ({ darkMode, flag, setFlag, setSelectedIncident }) => {
                               {item.dst_name}
                             </Typography>
                           </StyledCardContent>
+<<<<<<< HEAD
 
                           {/* <StyledCardContent
                             sx={{
@@ -1068,6 +1069,39 @@ const AddDepartment = ({ darkMode, flag, setFlag, setSelectedIncident }) => {
                               }}
                             />
                           </StyledCardContent>
+=======
+                          {(editDepartment || deleteDepartments) ? (
+                            <StyledCardContent
+                              sx={{
+                                flex: 0.3,
+                                justifyContent: "center",
+                              }}
+                            >
+                              <MoreHorizIcon
+                                onClick={(e) => handleOpen(e, item)}
+                                sx={{
+                                  color: "white",
+                                  cursor: "pointer",
+                                  justifyContent: "center",
+                                  fontSize: 14,
+                                  ...fontsTableBody,
+                                }}
+                              />
+                            </StyledCardContent>
+                          )
+                            :
+                            (
+                              <StyledCardContent
+                                sx={{
+                                  flex: 0.3,
+                                  justifyContent: "center",
+                                }}
+                              >
+                              -
+                              </StyledCardContent>
+                            )
+                          }
+>>>>>>> Development
 
                           {(editDepartment || deleteDepartments) && (
                             <Popover

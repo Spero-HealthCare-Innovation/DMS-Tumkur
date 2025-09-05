@@ -668,6 +668,7 @@ function Add_employee({ darkMode }) {
   }, [effectiveToken]);
 
 
+<<<<<<< HEAD
  const filteredEmployees = employees.filter((employee) =>
   (employee?.empName || "")
     .toLowerCase()
@@ -679,6 +680,19 @@ const paginatedData = filteredEmployees;
 const validatePassword = (password) => {
   return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?#&])[A-Za-z\d@$!%*?#&]{8,}$/.test(password);
 };
+=======
+  const filteredEmployees = employees.filter((employee) =>
+    (employee?.empName || "")
+      .toLowerCase()
+      .includes((searchTerm || "").toLowerCase())
+  );
+
+  const paginatedData = filteredEmployees;
+
+  const validatePassword = (password) => {
+    return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?#&])[A-Za-z\d@$!%*?#&]{8,}$/.test(password);
+  };
+>>>>>>> Development
 
 
   const fetchDistrictsByState = async (stateId) => {
@@ -738,7 +752,52 @@ const validatePassword = (password) => {
       showAlertMessage("Failed to update password.", "error");
     }
   };
+<<<<<<< HEAD
   
+=======
+
+  /// Permission
+  const [newEmployee, setNewEmployee] = useState(false);
+  const [deleteEmployee, setDeleteEmployee] = useState(false);
+  const [editEmployee, setEditEmployee] = useState(false);
+  const [passwordEmployee, setPasswordEmployee] = useState(false);
+
+  useEffect(() => {
+    const storedPermissions = JSON.parse(localStorage.getItem("permissions"));
+
+    if (storedPermissions && storedPermissions.length > 0) {
+      const modules = storedPermissions[0].modules_submodule;
+      console.log("modules_submodule:", modules);
+
+      const systemUserModule = modules.find(
+        (mod) => mod.moduleName === "System User"
+      );
+
+      if (systemUserModule) {
+        const addGroupSubmodule = systemUserModule.selectedSubmodules.find(
+          (sub) => sub.submoduleName === "Add Employee"
+        );
+
+        if (addGroupSubmodule) {
+          addGroupSubmodule.selectedActions?.forEach((act) => {
+            if (act.actionName === "Add New Employee") {
+              setNewEmployee(true);
+            }
+            if (act.actionName === "Delete") {
+              setDeleteEmployee(true);
+            }
+            if (act.actionName === "Edit") {
+              setEditEmployee(true);
+            }
+            if (act.actionName === "Password") {
+              setEditEmployee(true);
+            }
+          });
+        }
+      }
+    }
+  }, []);
+>>>>>>> Development
 
   return (
     <div style={{ marginLeft: "4rem" }}>
@@ -965,6 +1024,7 @@ const validatePassword = (password) => {
                               </Typography>
                             </StyledCardContent>
 
+<<<<<<< HEAD
                           <StyledCardContent
   sx={{
     flex: 2,
@@ -990,6 +1050,33 @@ const validatePassword = (password) => {
     </Typography>
   </Tooltip>
 </StyledCardContent>
+=======
+                            <StyledCardContent
+                              sx={{
+                                flex: 2,
+                                justifyContent: "center",
+                                ...fontsTableBody,
+                              }}
+                            >
+                              <Tooltip title={item?.empName || ""} arrow placement="top">
+                                <Typography
+                                  variant="subtitle2"
+                                  sx={{
+                                    overflow: "hidden",
+                                    textOverflow: "ellipsis",
+                                    whiteSpace: "nowrap",
+                                    maxWidth: 150, // adjust as needed
+                                  }}
+                                >
+                                  {item?.empName
+                                    ? item.empName.length > 35
+                                      ? item.empName.slice(0, 35) + "..."
+                                      : item.empName
+                                    : "-"}
+                                </Typography>
+                              </Tooltip>
+                            </StyledCardContent>
+>>>>>>> Development
 
                             <StyledCardContent
                               sx={{
@@ -1026,6 +1113,7 @@ const validatePassword = (password) => {
 
                             </StyledCardContent>
 
+<<<<<<< HEAD
                             <StyledCardContent
                               sx={{
                                 flex: 1,
@@ -1047,6 +1135,31 @@ const validatePassword = (password) => {
                                 }}
                               />
                             </StyledCardContent>
+=======
+                            {(passwordEmployee || editEmployee || deleteEmployee) && (
+                              <StyledCardContent
+                                sx={{
+                                  flex: 1,
+                                  justifyContent: "center",
+                                  // ...fontsTableBody,
+                                }}
+                              >
+                                <MoreHorizIcon
+                                  onClick={(e) => {
+                                    console.log(item.fullData?.emp_id, 'empyyyyyy');
+                                    handleOpen(e, item);
+                                  }}
+                                  sx={{
+                                    color: "rgb(95,200,236)",
+                                    cursor: "pointer",
+                                    fontSize: 20,
+                                    justifyContent: "center",
+                                    // ...fontsTableBody,
+                                  }}
+                                />
+                              </StyledCardContent>
+                            )}
+>>>>>>> Development
                           </EnquiryCardBody>
                         ))
                     )}
@@ -1142,6 +1255,7 @@ const validatePassword = (password) => {
           </Paper>
         </Grid>
 
+<<<<<<< HEAD
         <Popover
           open={open}
           anchorEl={anchorEl}
@@ -1311,6 +1425,187 @@ const validatePassword = (password) => {
                 Add New Employee
               </Button>
             </Box>
+=======
+        {(passwordEmployee || editEmployee || deleteEmployee) && (
+          <Popover
+            open={open}
+            anchorEl={anchorEl}
+            onClose={handleClose}
+            anchorOrigin={{
+              vertical: "left",
+              horizontal: "right",
+            }}
+            transformOrigin={{
+              vertical: "center",
+              horizontal: "left",
+            }}
+            PaperProps={{
+              sx: {
+                p: 1,
+                display: "flex",
+                flexDirection: "column",
+                alignItems: 'flex-start',
+                gap: 1,
+                borderRadius: 2,
+                minWidth: 120,
+              },
+            }}
+          >
+            {deleteEmployee && (
+              <Button
+                fullWidth
+                variant="outlined"
+                color="error"
+                sx={{ justifyContent: "flex-start" }}
+                startIcon={<DeleteOutline />}
+                onClick={async () => {
+                  if (selectedEmployee && selectedEmployee.fullData) {
+                    try {
+                      await axios.delete(`${port}/admin_web/employee_delete/${selectedEmployee.fullData.emp_id}/`, {
+                        headers: {
+                          Authorization: `Bearer ${effectiveToken}`,
+                        },
+                      });
+
+                      // Show success message
+                      setShowDeleteAlert(true);
+                      setTimeout(() => setShowDeleteAlert(false), 3000);
+
+                      // Refresh employee list
+                      await fetchEmployees();
+                    } catch (error) {
+                      console.error("Error deleting employee:", error);
+                      alert("Failed to delete employee");
+                    }
+                  }
+                  setPasswordValue('');
+                  handleClose();
+                }}
+              >
+                Delete
+              </Button>
+            )}
+
+            {editEmployee && (
+              <Button
+                fullWidth
+                variant="outlined"
+                color="warning"
+                sx={{ justifyContent: "flex-start" }}
+                startIcon={<EditOutlined />}
+                onClick={async () => {
+                  if (selectedEmployee && selectedEmployee.fullData) {
+                    const empData = selectedEmployee.fullData;
+
+                    // Basic field values
+                    setEmpName(empData.emp_name);
+                    setEmpContact(empData.emp_contact_no);
+                    setEmpEmail(empData.emp_email);
+                    setEmpDOJ(empData.emp_doj);
+                    setEmpDOB(empData.emp_dob);
+                    setGroupId(empData.grp_id);
+
+                    // Keep existing passwords if they exist, don't reset to empty
+                    setPassword(empData.password || '');
+                    setPassword2(empData.password2 || '');
+
+                    // Set editing flags
+                    setIsEditing(true);
+                    setEditingEmployeeId(empData.emp_id);
+                    setEditSelectedRowId(empData.emp_id);
+
+                    // Set location data directly - make sure the context has this data loaded
+                    if (empData.state_id) {
+                      setSelectedStateId(empData.state_id);
+                    }
+                    if (empData.dist_id) {
+                      setSelectedDistrictId(empData.dist_id);
+                    }
+                    if (empData.tahsil_id) {
+                      setSelectedTehsilId(empData.tahsil_id);
+                    }
+                    if (empData.city_id) {
+                      setSelectedCityId(empData.city_id);
+                    }
+                    if (empData.ward_id) {
+                      setSelectedWardId(empData.ward_id);
+                    }
+                    setPasswordValue('');
+                    handleClose();
+                  }
+                }}
+
+              >
+                Edit
+              </Button>
+            )}
+
+            {passwordEmployee && (
+              <Button
+                fullWidth
+                variant="outlined"
+                color="primary"
+                startIcon={<KeyIcon />}
+                sx={{
+                  justifyContent: "flex-start",
+                  borderColor: "#1976d2",
+                  color: "#1976d2",
+                  '&:hover': {
+                    borderColor: "#1565c0",
+                    color: "#1565c0",
+                    backgroundColor: "rgba(25, 118, 210, 0.04)"
+                  }
+                }}
+                onClick={() => {
+                  setPasswordValue('1');
+                  setIsEditing(true);
+                  setAddFormShow(false);
+                  if (selectedEmployee && selectedEmployee.fullData?.emp_id) {
+                    setEditingEmployeeId(selectedEmployee.fullData.emp_id);
+                  }
+                }}
+              >
+                Password
+              </Button>
+            )}
+          </Popover>
+        )}
+
+        <Grid item xs={12} md={4.9}>
+          <Paper elevation={3} sx={{ padding: 2, borderRadius: 3, backgroundColor: paper, mt: 1, mb: 5.9 }}>
+            {newEmployee && (
+              <Box
+                display="flex"
+                justifyContent={{ xs: "center", md: "flex-end" }}
+                alignItems="center"
+                mb={2}
+                flexWrap="wrap"
+              >
+                <Button
+                  variant="contained"
+                  startIcon={<AddCircleOutline />}
+                  disabled={!isEditing}
+                  // onClick={handleAddNewEmployee}
+                  onClick={() => {
+                    handleAddNewEmployee();
+                    setAddFormShow(true);
+                  }}
+                  sx={{
+                    backgroundColor: "rgb(223,76,76)",
+                    color: "#fff",
+                    fontWeight: 600,
+                    fontFamily: "Roboto",
+                    textTransform: "none",
+                    "&:hover": {
+                      backgroundColor: "rgb(223,76,76)",
+                    },
+                  }}
+                >
+                  Add New Employee
+                </Button>
+              </Box>
+            )}
+>>>>>>> Development
 
             {
               passwordValue === '1' && addFormShow === false ?

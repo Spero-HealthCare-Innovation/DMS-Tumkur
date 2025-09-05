@@ -59,8 +59,13 @@ const Incident = ({ darkMode }) => {
   console.log(districtName, "fetching from map District");
   // Ward API
   const [ward, setWard] = useState([]);
+<<<<<<< HEAD
   const [wardOfficer, setWardOfficer] = useState([]);
   const [selectedWard, setSelectedWard] = useState("");
+=======
+  const [selectedWard, setSelectedWard] = useState("");
+  const [wardOfficer, setWardOfficer] = useState([]);
+>>>>>>> Development
   const [selectedWardOfficer, setSelectedWardOfficer] = useState([]);
 
   //responder modal
@@ -320,9 +325,14 @@ const Incident = ({ darkMode }) => {
     sopId.includes(r.res_id)
   );
 
+<<<<<<< HEAD
   // ✅ Button click pe modal open
   const handleOpenModal = () => {
     setActiveResponder(selectedResponders[0]); // default tab first responder
+=======
+  const handleOpenModal = () => {
+    setActiveResponder(selectedResponders[0]);
+>>>>>>> Development
     setOpenModal(true);
   };
 
@@ -370,9 +380,15 @@ const Incident = ({ darkMode }) => {
     const vehicleIds = Object.keys(assignedMap).filter(
       (key) => assignedMap[key]
     );
+<<<<<<< HEAD
     if (vehicleIds.length === 0) {
       newErrors.assignAmbulance = "At least one vehicle must be assigned";
     }
+=======
+    // if (vehicleIds.length === 0) {
+    //   newErrors.assignAmbulance = "At least one vehicle must be assigned";
+    // }
+>>>>>>> Development
 
     // Agar koi bhi error hai to wahi return kar do
     if (Object.keys(newErrors).length > 0) {
@@ -444,6 +460,12 @@ const Incident = ({ darkMode }) => {
         setQuery("");
         setLattitude("");
         setLongitude("");
+<<<<<<< HEAD
+=======
+        setselectedcallType("");
+        setselectedChiefComplaint("");
+        setselectedSubchiefComplaint("");
+>>>>>>> Development
 
         setTimeout(() => {
           navigate("/sop");
@@ -650,8 +672,13 @@ const Incident = ({ darkMode }) => {
                       sx={inputStyle}
                       value={selectedcallType}
                       onChange={(e) => setselectedcallType(e.target.value)}
+<<<<<<< HEAD
                       // error={!!errors.disaster_type}
                       // helperText={errors.disaster_type}
+=======
+                    // error={!!errors.disaster_type}
+                    // helperText={errors.disaster_type}
+>>>>>>> Development
                     >
                       <MenuItem disabled value="">
                         Select Call Type
@@ -681,9 +708,15 @@ const Incident = ({ darkMode }) => {
                         setselectedChiefComplaint(value); // update context state
                         fetchResponderScope(value); // call API with selected chief complaint
                       }}
+<<<<<<< HEAD
                       // onChange={(e) => setselectedChiefComplaint(e.target.value)}
                       // error={!!errors.disaster_type}
                       // helperText={errors.disaster_type}
+=======
+                    // onChange={(e) => setselectedChiefComplaint(e.target.value)}
+                    // error={!!errors.disaster_type}
+                    // helperText={errors.disaster_type}
+>>>>>>> Development
                     >
                       <MenuItem disabled value="">
                         Select Chief Complaint
@@ -708,8 +741,13 @@ const Incident = ({ darkMode }) => {
                       onChange={(e) =>
                         setselectedSubchiefComplaint(e.target.value)
                       }
+<<<<<<< HEAD
                       // error={!!errors.disaster_type}
                       // helperText={errors.disaster_type}
+=======
+                    // error={!!errors.disaster_type}
+                    // helperText={errors.disaster_type}
+>>>>>>> Development
                     >
                       <MenuItem disabled value="">
                         Sub Chief Complaint
@@ -823,6 +861,7 @@ const Incident = ({ darkMode }) => {
                     id="district-select"
                     value={
                       districtName &&
+<<<<<<< HEAD
                       districts.find(
                         (d) =>
                           d.dis_name.toLowerCase() ===
@@ -833,6 +872,18 @@ const Incident = ({ darkMode }) => {
                               d.dis_name.toLowerCase() ===
                               districtName.toLowerCase()
                           ).dis_id
+=======
+                        districts.find(
+                          (d) =>
+                            d.dis_name.toLowerCase() ===
+                            districtName.toLowerCase()
+                        )
+                        ? districts.find(
+                          (d) =>
+                            d.dis_name.toLowerCase() ===
+                            districtName.toLowerCase()
+                        ).dis_id
+>>>>>>> Development
                         : selectedDistrictId || ""
                     }
                     label="District"
@@ -855,6 +906,7 @@ const Incident = ({ darkMode }) => {
                   variant="outlined"
                   value={
                     tehsilName &&
+<<<<<<< HEAD
                     Tehsils.find(
                       (t) =>
                         t.tah_name.toLowerCase() === tehsilName.toLowerCase()
@@ -864,6 +916,17 @@ const Incident = ({ darkMode }) => {
                             t.tah_name.toLowerCase() ===
                             tehsilName.toLowerCase()
                         ).tah_id
+=======
+                      Tehsils.find(
+                        (t) =>
+                          t.tah_name.toLowerCase() === tehsilName.toLowerCase()
+                      )
+                      ? Tehsils.find(
+                        (t) =>
+                          t.tah_name.toLowerCase() ===
+                          tehsilName.toLowerCase()
+                      ).tah_id
+>>>>>>> Development
                       : selectedTehsilId || ""
                   }
                   onChange={(e) => setSelectedTehsilId(e.target.value)}
@@ -933,23 +996,40 @@ const Incident = ({ darkMode }) => {
                     onChange={handleCheckboxChangeWardOfficer}
                     renderValue={(selected) =>
                       wardOfficer
+<<<<<<< HEAD
                         .filter((officer) => selected.includes(officer.emp_id))
                         .map((officer) => officer.emp_name)
+=======
+                        .filter((officer) => selected.includes(officer.officer_id))
+                        .map((officer) => officer.officer_name)
+>>>>>>> Development
                         .join(", ")
                     }
                   >
                     {wardOfficer.map((wardOff) => (
+<<<<<<< HEAD
                       <MenuItem key={wardOff.emp_id} value={wardOff.emp_id}>
                         <Checkbox
                           checked={selectedWardOfficer.includes(wardOff.emp_id)}
                         />
                         <ListItemText primary={wardOff.emp_name} />
+=======
+                      <MenuItem key={wardOff.officer_id} value={wardOff.officer_id}>
+                        <Checkbox
+                          checked={selectedWardOfficer.includes(wardOff.officer_id)}
+                        />
+                        <ListItemText primary={wardOff.officer_name} />
+>>>>>>> Development
                       </MenuItem>
                     ))}
                   </Select>
                 </FormControl>
               </Grid>
+<<<<<<< HEAD
               
+=======
+
+>>>>>>> Development
               <Grid item xs={12}>
                 <TextField
                   select
@@ -1106,10 +1186,17 @@ const Incident = ({ darkMode }) => {
                       {alertType === 1
                         ? "High"
                         : alertType === 2
+<<<<<<< HEAD
                         ? "Medium"
                         : alertType === 2
                         ? "Low"
                         : "-"}
+=======
+                          ? "Medium"
+                          : alertType === 2
+                            ? "Low"
+                            : "-"}
+>>>>>>> Development
                     </Typography>
                   </Box>
                   {/* <Box>
@@ -1296,7 +1383,11 @@ const Incident = ({ darkMode }) => {
                       disabled={sopId.length === 0}
                       sx={{ mt: 2 }}
                     >
+<<<<<<< HEAD
                       Assign Ambulance
+=======
+                      Assign Responder
+>>>>>>> Development
                     </Button>
                     {errors?.assignAmbulance && (
                       <Typography color="error" variant="body2" mt={1}>
@@ -1362,6 +1453,12 @@ const Incident = ({ darkMode }) => {
       {openModal && (
         <ResponderModal
           open={openModal}
+<<<<<<< HEAD
+=======
+          wardOfficer={wardOfficer}
+          selectedWardOfficer={selectedWardOfficer}
+          setSelectedWardOfficer={setSelectedWardOfficer}
+>>>>>>> Development
           responderList={selectedResponders}
           responder={activeResponder}
           lattitude={lattitude}
