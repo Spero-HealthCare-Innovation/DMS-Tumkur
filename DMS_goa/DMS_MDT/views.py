@@ -909,7 +909,7 @@ class pcr_report_get(APIView):
     def get(self,request):
         incident_id = request.GET.get('incident_id')
         instance = PcrReport.objects.all()
-
+        
         if incident_id:
             instance = instance.filter(incident_id=incident_id)
 
