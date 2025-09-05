@@ -772,3 +772,9 @@ class Vehicle_Theftsserializer(serializers.ModelSerializer):
     class Meta:
         model = Vehicle_Theft
         fields = '__all__'
+        
+
+class DMSFilesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = DMS_Files
+        fields = '__all__'
