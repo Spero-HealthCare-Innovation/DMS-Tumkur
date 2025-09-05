@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-import React, { useState, useEffect} from "react";
-=======
 import React, { useState, useEffect } from "react";
->>>>>>> Development
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -351,17 +347,10 @@ const Navbar = ({ darkMode, toggleDarkMode }) => {
       setConfirmPassword('');
 
       // Redirect to login after 1 second
-<<<<<<< HEAD
-setTimeout(() => {
-  localStorage.removeItem("access_token"); // optional: logout
-  navigate('/login');
-}, 500);
-=======
       setTimeout(() => {
         localStorage.removeItem("access_token"); // optional: logout
         navigate('/login');
       }, 500);
->>>>>>> Development
 
     } catch (error) {
       setSnackbar({
@@ -455,15 +444,10 @@ setTimeout(() => {
             width: "100%",
             px: 2,
             py: 0.5,
-<<<<<<< HEAD
-          }}
-        >
-=======
             gap: 1, // space between logo and text
           }}
         >
           <img src={NavbarLogo} alt="logo" style={{ width: 60, height: 60 }} />
->>>>>>> Development
           <Typography
             sx={{
               color: darkMode ? "white" : "#fff",
