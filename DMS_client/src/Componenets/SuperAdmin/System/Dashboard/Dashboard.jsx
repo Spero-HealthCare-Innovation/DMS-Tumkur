@@ -627,7 +627,7 @@ series.ticks.template.setAll({
         </Box>
       </Grid>
 
-      <Grid container spacing={2} >
+      <Grid container spacing={2} style={{overflowY: 'hidden', mt:2,}}>
 
 
         {/* Left Side (25-30%) */}
@@ -700,9 +700,11 @@ series.ticks.template.setAll({
             elevation={3}
             sx={{
               borderRadius: "16px",
-              p: 1,
+              p: 1.2,
               mt: 1,
               backgroundColor: "rgba(112, 144, 176, 0.12)",
+              height: 215,
+              mb:7
             }}
           >
             <Box display="flex" flexDirection="column">
@@ -736,7 +738,7 @@ series.ticks.template.setAll({
           <Paper
             elevation={3}
             sx={{
-              p: 1,
+              p: 1.2,
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
@@ -767,7 +769,7 @@ series.ticks.template.setAll({
               initial={{ x: 120, opacity: 0 }}   // start off right side
               animate={{ x: 0, opacity: 1 }}     // slide to normal position
               transition={{ duration: 0.8, ease: "easeOut" }}
-              sx={{ height: 60, width: 200, mt: 1 }}
+              sx={{ height: 80, width: 200, mt: 1 }}
             />
             {/* Label */}
             <Typography variant="body1" sx={{ fontWeight: 500 }}>
@@ -874,7 +876,7 @@ series.ticks.template.setAll({
 
                 <BarChart
                   width={200}
-                  height={135}
+                  height={155}
                   layout="vertical"
                   data={data1}
                   margin={{ top: -2, left: -40, bottom: 4 }}
@@ -1093,7 +1095,7 @@ series.ticks.template.setAll({
                 sx={{
                   p: 1,
                   ml: 5,
-                  mt:-1,
+                  mt:-0.7,
                   display: "flex",
                   flexDirection: "column",
                   gap: 2,
@@ -1128,7 +1130,7 @@ series.ticks.template.setAll({
 
                 {/* Chart - Only show if we have data */}
                 {!loading1 && !error1 && chiefComplaints.length > 0 && (
-                  <ResponsiveContainer width="100%" height={145}>
+                  <ResponsiveContainer width="100%" height={150}>
                     <ComposedChart
                       data={chiefComplaints.map((item, index) => ({
                         name: item.name,
