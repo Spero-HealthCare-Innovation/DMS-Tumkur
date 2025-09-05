@@ -1027,49 +1027,6 @@ const AddDepartment = ({ darkMode, flag, setFlag, setSelectedIncident }) => {
                               {item.dst_name}
                             </Typography>
                           </StyledCardContent>
-<<<<<<< HEAD
-
-                          {/* <StyledCardContent
-                            sx={{
-                              flex: 0.8,
-                              justifyContent: "center",
-                              ...fontsTableBody,
-                            }}
-                          >
-                            <Typography variant="subtitle2">
-                              {item.tah_name}
-                            </Typography>
-                          </StyledCardContent> */}
-                          {/* <StyledCardContent
-                            sx={{
-                              flex: 1.3,
-                              justifyContent: "center ",
-                              ...fontsTableBody,
-                            }}
-                          >
-                            <Typography variant="subtitle2">
-                              {item.city_name}
-                            </Typography>
-                          </StyledCardContent> */}
-                          <StyledCardContent
-                            sx={{
-                              flex: 0.3,
-                              justifyContent: "center",
-                            }}
-                          >
-                            <MoreHorizIcon
-                              onClick={(e) => handleOpen(e, item)}
-                              sx={{
-                                color: "white",
-                                cursor: "pointer",
-                                // fontSize: 35,
-                                justifyContent: "center",
-                                fontSize: 14,
-                                ...fontsTableBody,
-                              }}
-                            />
-                          </StyledCardContent>
-=======
                           {(editDepartment || deleteDepartments) ? (
                             <StyledCardContent
                               sx={{
@@ -1101,7 +1058,6 @@ const AddDepartment = ({ darkMode, flag, setFlag, setSelectedIncident }) => {
                               </StyledCardContent>
                             )
                           }
->>>>>>> Development
 
                           {(editDepartment || deleteDepartments) && (
                             <Popover

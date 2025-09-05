@@ -49,17 +49,10 @@ const IncidentCreateMap = () => {
     setWardName, setTehsilName, setDistrictName, } = useAuth();
   const [queryMap, setQueryMap] = useState('');
   const [suggestionsMap, setSuggestionsMap] = useState([]);
-<<<<<<< HEAD
-  const [selectedPositionMap, setSelectedPositionMap] = useState([18.519566133802865, 73.85534807018765]); // Default: Pune (PMC)
-  const [popupTextMap, setPopupTextMap] = useState('You are here!');
-  const [stateData, setStateData] = useState();
-  const [mapZoom, setMapZoom] = useState(10.5);
-=======
   const [selectedPositionMap, setSelectedPositionMap] = useState([13.338263, 77.101410]); // Default: Tumakuru
   const [popupTextMap, setPopupTextMap] = useState('You are here!');
   const [stateData, setStateData] = useState();
   const [mapZoom, setMapZoom] = useState(12.4);
->>>>>>> Development
   const mapRef = useRef();
 
 
@@ -77,14 +70,9 @@ const IncidentCreateMap = () => {
   //   setQuery(queryMap);  // send value to context
   // }, [queryMap]);
 
-<<<<<<< HEAD
-  useEffect(() => {
-    fetch('/Boundaries/PUNEWARDS.geojson')
-=======
   //Added Tumakuru Wards GeoJSON
   useEffect(() => {
     fetch('/Boundaries/TUMAKURU_WARD.geojson')
->>>>>>> Development
       .then(res => res.json())
       .then(data => {
         setStateData(data);
@@ -248,11 +236,7 @@ const IncidentCreateMap = () => {
                 setQuery(label);
 
     // 👇 GeoJSON + Turf match
-<<<<<<< HEAD
-    const geojsonRes = await fetch('/Boundaries/PUNEWARDS.geojson');
-=======
     const geojsonRes = await fetch('/Boundaries/TUMAKURU_WARD.geojson');
->>>>>>> Development
     const geojson = await geojsonRes.json();
     const point = turf.point([position.lng, position.lat]);
 
@@ -279,11 +263,7 @@ const IncidentCreateMap = () => {
 
           }}
         >
-<<<<<<< HEAD
-          <Popup>{popupTextMap || "PUNE"}</Popup>
-=======
           <Popup>{popupTextMap || "TUMAKURU"}</Popup>
->>>>>>> Development
 
         </Marker>
       </MapContainer>

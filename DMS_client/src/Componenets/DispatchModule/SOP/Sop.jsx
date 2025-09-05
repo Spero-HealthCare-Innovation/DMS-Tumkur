@@ -3,10 +3,6 @@ import { Grid, Box, Snackbar } from "@mui/material";
 import MuiAlert from "@mui/material/Alert";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
-<<<<<<< HEAD
-
-=======
->>>>>>> Development
 import SopTask from "../SOP/SopTask";
 import IncidentDetails from "../SOP/IncidentDetails";
 import CaseClosureDetails from "./CaseClosureDetails";

@@ -52,10 +52,6 @@ urlpatterns = [
 
 
 
-<<<<<<< HEAD
-    path('dispatch_close/',dispatch_close_API.as_view(),name='disapatch_close'),
-    path('dispatch_get/',dispatch_sop_Get_API.as_view(),name='disapatch_get'),
-=======
     path('update_inc/',update_incident_API.as_view(),name='update_inc'),
 
     path('duplicate_inc/',duplicate_incident_API.as_view(),name='duplicate_inc'),
@@ -63,7 +59,6 @@ urlpatterns = [
 
     path('dispatch_get/',dispatch_sop_Get_API.as_view(),name='disapatch_get'),
     path('dispatch_close/',dispatch_close_API.as_view(),name='disapatch_close'),
->>>>>>> Development
     path('dispatch_get_idwise/<int:inc_id>/',dispatch_sop_Idwise_Get_API.as_view(),name='disapatch_get_idwise'),
 
 
@@ -121,11 +116,8 @@ urlpatterns = [
     path('ward_get/<int:tah_id>/', Ward_get_API.as_view(), name='ward_get'),
     path('ward_officer_get/<int:ward_id>/', Ward_Officer_get_API.as_view(), name='ward_officer_get'),
     
-<<<<<<< HEAD
-=======
     path('caller_details/<str:caller_no>/', Caller_Details_get.as_view(), name='caller_details'),
     
->>>>>>> Development
     
     
     #===================================Mohin==================================================
@@ -207,15 +199,10 @@ urlpatterns = [
     path('VehicleTheft_put/<int:id>/',VehicleTheft_put.as_view(), name='VehicleTheft_put'),
     path('VehicleTheft_delete/<int:id>/',VehicleTheft_delete.as_view(), name='VehicleTheft_delete'),
 
-<<<<<<< HEAD
-
-
-=======
     path('lat_long_get/',lat_long_get.as_view(), name='lat_long_get'),
     path('lat_long_post/',lat_long_post.as_view(), name='lat_long_post'),
 
   
->>>>>>> Development
 
 ]
 

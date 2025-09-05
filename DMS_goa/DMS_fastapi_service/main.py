@@ -11,11 +11,8 @@ import asyncio
 from kafka import KafkaProducer
 from kafka import KafkaConsumer
 import threading
-<<<<<<< HEAD
-=======
 from django.utils.timezone import now
 
->>>>>>> Development
 from asgiref.sync import sync_to_async
 # import subprocess
 # import pygetwindow as gw
@@ -35,10 +32,7 @@ from typing import List
 # # from .websocket_router import router as websocket_router
 import httpx
 import pandas as pd
-<<<<<<< HEAD
-=======
 from django.core.cache import cache
->>>>>>> Development
 
 # from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 import json
@@ -146,8 +140,6 @@ async def lifespan(app: FastAPI):
     #     print("✅ send_weather_to_kafka_periodically task created")
     # except Exception as e:
     #     print(f"❌ Failed to create new_weather_task: {e}")
-<<<<<<< HEAD
-=======
     
     try:
         pending_web = asyncio.create_task(fetch_and_cache_pending_alerts())
@@ -155,7 +147,6 @@ async def lifespan(app: FastAPI):
     except Exception as e:
         print(f"❌ Failed to create new_weather_task: {e}")
 
->>>>>>> Development
 
     try:
         postgres_task = asyncio.create_task(listen_to_postgres())
@@ -184,13 +175,10 @@ async def lifespan(app: FastAPI):
     #     await new_weather_task
     # except asyncio.CancelledError:
     #     pass
-<<<<<<< HEAD
-=======
     try:
         await pending_web
     except asyncio.CancelledError:
         pass
->>>>>>> Development
 
 
 app = FastAPI(lifespan=lifespan)
@@ -1069,8 +1057,6 @@ async def websocket_disaster_alerts(websocket: WebSocket):
 
 
 
-<<<<<<< HEAD
-=======
 connected_pending_clients = set()
 
 CACHE_KEY = "pending_alerts_cache"
@@ -1140,4 +1126,3 @@ async def pending_weather_alerts_ws(websocket: WebSocket):
         print(f"Pending WebSocket disconnected: {websocket.client}")
     finally:
         connected_pending_clients.discard(websocket)
->>>>>>> Development

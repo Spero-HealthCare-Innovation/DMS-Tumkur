@@ -20,14 +20,6 @@ router = APIRouter()
 def incident_report_incident_daywise(
     from_date : Optional[str] = Query(..., description="Start date in YYYY-MM-DD format"),
     to_date : Optional[str] = Query(..., description="End date in YYYY-MM-DD format")):
-<<<<<<< HEAD
-    try:
-        to_date_obj = datetime.strptime(to_date, "%Y-%m-%d") + timedelta(days=1)
-        to_date_plus_one = to_date_obj.strftime("%Y-%m-%d")
-
-        incident_data = DMS_Incident.objects.filter(inc_added_date__range = (from_date,to_date_plus_one), inc_type=1)
-        data = [{"incident_id": str(incident.incident_id),"incident_datetime": incident.inc_datetime,"disaster_name": incident.disaster_type.disaster_name if incident.disaster_type else None,"incident_type": "Emergency","alert_type": ("High" if incident.alert_type == 1 else "Medium" if incident.alert_type == 2 else "Low" if incident.alert_type == 3 else "Very Low" if incident.alert_type == 4 else "" ),"responder":  ', '.join(list({DMS_Responder.objects.get(responder_id=int(k)).responder_name for notif in DMS_Notify.objects.filter(incident_id=incident, not_is_deleted=False) for k in notif.alert_type_id }))} for incident in incident_data]
-=======
     print("AAAAAAAAAAAA",from_date,to_date)
     try:
         to_date_obj = datetime.strptime(to_date, "%Y-%m-%d") + timedelta(days=1)
@@ -56,7 +48,6 @@ def incident_report_incident_daywise(
 
         
         print("DDDDDDDDDD",data)
->>>>>>> Development
         return data
     except Exception as e:
         return {"Error":"Error","msg":str(e)}
@@ -84,13 +75,6 @@ def download_incident_report_incident_daywise(
         row_num = 2
         serial_no = 1
         for i in incident_data:
-<<<<<<< HEAD
-            responders = list({
-                DMS_Responder.objects.get(responder_id=int(k)).responder_name
-                for j in DMS_Notify.objects.filter(incident_id=i, not_is_deleted=False)
-                for k in j.alert_type_id
-            })
-=======
             # responders = list({
             #     DMS_Responder.objects.get(responder_id=int(k)).responder_name
             #     for j in DMS_Notify.objects.filter(incident_id=i, not_is_deleted=False)
@@ -104,7 +88,6 @@ def download_incident_report_incident_daywise(
             })
 
             
->>>>>>> Development
             remarks = DMS_Comments.objects.filter(incident_id=i, comm_is_deleted=False)
             remark_list = [z.comments for z in remarks] or [""]
             start_row = row_num
@@ -143,13 +126,10 @@ def incident_report_daywise(
         closure_data = DMS_incident_closure.objects.filter(closure_added_date__range=(from_date, to_date_plus_one))
         dt = []
         for i in closure_data:
-<<<<<<< HEAD
-=======
             responders = (
                 [responder.responder_name for responder in i.incident_id.responder_scope.all()]
                 if i.incident_id else []
             )
->>>>>>> Development
             nn={
                 "incident_id": str(i.incident_id.incident_id if i.incident_id else None),
                 "disaster_type": i.incident_id.disaster_type.disaster_name if i.incident_id and i.incident_id.disaster_type else None,
@@ -158,9 +138,6 @@ def incident_report_daywise(
                 "closure_at_scene": i.closure_at_scene,
                 "closure_from_scene": i.closure_from_scene,
                 "closure_back_to_base": i.closure_back_to_base,
-<<<<<<< HEAD
-                "closure_remark": i.closure_remark
-=======
                 "closure_remark": i.closure_remark,
                 "Caller Number" : i.incident_id.caller_id.caller_name if i.incident_id and i.incident_id.caller_id else None,
                 "Caller Name" : i.incident_id.caller_id.caller_no if i.incident_id and i.incident_id.caller_id else None,
@@ -173,7 +150,6 @@ def incident_report_daywise(
                 
                 
                 
->>>>>>> Development
             }
             dt.append(nn)
         return dt
@@ -195,11 +171,7 @@ def incident_report_daywise(
         closure_data = DMS_incident_closure.objects.filter(closure_added_date__range=(from_date, to_date_plus_one))
         dt = []
         for i in closure_data:
-<<<<<<< HEAD
-            if i.incident_id:
-=======
             if i.incident_id: 
->>>>>>> Development
                 nn={
                     "incident_id": str(i.incident_id.incident_id if i.incident_id else None),
                     "Alert Source":"System Alert" if  i.incident_id.mode == 2 else "Manual Calls",
@@ -218,13 +190,6 @@ def incident_report_daywise(
                     "Caller Name" : i.incident_id.caller_id.caller_no if i.incident_id and i.incident_id.caller_id else None,
                     "Address" : i.incident_id.location if i.incident_id else None,
                     "Lattitude" : i.incident_id.latitude if i.incident_id else None,
-<<<<<<< HEAD
-                    "Longitude" : i.incident_id.longitude if i.incident_id else None
-                }
-
-            
-            dt.append(nn)
-=======
                     "Longitude" : i.incident_id.longitude if i.incident_id else None,
                     "Ward" : i.incident_id.ward.ward_name if i.incident_id and i.incident_id.ward else None,
                     
@@ -238,7 +203,6 @@ def incident_report_daywise(
             dt.append(nn)
             
             print(dt)
->>>>>>> Development
 
         df = pd.DataFrame(dt)
         output = BytesIO()

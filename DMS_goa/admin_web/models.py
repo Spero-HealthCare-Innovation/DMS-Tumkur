@@ -549,20 +549,6 @@ class DMS_Incident(models.Model):
     comment_id = models.ForeignKey('DMS_Comments',on_delete=models.CASCADE,null=True,blank=True)
     alert_code = models.CharField(max_length=255,null=True,blank=True)
     alert_division=enum.EnumField(division_enum,null=True,blank=True)
-<<<<<<< HEAD
-    # inc_datetime = models.DateTimeField(auto_now=True)
-    mode = models.IntegerField(null=True,blank=True)
-    time = models.TimeField(null=True,blank=True)
-    ward = models.ForeignKey('DMS_Ward',on_delete=models.CASCADE,null=True,blank=True)
-    # ward_officer = models.ManyToManyField(
-    #     'DMS_Ward',
-    #     blank=True,
-    #     related_name='ward_officer_scopes'
-    # )
-    tahsil = models.ForeignKey(DMS_Tahsil,on_delete=models.CASCADE,null=True,blank=True)
-    district = models.ForeignKey(DMS_District,on_delete=models.CASCADE,null=True,blank=True)
-    ward_officer = models.JSONField(null=True,blank=True)
-=======
     inc_datetime = models.DateTimeField(auto_now=True)
     mode = models.IntegerField(null=True,blank=True)
     time = models.TimeField(null=True,blank=True)
@@ -575,7 +561,6 @@ class DMS_Incident(models.Model):
     tahsil = models.ForeignKey(DMS_Tahsil,on_delete=models.CASCADE,null=True,blank=True)
     district = models.ForeignKey(DMS_District,on_delete=models.CASCADE,null=True,blank=True)
     # ward_officer = models.JSONField(null=True,blank=True)
->>>>>>> Development
     inc_is_deleted = models.BooleanField(default=False)
     clouser_status = models.BooleanField(default=False,null=True,blank=True)
     inc_added_by=models.CharField(max_length=255,null=True,blank=True)
@@ -1023,11 +1008,7 @@ class Merge_Call_Incident(models.Model):
     merge_inc_modified_by = models.CharField(max_length=255, null=True, blank=True)
     merge_inc_modified_date = models.DateTimeField(null=True, blank=True)
     
-<<<<<<< HEAD
-    responder_scope = models.ManyToManyField('DMS_Responder',blank=True)
-=======
     responder_scope = models.ManyToManyField('DMS_Responder',blank=True ,related_name='merge_responder_scope')
->>>>>>> Development
     alert_id = models.ForeignKey(Weather_alerts,on_delete=models.CASCADE,null=True,blank=True)
     caller_id = models.ForeignKey(DMS_Caller,on_delete=models.CASCADE,null=True,blank=True,related_name="incident_caller")
     notify_id = models.ForeignKey('DMS_Notify',on_delete=models.CASCADE,null=True,blank=True)
@@ -1046,15 +1027,11 @@ class Merge_Call_Incident(models.Model):
     ward = models.ForeignKey('DMS_Ward',on_delete=models.CASCADE,null=True,blank=True)
     tahsil = models.ForeignKey(DMS_Tahsil,on_delete=models.CASCADE,null=True,blank=True)
     district = models.ForeignKey(DMS_District,on_delete=models.CASCADE,null=True,blank=True)
-<<<<<<< HEAD
-    ward_officer = models.JSONField(null=True,blank=True)
-=======
     ward_officer = models.ManyToManyField(
         'DMS_Ward',
         blank=True,
         related_name='ward_officer_scope'
     )
->>>>>>> Development
     inc_is_deleted = models.BooleanField(default=False)
     clouser_status = models.BooleanField(default=False,null=True,blank=True)
     inc_added_by=models.CharField(max_length=255,null=True,blank=True)
@@ -1097,16 +1074,12 @@ class Reopened_Incident(models.Model):
     ward = models.ForeignKey('DMS_Ward',on_delete=models.CASCADE,null=True,blank=True)
     tahsil = models.ForeignKey(DMS_Tahsil,on_delete=models.CASCADE,null=True,blank=True)
     district = models.ForeignKey(DMS_District,on_delete=models.CASCADE,null=True,blank=True)
-<<<<<<< HEAD
-    ward_officer = models.JSONField(null=True,blank=True)
-=======
     # ward_officer = models.JSONField(null=True,blank=True)
     ward_officer = models.ManyToManyField(
         'DMS_Ward',
         blank=True,
         related_name='ward_officer'
     )
->>>>>>> Development
     inc_is_deleted = models.BooleanField(default=False)
     clouser_status = models.BooleanField(default=False,null=True,blank=True)
     inc_added_by=models.CharField(max_length=255,null=True,blank=True)
@@ -1137,10 +1110,7 @@ class Missing_Person(models.Model):
     scheduled_datetime = models.DateTimeField(null=True, blank=True)
     is_deleted = models.BooleanField(default=False)
     added_by = models.CharField(max_length=255, null=True, blank=True)
-<<<<<<< HEAD
-=======
     added_date = models.DateTimeField(auto_now=True,null=True, blank=True)
->>>>>>> Development
     modified_by = models.CharField(max_length=255, null=True, blank=True)
     modified_date = models.DateTimeField(auto_now=True,null=True, blank=True)
 
@@ -1158,10 +1128,7 @@ class Unclaimed_Bodies(models.Model):
     longitude = models.FloatField(null=True,blank=True)
     scheduled_datetime = models.DateTimeField(null=True, blank=True)
     is_deleted = models.BooleanField(default=False)
-<<<<<<< HEAD
-=======
     added_date = models.DateTimeField(auto_now=True,null=True, blank=True)
->>>>>>> Development
     added_by = models.CharField(max_length=255, null=True, blank=True)
     modified_by = models.CharField(max_length=255, null=True, blank=True)
     modified_date = models.DateTimeField(auto_now=True,null=True, blank=True)
@@ -1179,10 +1146,7 @@ class Unclaimed_Vehicles(models.Model):
     latitude = models.FloatField(null=True,blank=True)
     longitude = models.FloatField(null=True,blank=True) 
     is_deleted = models.BooleanField(default=False)
-<<<<<<< HEAD
-=======
     added_date = models.DateTimeField(auto_now=True,null=True, blank=True)
->>>>>>> Development
     added_by = models.CharField(max_length=255, null=True, blank=True)
     modified_by = models.CharField(max_length=255, null=True, blank=True)
     modified_date = models.DateTimeField(auto_now=True,null=True, blank=True)
@@ -1200,11 +1164,6 @@ class Vehicle_Theft(models.Model):
     latitude = models.FloatField(null=True,blank=True)
     longitude = models.FloatField(null=True,blank=True) 
     is_deleted = models.BooleanField(default=False)
-<<<<<<< HEAD
-    added_by = models.CharField(max_length=255, null=True, blank=True)
-    modified_by = models.CharField(max_length=255, null=True, blank=True)
-    modified_date = models.DateTimeField(auto_now=True,null=True, blank=True)
-=======
     added_date = models.DateTimeField(auto_now=True,null=True, blank=True)
     added_by = models.CharField(max_length=255, null=True, blank=True)
     modified_by = models.CharField(max_length=255, null=True, blank=True)
@@ -1229,4 +1188,3 @@ class DMS_lat_long_data(models.Model):
     longitude = models.FloatField(null=True,blank=True)
     vehicleNumberKey = models.CharField(max_length=50,null=True, blank=True)
     
->>>>>>> Development

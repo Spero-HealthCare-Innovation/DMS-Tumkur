@@ -930,12 +930,9 @@ from .serializers import (
 
 class Manual_Call_Incident_api(APIView):
     def post(self, request, *args, **kwargs):
-<<<<<<< HEAD
-=======
         responder_data = request.data.get("responder_data", [])
         
         print("Responder data:", responder_data)
->>>>>>> Development
         data = request.data
         incident_fields = [
             'inc_type', 'disaster_type', 'alert_type', 'location', 'summary',
@@ -943,25 +940,6 @@ class Manual_Call_Incident_api(APIView):
             'inc_added_by', 'inc_modified_by', 'incident_id', 'inc_id', 'time', 'mode',
             'ward','district','ward_officer','tahsil','call_recieved_from','call_type','parent_complaint'
         ]
-<<<<<<< HEAD
-        caller_fields = ['caller_no', 'caller_name', 'caller_added_by', 'caller_modified_by','call_recieved_from']
-        comments_fields = ['comments', 'comm_added_by', 'comm_modified_by']
-
-        incident_data = {field: data.get(field) for field in incident_fields}
-        caller_data = {field: data.get(field) for field in caller_fields}
-        comments_data = {field: data.get(field) for field in comments_fields}
-
-       
-        caller_serializer = Manual_call_data_Serializer(data=caller_data)
-        if not caller_serializer.is_valid():
-            return Response({"caller_errors": caller_serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
-        caller_instance = caller_serializer.save()
-        incident_data['caller_id'] = caller_instance.pk
-        incident_serializer = Manual_call_incident_dispatch_Serializer(data=incident_data)
-        if not incident_serializer.is_valid():
-            return Response({"incident_errors": incident_serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
-        incident_instance = incident_serializer.save()
-=======
         print("Request data:", data)
         caller_fields = ['caller_no', 'caller_name', 'caller_added_by', 'caller_modified_by','call_recieved_from']
         comments_fields = ['comments', 'comm_added_by', 'comm_modified_by']
@@ -1000,13 +978,10 @@ class Manual_Call_Incident_api(APIView):
         incident_instance = incident_serializer.save()
         print("Incident instance saved:", incident_instance)
         
->>>>>>> Development
         base_code = incident_instance.incident_id
         alert_code = f"CALL-{base_code}"
         incident_instance.alert_code = alert_code
         incident_instance.save()
-<<<<<<< HEAD
-=======
         print("Alert code set:", alert_code)
         
         
@@ -1027,7 +1002,6 @@ class Manual_Call_Incident_api(APIView):
                 })
                 print(f"File uploaded: {file_obj.file.name} for incident_id={incident_instance.incident_id}")
 
->>>>>>> Development
 
         vehicle_list = data.get("vehicle", [])
         if vehicle_list:
@@ -1145,21 +1119,14 @@ class Manual_Call_Incident_api(APIView):
 
         # Final response
         return Response({
-<<<<<<< HEAD
-            "message": "Manual call, caller, comment, weather alert, DMS notify created successfully and external API called.",
-=======
             "message": "Manual call, caller, comment, weather alert, DMS notify created successfully,files uploaded and external API called.",
->>>>>>> Development
             "incident": incident_serializer.data,
             "caller": caller_serializer.data,
             "comments": comments_serializer.data,
             "weather_alert": weather_alert_serializer.data,
             "dms_notify": dms_notify_serializer.data,
             "external_api_response": external_api_result,
-<<<<<<< HEAD
-=======
             "uploaded_files": uploaded_files,
->>>>>>> Development
 
             "response": {
                 # "call_received_from": caller_instance.call_recieved_from.value if caller_instance.call_recieved_from else None,
@@ -1388,14 +1355,10 @@ class closure_Post_api(APIView):
         try:
             inccc = request.data.get('incident_id')
             dpt = request.data.get('responder')
-<<<<<<< HEAD
-            vehicle_no=request.data.get('vehicle_no')
-=======
             vehicle_no= request.data.get('vehicle_no')
             audio = request.data.get('audio') if request.data.get('audio') else None
             video = request.data.get('video') if request.data.get('video') else None
             image = request.data.get('image') if request.data.get('image') else None
->>>>>>> Development
 
             vehicl_dtls = Vehical.objects.get(veh_id=vehicle_no)
             inc_dtl = DMS_Incident.objects.get(incident_id=inccc)
@@ -1418,14 +1381,10 @@ class closure_Post_api(APIView):
                 closure_added_by=request.data.get('closure_added_by'),
                 closure_modified_by=request.data.get('closure_modified_by'),
                 closure_modified_date=request.data.get('closure_modified_date'),
-<<<<<<< HEAD
-                closure_remark=request.data.get('closure_remark')
-=======
                 closure_remark=request.data.get('closure_remark'),
                 audio = audio,
                 video = video,
                 image = image
->>>>>>> Development
             )
             inc_vh = incident_vehicles.objects.filter(incident_id=inc_dtl, veh_id=vehicl_dtls, status=1)
             if inc_vh.exists():
@@ -1632,9 +1591,6 @@ class dispatch_close_API(APIView):
         else:
             return Response({"error": "Invalid request or insufficient permissions."}, status=status.HTTP_200_OK)
         
-<<<<<<< HEAD
-    
-=======
 
 
 
@@ -1793,7 +1749,6 @@ class update_incident_API(APIView):
 
 
 
->>>>>>> Development
 class dispatch_sop_Get_API(APIView):
     renderer_classes = [UserRenderer]
     permission_classes = [IsAuthenticated]
@@ -2837,10 +2792,6 @@ class GisAnaIncidentFilterAPIView(APIView):
         end_date = request.query_params.get("end_date", None)
         call_type = request.query_params.get("call_type", None)
         parent_complaint = request.query_params.get("parent_complaint", None)
-<<<<<<< HEAD
-        sub_parent_call = request.query_params.get("sub_parent_call", None)
-=======
->>>>>>> Development
 
         # Base queryset
         queryset = DMS_Incident.objects.filter(inc_is_deleted=False, inc_type=1)  # sirf emergency calls
@@ -2861,13 +2812,6 @@ class GisAnaIncidentFilterAPIView(APIView):
         # Chief complaint filter
         if parent_complaint:
             queryset = queryset.filter(parent_complaint=parent_complaint)
-<<<<<<< HEAD
-            
-        # Sub chief complaint filter
-        if sub_parent_call:
-            queryset = queryset.filter(disaster_type=sub_parent_call)
-=======
->>>>>>> Development
 
         # Response format
         data = []
@@ -3187,11 +3131,7 @@ class VehicleTheft_get(APIView):
         # instance = Unclaimed_Bodies.objects.filter(is_deleted=False)
         serializer = Vehicle_Theftsserializer(instance, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
-<<<<<<< HEAD
-
-=======
  
->>>>>>> Development
 
 class VehicleTheft_idwiseget(APIView):
     def get(self,request,id):
@@ -3247,8 +3187,6 @@ class VehicleTheft_delete(APIView):
         instance.is_deleted = True
         instance.save()
         return Response({"message": "record soft deleted successfully."}, status=status.HTTP_200_OK)
-<<<<<<< HEAD
-=======
 
 
 
@@ -3286,4 +3224,3 @@ class lat_long_post(APIView):
 
 
     
->>>>>>> Development

@@ -175,9 +175,6 @@ admin.site.register(DMS_open_weather_alerts)
 admin.site.register(DMS_Employee)
 admin.site.register(DMS_Ward_Officers)
 admin.site.register(CallType)
-<<<<<<< HEAD
-admin.site.register(ParentComplaint)
-=======
 admin.site.register(ParentComplaint)
 admin.site.register(DMS_lat_long_data)
 admin.site.register(DMS_Files)
@@ -187,4 +184,3 @@ admin.site.register(Unclaimed_Vehicles)
 admin.site.register(Vehicle_Theft)
 admin.site.register(Reopened_Incident)
 admin.site.register(Merge_Call_Incident)
->>>>>>> Development

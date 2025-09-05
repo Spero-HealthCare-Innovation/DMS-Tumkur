@@ -903,8 +903,6 @@ class VehicalDashboardCount(APIView):
         }
 
         return Response(data)
-<<<<<<< HEAD
-=======
 
 
 class pcr_report_get(APIView):
@@ -918,5 +916,4 @@ class pcr_report_get(APIView):
         serializer = pcr_reportserializer(instance, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
->>>>>>> Development
  

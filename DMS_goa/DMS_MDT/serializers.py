@@ -84,9 +84,6 @@ class incident_veh_serializer(serializers.ModelSerializer):
 class vehicle_serializer(serializers.ModelSerializer):
     class Meta:
         model = Vehical
-<<<<<<< HEAD
-        fields = "__all__"
-=======
         fields = "__all__"
 
 class pcr_reportserializer(serializers.ModelSerializer):
@@ -99,4 +96,3 @@ class pcr_reportserializer(serializers.ModelSerializer):
             if obj.status:
                 return obj.status.name 
             return None
->>>>>>> Development
