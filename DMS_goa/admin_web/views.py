@@ -930,6 +930,9 @@ from .serializers import (
 
 class Manual_Call_Incident_api(APIView):
     def post(self, request, *args, **kwargs):
+        responder_data = request.data.get("responder_data", [])
+        
+        print("Responder data:", responder_data)
         data = request.data
         incident_fields = [
             'inc_type', 'disaster_type', 'alert_type', 'location', 'summary',
@@ -937,27 +940,62 @@ class Manual_Call_Incident_api(APIView):
             'inc_added_by', 'inc_modified_by', 'incident_id', 'inc_id', 'time', 'mode',
             'ward','district','ward_officer','tahsil','call_recieved_from','call_type','parent_complaint'
         ]
+        print("Request data:", data)
         caller_fields = ['caller_no', 'caller_name', 'caller_added_by', 'caller_modified_by','call_recieved_from']
         comments_fields = ['comments', 'comm_added_by', 'comm_modified_by']
 
         incident_data = {field: data.get(field) for field in incident_fields}
         caller_data = {field: data.get(field) for field in caller_fields}
         comments_data = {field: data.get(field) for field in comments_fields}
+        
+        print("Incident data:", incident_data)
+        print("Caller data:", caller_data)
+        print("Comments data:", comments_data)
 
        
         caller_serializer = Manual_call_data_Serializer(data=caller_data)
         if not caller_serializer.is_valid():
             return Response({"caller_errors": caller_serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
         caller_instance = caller_serializer.save()
+        print("Caller instance saveddd:", caller_instance)
+        
         incident_data['caller_id'] = caller_instance.pk
+        print("Updated incident data with caller_id:", incident_data['caller_id'])
         incident_serializer = Manual_call_incident_dispatch_Serializer(data=incident_data)
+        print("Incident serializer valid:", incident_serializer.is_valid())
         if not incident_serializer.is_valid():
+            print("Incident serializer errors:", incident_serializer.errors)
             return Response({"incident_errors": incident_serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+        print("Incident serializer data:", incident_serializer.validated_data)
         incident_instance = incident_serializer.save()
+        print("Incident instance saved:", incident_instance)
+        
         base_code = incident_instance.incident_id
         alert_code = f"CALL-{base_code}"
         incident_instance.alert_code = alert_code
         incident_instance.save()
+        print("Alert code set:", alert_code)
+        
+        
+        uploaded_files = []
+        if request.FILES:
+            # Get all uploaded files under the key `files`
+            files = request.FILES.getlist("files")  
+            for f in files:
+                # Create a new row for each file with SAME incident_id
+                file_obj = DMS_Files.objects.create(
+                    incident_id=incident_instance,   # 🔗 link all files to same incident
+                    file=f,
+                    added_by=incident_instance.inc_added_by,
+                    modified_by=incident_instance.inc_modified_by
+                )
+                uploaded_files.append({
+                    "file_id": file_obj.pk_id,
+                    "incident_id": incident_instance.incident_id,
+                    "file_url": request.build_absolute_uri(file_obj.file.url) if file_obj.file else None
+                })
+                print(f"File uploaded: {file_obj.file.name} for incident_id={incident_instance.incident_id}")
+
 
         vehicle_list = data.get("vehicle", [])
         if vehicle_list:
@@ -1075,13 +1113,14 @@ class Manual_Call_Incident_api(APIView):
 
         # Final response
         return Response({
-            "message": "Manual call, caller, comment, weather alert, DMS notify created successfully and external API called.",
+            "message": "Manual call, caller, comment, weather alert, DMS notify created successfully,files uploaded and external API called.",
             "incident": incident_serializer.data,
             "caller": caller_serializer.data,
             "comments": comments_serializer.data,
             "weather_alert": weather_alert_serializer.data,
             "dms_notify": dms_notify_serializer.data,
             "external_api_response": external_api_result,
+            "uploaded_files": uploaded_files,
 
             "response": {
                 # "call_received_from": caller_instance.call_recieved_from.value if caller_instance.call_recieved_from else None,
@@ -2584,6 +2623,7 @@ class GisAnaIncidentFilterAPIView(APIView):
         end_date = request.query_params.get("end_date", None)
         call_type = request.query_params.get("call_type", None)
         parent_complaint = request.query_params.get("parent_complaint", None)
+        sub_parent_call = request.query_params.get("sub_parent_call", None)
 
         # Base queryset
         queryset = DMS_Incident.objects.filter(inc_is_deleted=False, inc_type=1)  # sirf emergency calls
@@ -2604,6 +2644,10 @@ class GisAnaIncidentFilterAPIView(APIView):
         # Chief complaint filter
         if parent_complaint:
             queryset = queryset.filter(parent_complaint=parent_complaint)
+            
+        # Sub chief complaint filter
+        if sub_parent_call:
+            queryset = queryset.filter(disaster_type=sub_parent_call)
 
         # Response format
         data = []
@@ -2979,3 +3023,23 @@ class VehicleTheft_delete(APIView):
         instance.is_deleted = True
         instance.save()
         return Response({"message": "record soft deleted successfully."}, status=status.HTTP_200_OK)
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
